@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="zheng-ucenter-rpc-service"/>
+
+    <dubbo:registry address="zookeeper://zkserver:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20884"/>
+
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+    <!-- 接口服务 -->
+    <bean id="ucenterApiService" class="com.zheng.ucenter.rpc.service.impl.UcenterApiServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.UcenterApiService" ref="ucenterApiService" timeout="10000"/>
+
+    <!-- 商户日志 -->
+    <bean id="mcLogService" class="com.zheng.ucenter.rpc.service.impl.McLogServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McLogService" ref="mcLogService" timeout="10000"/>
+
+    <!-- 商户职位 -->
+    <bean id="mcPositionService" class="com.zheng.ucenter.rpc.service.impl.McPositionServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McPositionService" ref="mcPositionService" timeout="10000"/>
+
+    <!-- 排班计划 -->
+    <bean id="mcSchedulePlanService" class="com.zheng.ucenter.rpc.service.impl.McSchedulePlanServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McSchedulePlanService" ref="mcSchedulePlanService" timeout="10000"/>
+
+    <!-- 定义班次 -->
+    <bean id="mcShiftService" class="com.zheng.ucenter.rpc.service.impl.McShiftServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McShiftService" ref="mcShiftService" timeout="10000"/>
+
+    <!-- 用户职位关联-->
+    <bean id="mcUserPositionService" class="com.zheng.ucenter.rpc.service.impl.McUserPositionServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McUserPositionService" ref="mcUserPositionService" timeout="10000"/>
+
+    <!-- 用户签到 -->
+    <bean id="mcUserSignService" class="com.zheng.ucenter.rpc.service.impl.McUserSignServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McUserSignService" ref="mcUserSignService" timeout="10000"/>
+
+</beans>

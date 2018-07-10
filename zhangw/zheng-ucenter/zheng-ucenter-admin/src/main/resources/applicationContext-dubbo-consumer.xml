@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="zheng-ucenter-admin"/>
+
+    <dubbo:registry file="./zheng-ucenter-admin-dubbo.cache" address="zookeeper://zkserver:2181"/>
+
+    <!-- 订阅服务 -->
+    <dubbo:consumer check="false"/>
+
+
+    <!-- 接口服务 -->
+    <dubbo:reference id="upmsApiService" interface="com.zheng.upms.rpc.api.UpmsApiService" mock="true"/>
+    <!-- 用户 -->
+    <dubbo:reference id="upmsUserService" interface="com.zheng.upms.rpc.api.UpmsUserService" mock="true"/>
+    <!-- 日志 -->
+    <dubbo:reference id="mcLogService" interface="com.zheng.ucenter.rpc.api.McLogService" mock="true"/>
+    <!-- 职位 -->
+    <dubbo:reference id="mcPositionService" interface="com.zheng.ucenter.rpc.api.McPositionService" mock="true"/>
+    <!-- 排班 -->
+    <dubbo:reference id="mcSchedulePlanService" interface="com.zheng.ucenter.rpc.api.McSchedulePlanService" mock="true"/>
+    <!-- 班次 -->
+    <dubbo:reference id="mcShiftService" interface="com.zheng.ucenter.rpc.api.McShiftService" mock="true"/>
+    <!-- 用户职位关联 -->
+    <dubbo:reference id="mcUserPositionService" interface="com.zheng.ucenter.rpc.api.McUserPositionService" mock="true"/>
+    <!-- 签到 -->
+    <dubbo:reference id="mcUserSignService" interface="com.zheng.ucenter.rpc.api.McUserSignService" mock="true"/>
+    <!-- api -->
+    <dubbo:reference id="ucenterApiService" interface="com.zheng.ucenter.rpc.api.UcenterApiService" mock="true"/>
+</beans>
