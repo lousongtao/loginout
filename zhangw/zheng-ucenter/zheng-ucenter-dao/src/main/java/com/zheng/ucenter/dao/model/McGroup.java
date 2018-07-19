@@ -3,7 +3,7 @@ package com.zheng.ucenter.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class McPosition implements Serializable {
+public class McGroup implements Serializable {
     /**
      * 主键
      *
@@ -107,7 +107,7 @@ public class McPosition implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        McPosition other = (McPosition) that;
+        McGroup other = (McGroup) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMcId() == null ? other.getMcId() == null : this.getMcId().equals(other.getMcId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))

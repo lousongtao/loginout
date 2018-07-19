@@ -2,7 +2,7 @@ package com.zheng.ucenter.dao.model;
 
 import java.io.Serializable;
 
-public class McUserPosition implements Serializable {
+public class McUserGroup implements Serializable {
     /**
      * 主键
      *
@@ -18,11 +18,11 @@ public class McUserPosition implements Serializable {
     private Integer mcUserId;
 
     /**
-     * 职位id
+     * 组id
      *
      * @mbg.generated
      */
-    private Integer mcPositionId;
+    private Integer mcGroupId;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,12 +42,12 @@ public class McUserPosition implements Serializable {
         this.mcUserId = mcUserId;
     }
 
-    public Integer getMcPositionId() {
-        return mcPositionId;
+    public Integer getMcGroupId() {
+        return mcGroupId;
     }
 
-    public void setMcPositionId(Integer mcPositionId) {
-        this.mcPositionId = mcPositionId;
+    public void setMcGroupId(Integer mcGroupId) {
+        this.mcGroupId = mcGroupId;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class McUserPosition implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", mcUserId=").append(mcUserId);
-        sb.append(", mcPositionId=").append(mcPositionId);
+        sb.append(", mcGroupId=").append(mcGroupId);
         sb.append("]");
         return sb.toString();
     }
@@ -74,10 +74,10 @@ public class McUserPosition implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        McUserPosition other = (McUserPosition) that;
+        McUserGroup other = (McUserGroup) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMcUserId() == null ? other.getMcUserId() == null : this.getMcUserId().equals(other.getMcUserId()))
-            && (this.getMcPositionId() == null ? other.getMcPositionId() == null : this.getMcPositionId().equals(other.getMcPositionId()));
+            && (this.getMcGroupId() == null ? other.getMcGroupId() == null : this.getMcGroupId().equals(other.getMcGroupId()));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class McUserPosition implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getMcUserId() == null) ? 0 : getMcUserId().hashCode());
-        result = prime * result + ((getMcPositionId() == null) ? 0 : getMcPositionId().hashCode());
+        result = prime * result + ((getMcGroupId() == null) ? 0 : getMcGroupId().hashCode());
         return result;
     }
 }

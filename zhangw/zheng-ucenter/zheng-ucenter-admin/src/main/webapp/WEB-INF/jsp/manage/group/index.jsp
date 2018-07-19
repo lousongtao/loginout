@@ -12,25 +12,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户管理</title>
+    <title>组管理</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
     <div id="toolbar">
-        <shiro:hasPermission name="ucenter:staff:write">
+        <shiro:hasPermission name="ucenter:group:create">
             <a class="waves-effect waves-button" href="javascript:;"
                onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-                新增用户</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="ucenter:staff:delete">
-            <a class="waves-effect waves-button" href="javascript:;"
-               onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
-                删除用户</a>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="ucenter:staff:group">
-            <a class="waves-effect waves-button" href="javascript:;"
-               onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 用户分组</a>
+                新增组</a>
         </shiro:hasPermission>
     </div>
     <table id="table"></table>
@@ -41,12 +32,12 @@
         var s_delete_h = 'hidden';
     </script>
 </div>
-<shiro:hasPermission name="ucenter:staff:write">
+<shiro:hasPermission name="ucenter:group:update">
     <script type="text/javascript">
         s_edit_h = '';
     </script>
 </shiro:hasPermission>
-<shiro:hasPermission name="ucenter:staff:delete">
+<shiro:hasPermission name="ucenter:group:delete">
     <script type="text/javascript">
         s_delete_h = '';
     </script>
@@ -57,10 +48,10 @@
     $(function () {
         // bootstrap table初始化
         $table.bootstrapTable({
-            url: '${basePath}/manage/staff/list',
+            url: '${basePath}/manage/group/list',
             height: getHeight(),
             striped: true,
-            search: true,
+//            search: true,
             showRefresh: true,
             showColumns: true,
             minimumCountColumns: 2,
@@ -71,31 +62,26 @@
             paginationLoop: false,
             sidePagination: 'server',
             silentSort: false,
+            singleSelect: true,
             smartDisplay: false,
             escape: true,
             searchOnEnterKey: true,
-            idField: 'userId',
+            idField: 'id',
             maintainSelected: true,
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', radio: true},
-                {field: 'userId', title: '编号', align: 'center'},
-                {field: 'username', title: '帐号 *'},
-                {field: 'realname', title: '姓名 *'},
-                {field: 'phone', title: '电话'},
-                {field: 'email', title: '邮箱', visible: false},
-                {field: 'sex', title: '性别', formatter: 'sexFormatter'},
-                {field: 'ctime', title: '添加时间', sortable: true, formatter: 'timeStampToDateTime'},
-                {field: 'baseSalary', title: '底薪', formatter: 'salaryFormatter'},
-                {field: 'perSalary', title: '时薪', formatter: 'salaryFormatter'},
-                {field: 'schedulestatus', title: '是否排班',align: 'center', formatter: 'schedulestatusFormatter'},
-                {field: 'groupName', title: '所在组', align: 'center', formatter: 'groupFormatter'},
-                {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
+                {field: 'id', title: '编号', align: 'center'},
+                {field: 'name', title: '名称'},
+                {field: 'count', title: '人数',formatter:'countUser'},
+                {field: 'userList', title: '员工', formatter: 'userListToName'},
+                {field: 'description', title: '描述', visible: false},
+                {field: 'createTime', title: '创建时间', formatter: 'timeStampToDateTime', visible: false},
                 {
                     title: '操作', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
-                        var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
-                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
+                        var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
+                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
                         return u + d;
                     }
                 }
@@ -103,60 +89,22 @@
         });
     });
 
-    // 格式化性别
-    function sexFormatter(value, row, index) {
-        if (value == 1) {
-            return '男';
+    function countUser(value, row, index) {
+        if (row.userList) {
+            return row.userList.length;
+        } else {
+            return "-";
         }
-        if (value == 0) {
-            return '女';
-        }
-        return '-';
     }
-
-    //格式化是否排班
-    function schedulestatusFormatter(value, row, index) {
-        if (value == 1) {
-            return '<span class="label label-success">是</span>';
-        }
-        if (value == 0) {
-            return '<span class="label label-default">否</span>';
-        }
-        return '-';
-    }
-
-    //处理人员分组
-    function groupFormatter(value, row, index) {
+    function userListToName(value, row, index) {
         if (value) {
-            return '<span class="label label-success">' + value + '</span>';
+            var userName =new Array();
+            for (var i = 0; i < value.length; i++) {
+                userName.push(value[i].realname);
+            }
+            return userName.join("|");
         } else {
-            return '<span class="label label-danger">未知</span>';
-        }
-    }
-
-    // 格式化状态
-    function lockedFormatter(value, row, index) {
-        if (value == 1) {
-            return '<span class="label label-default">锁定</span>';
-        } else {
-            return '<span class="label label-success">正常</span>';
-        }
-    }
-
-    //格式化薪资显示
-    function salaryFormatter(value, row, index) {
-        if (!value) {
-            return '-';
-        } else {
-            var str = (value / 100).toFixed(2) + '';
-            var intSum = str.substring(0, str.indexOf(".")).replace(/\B(?=(?:\d{3})+$)/g, ',');//取到整数部分
-            var dot = str.substring(str.length, str.indexOf("."))//取到小数部分
-            var salary = intSum + dot;
-
-//            var salary = value*0.01; //分到元
-//            var reg=  salary.indexOf('.') >-1 ? /(\d{1,3})(?=(?:\d{3})+\.)/g : /(\d{1,3})(?=(?:\d{3})+$)/g;//千分符的正则
-//            salary=salary.replace(reg, '$1,');//千分位格式化
-            return salary;
+            return "-";
         }
     }
 
@@ -166,11 +114,10 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增员工',
-            content: 'url:${basePath}/manage/staff/create',
+            title: '新增组',
+            content: 'url:${basePath}/manage/group/create',
             onContentReady: function () {
                 initMaterialInput();
-//                initUploader();
             }
         });
     }
@@ -178,12 +125,12 @@
     // 编辑
     var updateDialog;
 
-    function updateAction(userId) {
-        if (userId) {
+    function updateAction(id) {
+        if (id) {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑信息',
-                content: 'url:${basePath}/manage/staff/update/' + userId,
+                title: '编辑组信息',
+                content: 'url:${basePath}/manage/group/update/' + id,
                 onContentReady: function () {
                     initMaterialInput();
                 }
@@ -194,10 +141,10 @@
     // 删除
     var deleteDialog;
 
-    function deleteAction(userId) {
+    function deleteAction(id) {
         var ids = new Array();
-        if (userId) {
-            ids.push(userId);
+        if (id) {
+            ids.push(id);
             deleteMethod(ids);
         } else {
             var rows = $table.bootstrapTable('getSelections');
@@ -216,7 +163,7 @@
                 });
             } else {
                 for (var i in rows) {
-                    ids.push(rows[i].userId);
+                    ids.push(rows[i].id);
                 }
                 deleteMethod(ids);
             }
@@ -237,7 +184,7 @@
                     action: function () {
                         $.ajax({
                             type: 'get',
-                            url: '${basePath}/manage/staff/delete/' + ids.join("-"),
+                            url: '${basePath}/manage/group/delete/' + ids.join("-"),
                             success: function (result) {
                                 if (result.code != 1) {
                                     if (result.data instanceof Array) {
@@ -302,41 +249,6 @@
         });
     }
 
-    // 用户分组
-    var groupDialog;
-    var groupUserId;
-
-    function organizationAction() {
-        var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
-        } else {
-            groupUserId = rows[0].userId;
-            groupDialog = $.dialog({
-                animationSpeed: 300,
-                title: '用户分组',
-                content: 'url:${basePath}/manage/staff/group/' + groupUserId,
-                onContentReady: function () {
-                    initMaterialInput();
-                    $('select').select2({
-                        placeholder: '请选择组',
-                        allowClear: true
-                    });
-                }
-            });
-        }
-    }
 </script>
 </body>
 </html>

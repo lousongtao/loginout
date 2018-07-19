@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class McPositionExample implements Serializable {
+public class McGroupExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -14,7 +14,7 @@ public class McPositionExample implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public McPositionExample() {
+    public McGroupExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

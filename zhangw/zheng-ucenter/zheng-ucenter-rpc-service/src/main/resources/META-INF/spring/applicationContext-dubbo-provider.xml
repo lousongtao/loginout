@@ -23,9 +23,9 @@
     <bean id="mcLogService" class="com.zheng.ucenter.rpc.service.impl.McLogServiceImpl"/>
     <dubbo:service interface="com.zheng.ucenter.rpc.api.McLogService" ref="mcLogService" timeout="10000"/>
 
-    <!-- 商户职位 -->
-    <bean id="mcPositionService" class="com.zheng.ucenter.rpc.service.impl.McPositionServiceImpl"/>
-    <dubbo:service interface="com.zheng.ucenter.rpc.api.McPositionService" ref="mcPositionService" timeout="10000"/>
+    <!-- 分组 -->
+    <bean id="mcGroupService" class="com.zheng.ucenter.rpc.service.impl.McGroupServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McGroupService" ref="mcGroupService" timeout="10000"/>
 
     <!-- 排班计划 -->
     <bean id="mcSchedulePlanService" class="com.zheng.ucenter.rpc.service.impl.McSchedulePlanServiceImpl"/>
@@ -36,8 +36,8 @@
     <dubbo:service interface="com.zheng.ucenter.rpc.api.McShiftService" ref="mcShiftService" timeout="10000"/>
 
     <!-- 用户职位关联-->
-    <bean id="mcUserPositionService" class="com.zheng.ucenter.rpc.service.impl.McUserPositionServiceImpl"/>
-    <dubbo:service interface="com.zheng.ucenter.rpc.api.McUserPositionService" ref="mcUserPositionService" timeout="10000"/>
+    <bean id="mcUserGroupService" class="com.zheng.ucenter.rpc.service.impl.McUserGroupServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McUserGroupService" ref="mcUserGroupService" timeout="10000"/>
 
     <!-- 用户签到 -->
     <bean id="mcUserSignService" class="com.zheng.ucenter.rpc.service.impl.McUserSignServiceImpl"/>

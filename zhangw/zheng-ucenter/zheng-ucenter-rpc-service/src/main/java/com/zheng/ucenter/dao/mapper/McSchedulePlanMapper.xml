@@ -105,21 +105,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
-    insert into mc_schedule_plan (id, mid, sid, 
-      uid, u_name, day, shift_id, 
-      plan_name, check, create_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{mid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{day,jdbcType=DATE}, #{shiftId,jdbcType=INTEGER}, 
-      #{planName,jdbcType=VARCHAR}, #{check,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mc_schedule_plan (mid, sid, uid, 
+      u_name, day, shift_id, plan_name, 
+      check, create_time)
+    values (#{mid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{uName,jdbcType=VARCHAR}, #{day,jdbcType=DATE}, #{shiftId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, 
+      #{check,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into mc_schedule_plan
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="mid != null">
         mid,
       </if>
@@ -149,9 +150,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="mid != null">
         #{mid,jdbcType=INTEGER},
       </if>

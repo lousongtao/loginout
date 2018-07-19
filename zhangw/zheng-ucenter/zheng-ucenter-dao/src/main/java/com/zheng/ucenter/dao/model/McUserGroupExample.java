@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class McUserPositionExample implements Serializable {
+public class McUserGroupExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -13,7 +13,7 @@ public class McUserPositionExample implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public McUserPositionExample() {
+    public McUserGroupExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -227,63 +227,63 @@ public class McUserPositionExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdIsNull() {
-            addCriterion("mc_position_id is null");
+        public Criteria andMcGroupIdIsNull() {
+            addCriterion("mc_group_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdIsNotNull() {
-            addCriterion("mc_position_id is not null");
+        public Criteria andMcGroupIdIsNotNull() {
+            addCriterion("mc_group_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdEqualTo(Integer value) {
-            addCriterion("mc_position_id =", value, "mcPositionId");
+        public Criteria andMcGroupIdEqualTo(Integer value) {
+            addCriterion("mc_group_id =", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdNotEqualTo(Integer value) {
-            addCriterion("mc_position_id <>", value, "mcPositionId");
+        public Criteria andMcGroupIdNotEqualTo(Integer value) {
+            addCriterion("mc_group_id <>", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdGreaterThan(Integer value) {
-            addCriterion("mc_position_id >", value, "mcPositionId");
+        public Criteria andMcGroupIdGreaterThan(Integer value) {
+            addCriterion("mc_group_id >", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("mc_position_id >=", value, "mcPositionId");
+        public Criteria andMcGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("mc_group_id >=", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdLessThan(Integer value) {
-            addCriterion("mc_position_id <", value, "mcPositionId");
+        public Criteria andMcGroupIdLessThan(Integer value) {
+            addCriterion("mc_group_id <", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdLessThanOrEqualTo(Integer value) {
-            addCriterion("mc_position_id <=", value, "mcPositionId");
+        public Criteria andMcGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("mc_group_id <=", value, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdIn(List<Integer> values) {
-            addCriterion("mc_position_id in", values, "mcPositionId");
+        public Criteria andMcGroupIdIn(List<Integer> values) {
+            addCriterion("mc_group_id in", values, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdNotIn(List<Integer> values) {
-            addCriterion("mc_position_id not in", values, "mcPositionId");
+        public Criteria andMcGroupIdNotIn(List<Integer> values) {
+            addCriterion("mc_group_id not in", values, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdBetween(Integer value1, Integer value2) {
-            addCriterion("mc_position_id between", value1, value2, "mcPositionId");
+        public Criteria andMcGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("mc_group_id between", value1, value2, "mcGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andMcPositionIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("mc_position_id not between", value1, value2, "mcPositionId");
+        public Criteria andMcGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("mc_group_id not between", value1, value2, "mcGroupId");
             return (Criteria) this;
         }
     }

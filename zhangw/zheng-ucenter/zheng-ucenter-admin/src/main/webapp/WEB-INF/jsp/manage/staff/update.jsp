@@ -18,19 +18,17 @@
             <input id="realname" type="text" class="form-control" name="realname" maxlength="20"
                    value="${user.realname}">
         </div>
-        <%--<div class="row">--%>
-            <%--<div class="col-lg-8 form-group">--%>
-                <%--<label for="avatar">头像</label>--%>
-                <%--<input id="avatar" type="text" class="form-control" name="avatar" maxlength="150"--%>
-                       <%--value="${user.avatar}">--%>
-            <%--</div>--%>
-            <%--<div class="col-lg-4 ">--%>
-                <%--<div id="picker">上传头像</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
         <div class="form-group">
             <label for="phone">电话</label>
             <input id="phone" type="text" class="form-control" name="phone" maxlength="20" value="${user.phone}">
+        </div>
+        <div class="form-group">
+            <label for="baseSalaryMoney">底薪(单位:元,最多保留2位小数)</label>
+            <input id="baseSalaryMoney" type="text" class="form-control" name="baseSalaryMoney" value="${(user.baseSalary)/100}">
+        </div>
+        <div class="form-group">
+            <label for="perSalaryMoney">每小时薪酬(单位:元,同上)</label>
+            <input id="perSalaryMoney" type="text" class="form-control" name="perSalaryMoney" value="${(user.perSalary)/100}">
         </div>
         <div class="form-group">
             <label for="email">邮箱</label>
@@ -45,6 +43,18 @@
                 <input id="sex_0" type="radio" name="sex" value="0" <c:if test="${user.sex==0}">checked</c:if>>
                 <label for="sex_0">女 </label>
             </div>
+        </div>
+        <div class="radio">
+            <div class="radio radio-inline radio-success">
+                <input id="schedulestatus_0" type="radio" name="schedulestatus" value="1" <c:if test="${user.schedulestatus==1}">checked</c:if>>
+                <label for="schedulestatus_0">参与排班 </label>
+            </div>
+            <div class="radio radio-inline">
+                <input id="schedulestatus_1" type="radio" name="schedulestatus" value="0" <c:if test="${user.schedulestatus==0}">checked</c:if>>
+                <label for="schedulestatus_1">否 </label>
+            </div>
+        </div>
+        <div class="radio">
             <div class="radio radio-inline radio-success">
                 <input id="locked_0" type="radio" name="locked" value="0" <c:if test="${user.locked==0}">checked</c:if>>
                 <label for="locked_0">正常 </label>
@@ -61,93 +71,26 @@
     </form>
 </div>
 <script>
-    function initUploader() {
-        //百度上传按钮
-        var uploader = WebUploader.create({
-            // swf文件路径
-            swf: '${basePath}/resources/zheng-admin/plugins/webuploader-0.1.5/Uploader.swf',
-            // 文件接收服务端
-            method: 'POST',
-            // 选择文件的按钮。可选。
-            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            pick: {
-                "id": '#picker',
-                "multiple": false
-            },
-            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-            resize: false,
-            // 选完文件后，是否自动上传。
-            auto: false,
-            // 只允许选择图片文件
-            accept: {
-                title: '图片文件',
-                extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
-            }
-        });
-        uploader.on('fileQueued', function (file) {
-            $.ajax({
-                url: '${ZHENG_OSS_ALIYUN_OSS_POLICY}',
-                type: 'GET',
-                dataType: 'jsonp',
-                jsonp: 'callback',
-                success: function (result) {
-                    var suffix = get_suffix(file.name);
-                    var random_name = random_string();
-                    uploader.options.formData.key = result.dir + '/' + random_name + suffix;
-                    uploader.options.formData.policy = result.policy;
-                    uploader.options.formData.OSSAccessKeyId = result.OSSAccessKeyId;
-                    uploader.options.formData.success_action_status = 200;
-                    uploader.options.formData.callback = result.callback;
-                    uploader.options.formData.signature = result.signature;
-                    uploader.options.server = result.action;
-                    uploader.upload();
-                },
-                error: function (msg) {
-                    console.log(msg);
-                }
-            });
-        });
-        uploader.on('uploadSuccess', function (file, response) {
-            $('#avatar').val(response.data.filename).focus();
-        });
-        uploader.on('uploadError', function (file) {
-            console.log('uploadError', file);
-        });
-    }
 
-    // 根据路径获取后缀
-    function get_suffix(filename) {
-        var pos = filename.lastIndexOf('.');
-        var suffix = '';
-        if (pos != -1) {
-            suffix = filename.substring(pos);
-        }
-        return suffix;
-    }
-
-    // 随机字符串
-    function random_string(len) {
-        len = len || 32;
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var maxPos = chars.length;
-        var pwd = '';
-        for (var i = 0; i < len; i++) {
-            pwd += chars.charAt(Math.floor(Math.random() * maxPos));
-        }
-        return pwd;
-    }
 
     function createSubmit() {
+        //先做重要参数校验
+        var isMoney = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+        var baseSalary = $("#baseSalaryMoney").val();
+        var perSalary = $("#perSalaryMoney").val();
+        if (baseSalary != "0" && !isMoney.test(baseSalary)) {
+            showTips("底薪输入不合规");
+            return;
+        }
+        if (perSalary != "0" && !isMoney.test(perSalary)) {
+            showTips("时薪输入不合规");
+            return;
+        }
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/user/update/${user.userId}',
+            url: '${basePath}/manage/staff/update/${user.userId}',
             data: $('#updateForm').serialize(),
             beforeSend: function () {
-                if ($('#username').val() == '') {
-                    $('#username').focus();
-                    return false;
-                }
             },
             success: function (result) {
                 if (result.code != 1) {

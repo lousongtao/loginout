@@ -24,6 +24,11 @@
             <artifactId>zheng-ucenter-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.zheng</groupId>
+            <artifactId>zheng-upms-dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

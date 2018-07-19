@@ -5,11 +5,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="m_id" jdbcType="INTEGER" property="mId" />
     <result column="plan_name" jdbcType="VARCHAR" property="planName" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="color" jdbcType="VARCHAR" property="color" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="total_time" jdbcType="INTEGER" property="totalTime" />
+    <result column="total_time" jdbcType="DECIMAL" property="totalTime" />
     <result column="mark" jdbcType="VARCHAR" property="mark" />
+    <result column="period_time" jdbcType="VARCHAR" property="periodTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, m_id, plan_name, color, start_time, end_time, total_time, mark
+    id, m_id, plan_name, type, color, total_time, mark, period_time
   </sql>
   <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McShiftExample" resultMap="BaseResultMap">
     select
@@ -103,33 +103,33 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McShift">
-    insert into mc_shift (id, m_id, plan_name, 
-      color, start_time, end_time, 
-      total_time, mark)
-    values (#{id,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, 
-      #{color,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{totalTime,jdbcType=INTEGER}, #{mark,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mc_shift (m_id, plan_name, type, 
+      color, total_time, mark, 
+      period_time)
+    values (#{mId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{color,jdbcType=VARCHAR}, #{totalTime,jdbcType=DECIMAL}, #{mark,jdbcType=VARCHAR}, 
+      #{periodTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McShift">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into mc_shift
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="mId != null">
         m_id,
       </if>
       <if test="planName != null">
         plan_name,
       </if>
+      <if test="type != null">
+        type,
+      </if>
       <if test="color != null">
         color,
-      </if>
-      <if test="startTime != null">
-        start_time,
-      </if>
-      <if test="endTime != null">
-        end_time,
       </if>
       <if test="totalTime != null">
         total_time,
@@ -137,31 +137,31 @@
       <if test="mark != null">
         mark,
       </if>
+      <if test="periodTime != null">
+        period_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="mId != null">
         #{mId,jdbcType=INTEGER},
       </if>
       <if test="planName != null">
         #{planName,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
       <if test="color != null">
         #{color,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="totalTime != null">
-        #{totalTime,jdbcType=INTEGER},
+        #{totalTime,jdbcType=DECIMAL},
       </if>
       <if test="mark != null">
         #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="periodTime != null">
+        #{periodTime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -183,20 +183,20 @@
       <if test="record.planName != null">
         plan_name = #{record.planName,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
       <if test="record.color != null">
         color = #{record.color,jdbcType=VARCHAR},
       </if>
-      <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null">
-        end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.totalTime != null">
-        total_time = #{record.totalTime,jdbcType=INTEGER},
+        total_time = #{record.totalTime,jdbcType=DECIMAL},
       </if>
       <if test="record.mark != null">
         mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.periodTime != null">
+        period_time = #{record.periodTime,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -208,11 +208,11 @@
     set id = #{record.id,jdbcType=INTEGER},
       m_id = #{record.mId,jdbcType=INTEGER},
       plan_name = #{record.planName,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
       color = #{record.color,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      total_time = #{record.totalTime,jdbcType=INTEGER},
-      mark = #{record.mark,jdbcType=VARCHAR}
+      total_time = #{record.totalTime,jdbcType=DECIMAL},
+      mark = #{record.mark,jdbcType=VARCHAR},
+      period_time = #{record.periodTime,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -226,20 +226,20 @@
       <if test="planName != null">
         plan_name = #{planName,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
       <if test="color != null">
         color = #{color,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="totalTime != null">
-        total_time = #{totalTime,jdbcType=INTEGER},
+        total_time = #{totalTime,jdbcType=DECIMAL},
       </if>
       <if test="mark != null">
         mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="periodTime != null">
+        period_time = #{periodTime,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -248,11 +248,11 @@
     update mc_shift
     set m_id = #{mId,jdbcType=INTEGER},
       plan_name = #{planName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
       color = #{color,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      total_time = #{totalTime,jdbcType=INTEGER},
-      mark = #{mark,jdbcType=VARCHAR}
+      total_time = #{totalTime,jdbcType=DECIMAL},
+      mark = #{mark,jdbcType=VARCHAR},
+      period_time = #{periodTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

@@ -22,13 +22,13 @@
     <!-- 日志 -->
     <dubbo:reference id="mcLogService" interface="com.zheng.ucenter.rpc.api.McLogService" mock="true"/>
     <!-- 职位 -->
-    <dubbo:reference id="mcPositionService" interface="com.zheng.ucenter.rpc.api.McPositionService" mock="true"/>
+    <dubbo:reference id="mcGroupService" interface="com.zheng.ucenter.rpc.api.McGroupService" mock="true"/>
     <!-- 排班 -->
     <dubbo:reference id="mcSchedulePlanService" interface="com.zheng.ucenter.rpc.api.McSchedulePlanService" mock="true"/>
     <!-- 班次 -->
     <dubbo:reference id="mcShiftService" interface="com.zheng.ucenter.rpc.api.McShiftService" mock="true"/>
-    <!-- 用户职位关联 -->
-    <dubbo:reference id="mcUserPositionService" interface="com.zheng.ucenter.rpc.api.McUserPositionService" mock="true"/>
+    <!-- 用户组关联 -->
+    <dubbo:reference id="mcUserGroupService" interface="com.zheng.ucenter.rpc.api.McUserGroupService" mock="true"/>
     <!-- 签到 -->
     <dubbo:reference id="mcUserSignService" interface="com.zheng.ucenter.rpc.api.McUserSignService" mock="true"/>
     <!-- api -->

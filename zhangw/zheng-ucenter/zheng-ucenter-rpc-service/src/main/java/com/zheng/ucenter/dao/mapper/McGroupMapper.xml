@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zheng.ucenter.dao.mapper.McUserPositionMapper">
-  <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McUserPosition">
+<mapper namespace="com.zheng.ucenter.dao.mapper.McGroupMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McGroup">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="mc_user_id" jdbcType="INTEGER" property="mcUserId" />
-    <result column="mc_position_id" jdbcType="INTEGER" property="mcPositionId" />
+    <result column="mc_id" jdbcType="INTEGER" property="mcId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, mc_user_id, mc_position_id
+    id, mc_id, name, description, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McUserPositionExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McGroupExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from mc_user_position
+    from mc_group
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -84,67 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from mc_user_position
+    from mc_group
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from mc_user_position
+    delete from mc_group
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McUserPositionExample">
-    delete from mc_user_position
+  <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McGroupExample">
+    delete from mc_group
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McUserPosition">
-    insert into mc_user_position (id, mc_user_id, mc_position_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{mcUserId,jdbcType=INTEGER}, #{mcPositionId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McGroup">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mc_group (mc_id, name, description, 
+      create_time)
+    values (#{mcId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McUserPosition">
-    insert into mc_user_position
+  <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McGroup">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mc_group
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="mcId != null">
+        mc_id,
       </if>
-      <if test="mcUserId != null">
-        mc_user_id,
+      <if test="name != null">
+        name,
       </if>
-      <if test="mcPositionId != null">
-        mc_position_id,
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="mcId != null">
+        #{mcId,jdbcType=INTEGER},
       </if>
-      <if test="mcUserId != null">
-        #{mcUserId,jdbcType=INTEGER},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="mcPositionId != null">
-        #{mcPositionId,jdbcType=INTEGER},
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zheng.ucenter.dao.model.McUserPositionExample" resultType="java.lang.Long">
-    select count(*) from mc_user_position
+  <select id="countByExample" parameterType="com.zheng.ucenter.dao.model.McGroupExample" resultType="java.lang.Long">
+    select count(*) from mc_group
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update mc_user_position
+    update mc_group
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.mcUserId != null">
-        mc_user_id = #{record.mcUserId,jdbcType=INTEGER},
+      <if test="record.mcId != null">
+        mc_id = #{record.mcId,jdbcType=INTEGER},
       </if>
-      <if test="record.mcPositionId != null">
-        mc_position_id = #{record.mcPositionId,jdbcType=INTEGER},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,30 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update mc_user_position
+    update mc_group
     set id = #{record.id,jdbcType=INTEGER},
-      mc_user_id = #{record.mcUserId,jdbcType=INTEGER},
-      mc_position_id = #{record.mcPositionId,jdbcType=INTEGER}
+      mc_id = #{record.mcId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McUserPosition">
-    update mc_user_position
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McGroup">
+    update mc_group
     <set>
-      <if test="mcUserId != null">
-        mc_user_id = #{mcUserId,jdbcType=INTEGER},
+      <if test="mcId != null">
+        mc_id = #{mcId,jdbcType=INTEGER},
       </if>
-      <if test="mcPositionId != null">
-        mc_position_id = #{mcPositionId,jdbcType=INTEGER},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McUserPosition">
-    update mc_user_position
-    set mc_user_id = #{mcUserId,jdbcType=INTEGER},
-      mc_position_id = #{mcPositionId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McGroup">
+    update mc_group
+    set mc_id = #{mcId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

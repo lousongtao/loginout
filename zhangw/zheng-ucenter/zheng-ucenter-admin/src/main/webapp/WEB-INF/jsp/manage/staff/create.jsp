@@ -26,11 +26,11 @@
         </div>
         <div class="form-group">
             <label for="baseSalaryMoney">底薪(单位:元,最多保留2位小数)</label>
-            <input id="baseSalaryMoney" type="text" class="form-control" name="baseSalary" maxlength="20">
+            <input id="baseSalaryMoney" type="text" class="form-control" name="baseSalaryMoney" maxlength="20">
         </div>
         <div class="form-group">
             <label for="perSalaryMoney">每小时薪酬(单位:元,同上)</label>
-            <input id="perSalaryMoney" type="text" class="form-control" name="perSalary" maxlength="20">
+            <input id="perSalaryMoney" type="text" class="form-control" name="perSalaryMoney" maxlength="20">
         </div>
         <div class="form-group">
             <label for="email">邮箱</label>
@@ -48,12 +48,22 @@
         </div>
         <div class="radio">
             <div class="radio radio-inline radio-success">
-                <input id="schedulestatus_0" type="radio" name="schedulestatus" value="0" checked>
+                <input id="schedulestatus_0" type="radio" name="schedulestatus" value="1" checked>
                 <label for="schedulestatus_0">参与排班 </label>
             </div>
             <div class="radio radio-inline">
-                <input id="schedulestatus_1" type="radio" name="schedulestatus" value="1">
+                <input id="schedulestatus_1" type="radio" name="schedulestatus" value="0">
                 <label for="schedulestatus_1">否 </label>
+            </div>
+        </div>
+        <div class="radio">
+            <div class="radio radio-inline radio-success">
+                <input id="locked_0" type="radio" name="locked" value="0" checked>
+                <label for="locked_0">正常 </label>
+            </div>
+            <div class="radio radio-inline">
+                <input id="locked_1" type="radio" name="locked" value="1">
+                <label for="locked_1">锁定 </label>
             </div>
         </div>
         <div class="form-group text-right dialog-buttons">
@@ -63,11 +73,77 @@
     </form>
 </div>
 <script>
+    $(function () {
+        //用户名异步检验
+        $("#username").change(function () {
+            var username = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: '${basePath}/manage/staff/ajaxUsername',
+                data: {'username':username},
+                beforeSend: function () {
+
+                },
+                success: function (result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function (index, value) {
+                                $.confirm({
+                                    theme: 'dark',
+                                    animation: 'rotateX',
+                                    closeAnimation: 'rotateX',
+                                    title: false,
+                                    content: value.errorMsg,
+                                    buttons: {
+                                        confirm: {
+                                            text: '确认',
+                                            btnClass: 'waves-effect waves-button waves-light'
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            $.confirm({
+                                theme: 'dark',
+                                animation: 'rotateX',
+                                closeAnimation: 'rotateX',
+                                title: false,
+                                content: result.data.errorMsg || result.data,
+                                buttons: {
+                                    confirm: {
+                                        text: '确认',
+                                        btnClass: 'waves-effect waves-button waves-light'
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: textStatus,
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    })
+
     function createSubmit() {
         //先做重要参数校验
         var isMoney = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
-        var baseSalary = $("#baseSalary").val();
-        var perSalary = $("#perSalary").val();
+        var baseSalary = $("#baseSalaryMoney").val();
+        var perSalary = $("#perSalaryMoney").val();
         if (baseSalary != "0" && !isMoney.test(baseSalary)) {
             showTips("底薪输入不合规");
             return;
@@ -79,7 +155,7 @@
 
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/user/create',
+            url: '${basePath}/manage/staff/create',
             data: $('#createForm').serialize(),
             beforeSend: function () {
                 if ($('#username').val() == '') {

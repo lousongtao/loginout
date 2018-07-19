@@ -1,7 +1,7 @@
 package com.zheng.ucenter.dao.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
 
 public class McShift implements Serializable {
     /**
@@ -26,6 +26,13 @@ public class McShift implements Serializable {
     private String planName;
 
     /**
+     * 班次 类型 0工作 1非工作
+     *
+     * @mbg.generated
+     */
+    private Byte type;
+
+    /**
      * 排班颜色
      *
      * @mbg.generated
@@ -33,25 +40,11 @@ public class McShift implements Serializable {
     private String color;
 
     /**
-     * 起始时间
+     * 总时长 (单位:小时)
      *
      * @mbg.generated
      */
-    private Date startTime;
-
-    /**
-     * 结束时间
-     *
-     * @mbg.generated
-     */
-    private Date endTime;
-
-    /**
-     * 总时长 (单位:分)
-     *
-     * @mbg.generated
-     */
-    private Integer totalTime;
+    private BigDecimal totalTime;
 
     /**
      * 备注
@@ -59,6 +52,13 @@ public class McShift implements Serializable {
      * @mbg.generated
      */
     private String mark;
+
+    /**
+     * 起止时间
+     *
+     * @mbg.generated
+     */
+    private String periodTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -86,6 +86,14 @@ public class McShift implements Serializable {
         this.planName = planName;
     }
 
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
+    }
+
     public String getColor() {
         return color;
     }
@@ -94,27 +102,11 @@ public class McShift implements Serializable {
         this.color = color;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Integer getTotalTime() {
+    public BigDecimal getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(Integer totalTime) {
+    public void setTotalTime(BigDecimal totalTime) {
         this.totalTime = totalTime;
     }
 
@@ -126,6 +118,14 @@ public class McShift implements Serializable {
         this.mark = mark;
     }
 
+    public String getPeriodTime() {
+        return periodTime;
+    }
+
+    public void setPeriodTime(String periodTime) {
+        this.periodTime = periodTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -135,11 +135,11 @@ public class McShift implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", mId=").append(mId);
         sb.append(", planName=").append(planName);
+        sb.append(", type=").append(type);
         sb.append(", color=").append(color);
-        sb.append(", startTime=").append(startTime);
-        sb.append(", endTime=").append(endTime);
         sb.append(", totalTime=").append(totalTime);
         sb.append(", mark=").append(mark);
+        sb.append(", periodTime=").append(periodTime);
         sb.append("]");
         return sb.toString();
     }
@@ -159,11 +159,11 @@ public class McShift implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getmId() == null ? other.getmId() == null : this.getmId().equals(other.getmId()))
             && (this.getPlanName() == null ? other.getPlanName() == null : this.getPlanName().equals(other.getPlanName()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getColor() == null ? other.getColor() == null : this.getColor().equals(other.getColor()))
-            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
             && (this.getTotalTime() == null ? other.getTotalTime() == null : this.getTotalTime().equals(other.getTotalTime()))
-            && (this.getMark() == null ? other.getMark() == null : this.getMark().equals(other.getMark()));
+            && (this.getMark() == null ? other.getMark() == null : this.getMark().equals(other.getMark()))
+            && (this.getPeriodTime() == null ? other.getPeriodTime() == null : this.getPeriodTime().equals(other.getPeriodTime()));
     }
 
     @Override
@@ -173,11 +173,11 @@ public class McShift implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getmId() == null) ? 0 : getmId().hashCode());
         result = prime * result + ((getPlanName() == null) ? 0 : getPlanName().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getColor() == null) ? 0 : getColor().hashCode());
-        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
-        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         result = prime * result + ((getTotalTime() == null) ? 0 : getTotalTime().hashCode());
         result = prime * result + ((getMark() == null) ? 0 : getMark().hashCode());
+        result = prime * result + ((getPeriodTime() == null) ? 0 : getPeriodTime().hashCode());
         return result;
     }
 }
