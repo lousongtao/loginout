@@ -21,16 +21,17 @@
         <shiro:hasPermission name="ucenter:staff:write">
             <a class="waves-effect waves-button" href="javascript:;"
                onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-                新增用户</a>
+                New</a>
         </shiro:hasPermission>
         <shiro:hasPermission name="ucenter:staff:delete">
             <a class="waves-effect waves-button" href="javascript:;"
                onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
-                删除用户</a>
+                Delete</a>
         </shiro:hasPermission>
         <shiro:hasPermission name="ucenter:staff:group">
             <a class="waves-effect waves-button" href="javascript:;"
-               onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 用户分组</a>
+               onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 
+               Group</a>
         </shiro:hasPermission>
     </div>
     <table id="table"></table>
@@ -79,20 +80,20 @@
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', radio: true},
-                {field: 'userId', title: '编号', align: 'center'},
-                {field: 'username', title: '帐号 *'},
-                {field: 'realname', title: '姓名 *'},
-                {field: 'phone', title: '电话'},
-                {field: 'email', title: '邮箱', visible: false},
-                {field: 'sex', title: '性别', formatter: 'sexFormatter'},
-                {field: 'ctime', title: '添加时间', sortable: true, formatter: 'timeStampToDateTime'},
-                {field: 'baseSalary', title: '底薪', formatter: 'salaryFormatter'},
-                {field: 'perSalary', title: '时薪', formatter: 'salaryFormatter'},
-                {field: 'schedulestatus', title: '是否排班',align: 'center', formatter: 'schedulestatusFormatter'},
-                {field: 'groupName', title: '所在组', align: 'center', formatter: 'groupFormatter'},
-                {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
+                {field: 'userId', title: 'ID', align: 'center'},
+                {field: 'username', title: 'Account *'},
+                {field: 'realname', title: 'Name*'},
+                {field: 'phone', title: 'Telephone'},
+                {field: 'email', title: 'Mail', visible: false},
+                {field: 'sex', title: 'Sex', formatter: 'sexFormatter'},
+                {field: 'ctime', title: 'Create Time', sortable: true, formatter: 'timeStampToDateTime'},
+                {field: 'baseSalary', title: 'Base Salary', formatter: 'salaryFormatter'},
+                {field: 'perSalary', title: 'Hour Salary', formatter: 'salaryFormatter'},
+                {field: 'schedulestatus', title: 'Schedule Permission',align: 'center', formatter: 'schedulestatusFormatter'},
+                {field: 'groupName', title: 'Group', align: 'center', formatter: 'groupFormatter'},
+                {field: 'locked', title: 'Status', sortable: true, align: 'center', formatter: 'lockedFormatter'},
                 {
-                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
                         var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
@@ -106,10 +107,10 @@
     // 格式化性别
     function sexFormatter(value, row, index) {
         if (value == 1) {
-            return '男';
+            return 'Male';
         }
         if (value == 0) {
-            return '女';
+            return 'Female';
         }
         return '-';
     }
@@ -117,10 +118,10 @@
     //格式化是否排班
     function schedulestatusFormatter(value, row, index) {
         if (value == 1) {
-            return '<span class="label label-success">是</span>';
+            return '<span class="label label-success">Yes</span>';
         }
         if (value == 0) {
-            return '<span class="label label-default">否</span>';
+            return '<span class="label label-default">No</span>';
         }
         return '-';
     }
@@ -130,16 +131,16 @@
         if (value) {
             return '<span class="label label-success">' + value + '</span>';
         } else {
-            return '<span class="label label-danger">未知</span>';
+            return '<span class="label label-danger">N/A</span>';
         }
     }
 
     // 格式化状态
     function lockedFormatter(value, row, index) {
         if (value == 1) {
-            return '<span class="label label-default">锁定</span>';
+            return '<span class="label label-default">Unavailable</span>';
         } else {
-            return '<span class="label label-success">正常</span>';
+            return '<span class="label label-success">Available</span>';
         }
     }
 
@@ -166,7 +167,7 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增员工',
+            title: 'New User',
             content: 'url:${basePath}/manage/staff/create',
             onContentReady: function () {
                 initMaterialInput();
@@ -182,7 +183,7 @@
         if (userId) {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑信息',
+                title: 'Edit User',
                 content: 'url:${basePath}/manage/staff/update/' + userId,
                 onContentReady: function () {
                     initMaterialInput();
@@ -204,12 +205,12 @@
             if (rows.length == 0) {
                 $.confirm({
                     title: false,
-                    content: '请至少选择一条记录！',
+                    content: 'Must choose one record！',
                     autoClose: 'cancel|3000',
                     backgroundDismiss: true,
                     buttons: {
                         cancel: {
-                            text: '取消',
+                            text: 'Cancel',
                             btnClass: 'waves-effect waves-button'
                         }
                     }
@@ -229,10 +230,10 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除吗？',
+            content: 'Do you confirm to delete it？',
             buttons: {
                 confirm: {
-                    text: '确认',
+                    text: 'Confirm',
                     btnClass: 'waves-effect waves-button',
                     action: function () {
                         $.ajax({
@@ -250,7 +251,7 @@
                                                 content: value.errorMsg,
                                                 buttons: {
                                                     confirm: {
-                                                        text: '确认',
+                                                        text: 'Yes',
                                                         btnClass: 'waves-effect waves-button waves-light'
                                                     }
                                                 }
@@ -265,7 +266,7 @@
                                             content: result.data.errorMsg,
                                             buttons: {
                                                 confirm: {
-                                                    text: '确认',
+                                                    text: 'Yes',
                                                     btnClass: 'waves-effect waves-button waves-light'
                                                 }
                                             }
@@ -285,7 +286,7 @@
                                     content: textStatus,
                                     buttons: {
                                         confirm: {
-                                            text: '确认',
+                                            text: 'Yes',
                                             btnClass: 'waves-effect waves-button waves-light'
                                         }
                                     }
@@ -295,7 +296,7 @@
                     }
                 },
                 cancel: {
-                    text: '取消',
+                    text: 'Cancel',
                     btnClass: 'waves-effect waves-button'
                 }
             }

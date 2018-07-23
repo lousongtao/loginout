@@ -41,7 +41,7 @@
             <a class="waves-effect waves-button" href="javascript:;"
                onclick="saveAction()"><i class="zmdi zmdi-close"></i>
                 保存班次</a>
-        <%--</shiro:hasPermission>--%>
+        </shiro:hasPermission>
     </div>
 </div>
 <div class="calendarWrapper">
