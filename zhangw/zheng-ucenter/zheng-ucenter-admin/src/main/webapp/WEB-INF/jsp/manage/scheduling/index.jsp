@@ -12,160 +12,97 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>班次设定</title>
-    <link href="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css"
-          rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css"
-          rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
-          rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/css/common.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/fullcalendar-3.9.0/fullcalendar.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/zheng-admin/plugins/fullcalendar-3.9.0/fullcalendar.print.min.css"
-          rel='stylesheet' media='print'/>
-    <style>
-
-
-    </style>
+    <title>排班</title>
+    <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
     <div id="toolbar">
-        <shiro:hasPermission name="ucenter:scheduling:write">
+        <shiro:hasPermission name="ucenter:shift:create">
             <a class="waves-effect waves-button" href="javascript:;"
-               onclick="editAction()"><i class="zmdi zmdi-plus"></i>
-                编辑班次</a>
+               onclick="createAction()"><i class="zmdi zmdi-plus"></i>
+                添加班次</a>
             <a class="waves-effect waves-button" href="javascript:;"
-               onclick="saveAction()"><i class="zmdi zmdi-close"></i>
-                保存班次</a>
+               onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
+                删除班次</a>
         </shiro:hasPermission>
     </div>
-</div>
-<div class="calendarWrapper">
-    <div id='pbgl_nav' style='display:none;width: 1002px;margin-left: 10px;'>
-        <p id="pbgl_nav_p" style="font-weight:bold;margin-bottom: 5px; margin-top: 5px;"></p>
-        <div id="pbgl_nav_div"></div>
+    <h3>本周(2018年07月23日-2018年07月23日)排班表</h3>
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default">Left</button>
+        <button type="button" class="btn btn-default">Middle</button>
+        <button type="button" class="btn btn-default">Right</button>
     </div>
-    <div id="pbgl_calendar" class="dib" style="overflow-y:auto"></div>
-    <div class="paiban_xia_toolbar paiban_toolbar_container" id="paiban_toolbar_container" style="display:none;"></div>
+    <table id="table"></table>
 </div>
-<script src="${basePath}/resources/zheng-admin/plugins/jquery.1.12.4.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/waves-0.7.5/waves.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.js"></script>
-<%--<script src="${basePath}/resources/zheng-admin/js/common.js"></script>--%>
-<script src="${basePath}/resources/zheng-admin/plugins/fullcalendar-3.9.0/moment.min.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/fullcalendar-3.9.0/zh-cn.js"></script>
-<script src="${basePath}/resources/zheng-admin/plugins/fullcalendar-3.9.0/fullcalendar.min.js"></script>
+<jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
+    var $table = $('#table');
     $(function () {
-        $("#paiban_toolbar_container").hide();
-        initCalender();
+        // bootstrap table初始化
+        $table.bootstrapTable({
+            url: '${basePath}/manage/shift/list',
+            height: getHeight(),
+            striped: true,
+//            search: true,
+            showRefresh: true,
+            showColumns: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            detailView: true,
+            detailFormatter: 'detailFormatter',
+            pagination: true,
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            searchOnEnterKey: true,
+            idField: 'id',
+            maintainSelected: true,
+            toolbar: '#toolbar',
+            columns: [
+                {field: 'ck', checkbox: true},
+                {field: 'id', title: '编号', align: 'center'},
+                {field: 'planName', title: '名称'},
+                {field: 'color', title: '颜色', formatter: 'colorFormatter'},
+                {field: 'periodTime', title: '起止时间'},
+                {field: 'totalTime', title: '总时长(单位:时)'},
+                {field: 'mark', title: '备注', visible: false},
+//                {
+//                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+//                    formatter: function (value, row, index) {
+//                        var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
+//                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
+//                        return u + d;
+//                    }
+//                }
+            ]
+        });
 
-//        var currentView = $('#pbgl_calendar').fullCalendar('getView');
-//        var monday = $.fullCalendar.formatDate(currentView.visStart, "yyyy年MM月dd日");
-//        var sunday = $.fullCalendar.formatDate(currentView.visEnd, "yyyy年MM月dd日");
-//        console.log("当前视图的第一天:" + monday)
-//        console.log(sunday)
-//        getShift();  //获取班次并创建弹出层
-//        getUserGroup();     //获取员工分组信息
-
-
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+//            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = seperator1 + month + seperator1 + strDate;
+            return currentdate;
+        }
     });
 
-    var calendar;
-
-    function editAction() {
-        alert("start edit")
+    // 颜色性别
+    function colorFormatter(value, row, index) {
+        var a = '<span style="color:' + value + '">' + value + '</span>';
+        return a;
     }
 
-    function saveAction() {
-        alert("save data")
-    }
-
-    /**
-     * 初始化Calender
-     */
-    function initCalender() {
-        calendar = $('#pbgl_calendar').fullCalendar({
-            header: {
-                left: '',
-                center: '',
-                right: 'prev,next today'
-            },
-            locale:'zh-cn',
-            buttonText: {
-                today: '本周',
-            },
-            defaultView: "basicWeek",
-            firstday: 1
-        });
-        return calendar;
-    }
-
-    /**
-     * 初始化日历标题
-     */
-    function initTitle() {
-        //设定标题
-        var weekEndTime = new Date(Giscafer.calenderVisEnd) - (24 * 60 * 60 * 1000);
-        var monday = $.fullCalendar.formatDate(Giscafer.calenderVisStart,
-            "yyyy年MM月dd日");
-        var sunday = $.fullCalendar.formatDate(new Date(weekEndTime),
-            "yyyy年MM月dd日");
-        var titleHtml = "<span style='font-weight:bold;'>本周 (" + monday + " - " + sunday + ") 排班表</span>"
-        $('#calendar .fc-header-left').html('');
-        $('#calendar .fc-header-left').append(titleHtml);
-    }
-
-
-    /**
-     * 获取班次信息
-     */
-    function getShift() {
-        $.ajax({
-            url: '${basePath}/manage/shift/getAllShift',
-            type: 'POST',
-            dataType: 'json'
-        })
-            .done(function (result) {
-                if (result.code == 1) {
-                    console.log(result.data);
-                    alert("处理班次数据");
-
-                }
-
-            })
-            .fail(function () {
-                console.log("error");
-            });
-    }
-
-    /**
-     * 获取用户组信息
-     */
-    function getUserGroup() {
-        $.ajax({
-            url: '${basePath}/manage/group/getGroupUser',
-            data: {limit: 100},
-            type: 'POST',
-            dataType: 'json'
-        })
-            .done(function (result) {
-                if (result.code == 1) {
-                    alert("处理用户组数据")
-                    console.log(result.data);
-                }
-            })
-            .fail(function () {
-                console.log("error");
-            });
-    }
 
 </script>
 </body>
