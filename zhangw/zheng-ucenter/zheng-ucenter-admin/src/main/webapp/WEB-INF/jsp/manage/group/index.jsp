@@ -51,7 +51,6 @@
             url: '${basePath}/manage/group/list',
             height: getHeight(),
             striped: true,
-//            search: true,
             showRefresh: true,
             showColumns: true,
             minimumCountColumns: 2,
@@ -73,6 +72,7 @@
                 {field: 'ck', radio: true},
                 {field: 'id', title: '编号', align: 'center'},
                 {field: 'name', title: '名称'},
+                {field: 'color', title: '底色', formatter: 'colorFormatter'},
                 {field: 'count', title: '人数',formatter:'countUser'},
                 {field: 'userList', title: '员工', formatter: 'userListToName'},
                 {field: 'description', title: '描述', visible: false},
@@ -89,6 +89,11 @@
         });
     });
 
+    // 颜色性别
+    function colorFormatter(value, row, index) {
+        var b='<button type="button" class="btn btn-default" style="background:'+value+'"></button>';
+        return b;
+    }
     function countUser(value, row, index) {
         if (row.userList) {
             return row.userList.length;
@@ -209,7 +214,7 @@
                                             animation: 'rotateX',
                                             closeAnimation: 'rotateX',
                                             title: false,
-                                            content: result.data.errorMsg,
+                                            content: result.data,
                                             buttons: {
                                                 confirm: {
                                                     text: '确认',

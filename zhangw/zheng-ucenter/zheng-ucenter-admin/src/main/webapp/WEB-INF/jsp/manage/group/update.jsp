@@ -13,6 +13,11 @@
             <input id="name" type="text" class="form-control" name="name" maxlength="20" value="${mcGroup.name}">
         </div>
         <div class="form-group">
+            <label for="color">颜色</label>
+            <input id="color" type="color" class="form-control" name="color" maxlength="20"
+                   value="${mcGroup.color}">
+        </div>
+        <div class="form-group">
             <label for="description">描述</label>
             <input id="description" type="area" class="form-control" name="description" value="${mcGroup.description}">
         </div>
@@ -59,7 +64,7 @@
                             animation: 'rotateX',
                             closeAnimation: 'rotateX',
                             title: false,
-                            content: result.data.errorMsg,
+                            content: result.data,
                             buttons: {
                                 confirm: {
                                     text: '确认',

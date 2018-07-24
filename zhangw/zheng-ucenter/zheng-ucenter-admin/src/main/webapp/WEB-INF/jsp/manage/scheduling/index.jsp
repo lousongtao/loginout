@@ -27,11 +27,11 @@
                 删除班次</a>
         </shiro:hasPermission>
     </div>
-    <h3>本周(2018年07月23日-2018年07月23日)排班表</h3>
+    <h3 id="headTitle">本周(2018年07月23日-2018年07月23日)排班表</h3>
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default">Left</button>
-        <button type="button" class="btn btn-default">Middle</button>
-        <button type="button" class="btn btn-default">Right</button>
+        <button id="lastWeek" type="button" class="btn btn-default">上一周</button>
+        <button id="thisWeek" type="button" class="btn btn-primary">本周</button>
+        <button id="nextWeek" type="button" class="btn btn-default">下一周</button>
     </div>
     <table id="table"></table>
 </div>
@@ -39,6 +39,18 @@
 <script>
     var $table = $('#table');
     $(function () {
+        //点击事件
+        $("#lastWeek").click(function () {
+//            $("#headTitle").html("上周(2018年07月23日-2018年07月23日)排班表")
+//            alert("lastWeek")
+            editHeadTitle("上周(2018年07月23日-2018年07月23日)排班表");
+        });
+        $("#thisWeek").click(function () {
+            $("#headTitle").html("本周(2018年07月23日-2018年07月23日)排班表")
+        });
+        $("#nextWeek").click(function () {
+            $("#headTitle").html("下周(2018年07月23日-2018年07月23日)排班表")
+        });
         // bootstrap table初始化
         $table.bootstrapTable({
             url: '${basePath}/manage/shift/list',
@@ -80,22 +92,12 @@
             ]
         });
 
-        function getNowFormatDate() {
-            var date = new Date();
-            var seperator1 = "-";
-//            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            var strDate = date.getDate();
-            if (month >= 1 && month <= 9) {
-                month = "0" + month;
-            }
-            if (strDate >= 0 && strDate <= 9) {
-                strDate = "0" + strDate;
-            }
-            var currentdate = seperator1 + month + seperator1 + strDate;
-            return currentdate;
-        }
     });
+
+    //更改头标题
+    function editHeadTitle(content){
+        $("#headTitle").html(content);
+    }
 
     // 颜色性别
     function colorFormatter(value, row, index) {

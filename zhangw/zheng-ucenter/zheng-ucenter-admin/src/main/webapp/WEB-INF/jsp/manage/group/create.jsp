@@ -13,6 +13,10 @@
             <input id="name" type="text" class="form-control" name="name" maxlength="20">
         </div>
         <div class="form-group">
+            <label for="color">底色</label>
+            <input id="color" type="color" class="form-control" name="color" maxlength="50">
+        </div>
+        <div class="form-group">
             <label for="description">描述</label>
             <input id="description" type="area" class="form-control" name="description">
         </div>
