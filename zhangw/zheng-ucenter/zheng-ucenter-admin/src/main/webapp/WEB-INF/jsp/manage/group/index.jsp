@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>组管理</title>
+    <title>Group Management</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
@@ -21,7 +21,17 @@
         <shiro:hasPermission name="ucenter:group:create">
             <a class="waves-effect waves-button" href="javascript:;"
                onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-                新增组</a>
+                New</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:group:delete">
+            <a class="waves-effect waves-button" href="javascript:;"
+               onclick="deleteAction()"><i class="zmdi zmdi-plus"></i>
+                Delete</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:group:update">
+            <a class="waves-effect waves-button" href="javascript:;"
+               onclick="moveInOutAction()"><i class="zmdi zmdi-plus"></i>
+                Move In/Out Staff</a>
         </shiro:hasPermission>
     </div>
     <table id="table"></table>
@@ -70,15 +80,15 @@
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', radio: true},
-                {field: 'id', title: '编号', align: 'center'},
-                {field: 'name', title: '名称'},
-                {field: 'color', title: '底色', formatter: 'colorFormatter'},
-                {field: 'count', title: '人数',formatter:'countUser'},
-                {field: 'userList', title: '员工', formatter: 'userListToName'},
-                {field: 'description', title: '描述', visible: false},
-                {field: 'createTime', title: '创建时间', formatter: 'timeStampToDateTime', visible: false},
+                {field: 'id', title: 'ID', align: 'center'},
+                {field: 'name', title: 'Name'},
+                {field: 'count', title: 'Population',formatter:'countUser'},
+ 				{field: 'color', title: '底色', formatter: 'colorFormatter'},
+                {field: 'userList', title: 'Staffs', formatter: 'userListToName'},
+                {field: 'description', title: 'Describe', visible: false},
+                {field: 'createTime', title: 'Create Time', formatter: 'timeStampToDateTime', visible: false},
                 {
-                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
                         var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.id + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
@@ -134,7 +144,7 @@
         if (id) {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑组信息',
+                title: 'Update Group',
                 content: 'url:${basePath}/manage/group/update/' + id,
                 onContentReady: function () {
                     initMaterialInput();
@@ -156,12 +166,12 @@
             if (rows.length == 0) {
                 $.confirm({
                     title: false,
-                    content: '请至少选择一条记录！',
+                    content: 'Must choose one record！',
                     autoClose: 'cancel|3000',
                     backgroundDismiss: true,
                     buttons: {
                         cancel: {
-                            text: '取消',
+                            text: 'Cancel',
                             btnClass: 'waves-effect waves-button'
                         }
                     }
@@ -181,10 +191,10 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除吗？',
+            content: 'Do you confirm to delete it？',
             buttons: {
                 confirm: {
-                    text: '确认',
+                    text: 'Confirm',
                     btnClass: 'waves-effect waves-button',
                     action: function () {
                         $.ajax({
@@ -217,7 +227,7 @@
                                             content: result.data,
                                             buttons: {
                                                 confirm: {
-                                                    text: '确认',
+                                                    text: 'Yes',
                                                     btnClass: 'waves-effect waves-button waves-light'
                                                 }
                                             }
@@ -237,7 +247,7 @@
                                     content: textStatus,
                                     buttons: {
                                         confirm: {
-                                            text: '确认',
+                                            text: 'Yes',
                                             btnClass: 'waves-effect waves-button waves-light'
                                         }
                                     }
@@ -247,7 +257,7 @@
                     }
                 },
                 cancel: {
-                    text: '取消',
+                    text: 'Cancel',
                     btnClass: 'waves-effect waves-button'
                 }
             }

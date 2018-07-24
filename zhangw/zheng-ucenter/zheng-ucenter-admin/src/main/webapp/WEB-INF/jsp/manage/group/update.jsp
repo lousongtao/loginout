@@ -9,7 +9,7 @@
 <div id="updateDialog" class="crudDialog">
     <form id="updateForm" method="post">
         <div class="form-group">
-            <label for="name">名称</label>
+            <label for="name">Name</label>
             <input id="name" type="text" class="form-control" name="name" maxlength="20" value="${mcGroup.name}">
         </div>
         <div class="form-group">
@@ -22,8 +22,8 @@
             <input id="description" type="area" class="form-control" name="description" value="${mcGroup.description}">
         </div>
         <div class="form-group text-right dialog-buttons">
-            <a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
-            <a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">Save</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">Cancel</a>
         </div>
     </form>
 </div>
@@ -52,7 +52,7 @@
                                 content: value.errorMsg,
                                 buttons: {
                                     confirm: {
-                                        text: '确认',
+                                        text: 'Yes',
                                         btnClass: 'waves-effect waves-button waves-light'
                                     }
                                 }
@@ -67,7 +67,7 @@
                             content: result.data,
                             buttons: {
                                 confirm: {
-                                    text: '确认',
+                                    text: 'Yes',
                                     btnClass: 'waves-effect waves-button waves-light'
                                 }
                             }
@@ -87,7 +87,7 @@
                     content: textStatus,
                     buttons: {
                         confirm: {
-                            text: '确认',
+                            text: 'Yes',
                             btnClass: 'waves-effect waves-button waves-light'
                         }
                     }
