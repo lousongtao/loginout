@@ -25,8 +25,7 @@ public class Generator {
 	private static Map<String, String> LAST_INSERT_ID_TABLES = new HashMap<>();
 	static {
 		LAST_INSERT_ID_TABLES.put("mc_group","id");
-		LAST_INSERT_ID_TABLES.put("mc_user_sign","id");
-		LAST_INSERT_ID_TABLES.put("mc_shift","id");
+		LAST_INSERT_ID_TABLES.put("mc_user_sign","sign_id");
 		LAST_INSERT_ID_TABLES.put("mc_schedule_plan","id");
 	}
 

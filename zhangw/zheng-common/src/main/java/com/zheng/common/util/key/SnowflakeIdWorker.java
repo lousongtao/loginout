@@ -15,9 +15,9 @@ package com.zheng.common.util.key;
 public class SnowflakeIdWorker {
 	// ==============================Fields===========================================
 	/**
-	 * 开始时间截 (2015-01-01)
+	 * 开始时间截 (2018-07-24)
 	 */
-	private final long twepoch = 1420041600000L;
+	private final long twepoch = 1532416399000L;
 
 	/**
 	 * 机器id所占的位数
@@ -177,7 +177,7 @@ public class SnowflakeIdWorker {
 		SnowflakeIdWorker idWorker0 = new SnowflakeIdWorker(0, 0);
 		for (int i = 0; i < 10000000; i++) {
 			long id = idWorker0.nextId();
-			//System.out.println(id);
+			System.out.println(id);
 		}
 		System.out.println("耗时：" + (System.currentTimeMillis() - start));
 	}

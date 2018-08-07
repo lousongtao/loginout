@@ -1,6 +1,5 @@
 package com.zw.ucenter.admin.controller.manage;
 
-import java.security.PublicKey;
 import java.util.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,7 +21,7 @@ import com.zheng.ucenter.common.constant.UcenterResult;
 import com.zheng.ucenter.common.constant.UcenterResultConstant;
 import com.zheng.ucenter.dao.model.McGroup;
 import com.zheng.ucenter.dao.model.McGroupExample;
-import com.zheng.ucenter.dao.model.McGroupUser;
+import com.zheng.ucenter.dao.vo.McGroupUser;
 import com.zheng.ucenter.rpc.api.McGroupService;
 import com.zheng.ucenter.rpc.api.McUserGroupService;
 import com.zheng.upms.client.util.UserUtils;
@@ -111,7 +110,8 @@ public class GroupController extends BaseController {
                 List<Integer> groupUsersId = mcUserGroupService.getGroupUsers(group.getId());
                 if (!CollectionUtils.isEmpty(groupUsersId)) {
                     UpmsUserExample upmsUserExample = new UpmsUserExample();
-                    upmsUserExample.createCriteria().andUserIdIn(groupUsersId).andSchedulestatusEqualTo((byte) 1);
+                    upmsUserExample.createCriteria().andUserIdIn(groupUsersId)
+                        .andSchedulestatusEqualTo((byte) 1);
                     List<UpmsUser> upmsUsers = upmsUserService.selectByExample(upmsUserExample);
                     mcGroupUser.setUserList(upmsUsers);
                 }
@@ -190,7 +190,7 @@ public class GroupController extends BaseController {
         }
         mcGroup.setId(id);
         int count = mcGroupService.updateByPrimaryKeySelective(mcGroup);
-//        int count = mcGroupService.createOrUpdateGroup(mcGroup, "");
+        //        int count = mcGroupService.createOrUpdateGroup(mcGroup, "");
         if (count > 0) {
             return new UcenterResult(UcenterResultConstant.SUCCESS, count);
         } else {

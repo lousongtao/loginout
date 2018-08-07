@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="mc_id" jdbcType="INTEGER" property="mcId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="level" jdbcType="INTEGER" property="level" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -67,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, mc_id, name, description, create_time
+    id, mc_id, name, color, level, description, create_time
   </sql>
   <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McGroupExample" resultMap="BaseResultMap">
     select
@@ -103,10 +105,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into mc_group (mc_id, name, description, 
-      create_time)
-    values (#{mcId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into mc_group (mc_id, name, color, 
+      level, description, create_time
+      )
+    values (#{mcId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McGroup">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -119,6 +123,12 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="color != null">
+        color,
+      </if>
+      <if test="level != null">
+        level,
       </if>
       <if test="description != null">
         description,
@@ -133,6 +143,12 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null">
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -160,6 +176,12 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.color != null">
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
@@ -176,6 +198,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       mc_id = #{record.mcId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
+      color = #{record.color,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
       description = #{record.description,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -191,6 +215,12 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="color != null">
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
@@ -204,6 +234,8 @@
     update mc_group
     set mc_id = #{mcId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

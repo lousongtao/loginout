@@ -1,5 +1,6 @@
-package com.zheng.ucenter.dao.model;
+package com.zheng.ucenter.dao.vo;
 
+import com.zheng.ucenter.dao.model.McGroup;
 import com.zheng.upms.dao.model.UpmsUser;
 
 import java.io.Serializable;

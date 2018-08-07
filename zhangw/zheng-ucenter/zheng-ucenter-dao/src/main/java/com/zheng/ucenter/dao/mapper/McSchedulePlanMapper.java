@@ -10,7 +10,7 @@ public interface McSchedulePlanMapper {
 
     int deleteByExample(McSchedulePlanExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(McSchedulePlan record);
 
@@ -18,7 +18,7 @@ public interface McSchedulePlanMapper {
 
     List<McSchedulePlan> selectByExample(McSchedulePlanExample example);
 
-    McSchedulePlan selectByPrimaryKey(Long id);
+    McSchedulePlan selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") McSchedulePlan record, @Param("example") McSchedulePlanExample example);
 

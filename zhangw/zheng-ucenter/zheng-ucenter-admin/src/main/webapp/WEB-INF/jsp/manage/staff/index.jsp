@@ -30,10 +30,21 @@
         </shiro:hasPermission>
         <shiro:hasPermission name="ucenter:staff:group">
             <a class="waves-effect waves-button" href="javascript:;"
-               onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 
-               Group</a>
+               onclick="groupAction()"><i class="zmdi zmdi-accounts-list"></i>
+                Group</a>
         </shiro:hasPermission>
     </div>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="accountSearch">Account</label>
+            <input type="text" class="form-control" id="accountSearch">
+        </div>
+        <div class="form-group">
+            <label for="nameSearch">Name</label>
+            <input type="email" class="form-control" id="nameSearch">
+        </div>
+        <button id="searchButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
+    </form>
     <table id="table"></table>
 </div>
 <div>
@@ -61,7 +72,6 @@
             url: '${basePath}/manage/staff/list',
             height: getHeight(),
             striped: true,
-            search: true,
             showRefresh: true,
             showColumns: true,
             minimumCountColumns: 2,
@@ -78,6 +88,16 @@
             idField: 'userId',
             maintainSelected: true,
             toolbar: '#toolbar',
+            queryParams: function (params) {
+                return {
+                    // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+                    limit: params.limit,
+                    offset: params.offset,
+                    order: params.order,
+                    accountSearch: $('#accountSearch').val(),
+                    nameSearch: $('#nameSearch').val()
+                };
+            },
             columns: [
                 {field: 'ck', radio: true},
                 {field: 'userId', title: 'ID', align: 'center'},
@@ -89,8 +109,13 @@
                 {field: 'ctime', title: 'Create Time', sortable: true, formatter: 'timeStampToDateTime'},
                 {field: 'baseSalary', title: 'Base Salary', formatter: 'salaryFormatter'},
                 {field: 'perSalary', title: 'Hour Salary', formatter: 'salaryFormatter'},
-                {field: 'schedulestatus', title: 'Schedule Permission',align: 'center', formatter: 'schedulestatusFormatter'},
-                {field: 'groupName', title: 'Group', align: 'center', formatter: 'groupFormatter'},
+                {
+                    field: 'schedulestatus',
+                    title: 'Schedule Permission',
+                    align: 'center',
+                    formatter: 'schedulestatusFormatter'
+                },
+                {field: 'groupList', title: 'Group', align: 'center', formatter: 'groupFormatter'},
                 {field: 'locked', title: 'Status', sortable: true, align: 'center', formatter: 'lockedFormatter'},
                 {
                     title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
@@ -102,6 +127,10 @@
                 }
             ]
         });
+
+        $("#searchButton").click(function () {
+            $table.bootstrapTable('refresh');
+        })
     });
 
     // 格式化性别
@@ -126,10 +155,14 @@
         return '-';
     }
 
-    //处理人员分组
+    //显示人员所在组情况
     function groupFormatter(value, row, index) {
         if (value) {
-            return '<span class="label label-success">' + value + '</span>';
+            var ab = '';
+            for (var i = 0; i < value.length; i++) {
+                ab += '<span class="label label-primary">' + value[i].name + '</span>';
+            }
+            return ab;
         } else {
             return '<span class="label label-danger">N/A</span>';
         }
@@ -305,9 +338,9 @@
 
     // 用户分组
     var groupDialog;
-    var groupUserId;
+    var userId;
 
-    function organizationAction() {
+    function groupAction() {
         var rows = $table.bootstrapTable('getSelections');
         if (rows.length != 1) {
             $.confirm({
@@ -323,11 +356,11 @@
                 }
             });
         } else {
-            groupUserId = rows[0].userId;
+            userId = rows[0].userId;
             groupDialog = $.dialog({
                 animationSpeed: 300,
                 title: '用户分组',
-                content: 'url:${basePath}/manage/staff/group/' + groupUserId,
+                content: 'url:${basePath}/manage/staff/group/' + userId,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2({

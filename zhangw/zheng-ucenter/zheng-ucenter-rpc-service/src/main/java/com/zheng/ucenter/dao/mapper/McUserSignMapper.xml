@@ -2,13 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zheng.ucenter.dao.mapper.McUserSignMapper">
   <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McUserSign">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="sign_id" jdbcType="BIGINT" property="signId" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
-    <result column="sign_type" jdbcType="TINYINT" property="signType" />
-    <result column="sign_lon" jdbcType="DECIMAL" property="signLon" />
-    <result column="sign_lat" jdbcType="DECIMAL" property="signLat" />
-    <result column="sing_address" jdbcType="VARCHAR" property="singAddress" />
+    <result column="sign_type" jdbcType="INTEGER" property="signType" />
+    <result column="lon" jdbcType="DECIMAL" property="lon" />
+    <result column="lat" jdbcType="DECIMAL" property="lat" />
+    <result column="sign_address" jdbcType="VARCHAR" property="signAddress" />
+    <result column="extend1" jdbcType="VARCHAR" property="extend1" />
+    <result column="extend2" jdbcType="VARCHAR" property="extend2" />
+    <result column="extend3" jdbcType="VARCHAR" property="extend3" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, sign_time, sign_type, sign_lon, sign_lat, sing_address
+    sign_id, u_id, u_name, sign_time, sign_type, lon, lat, sign_address, extend1, extend2, 
+    extend3
   </sql>
   <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McUserSignExample" resultMap="BaseResultMap">
     select
@@ -89,11 +94,11 @@
     select 
     <include refid="Base_Column_List" />
     from mc_user_sign
-    where id = #{id,jdbcType=BIGINT}
+    where sign_id = #{signId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from mc_user_sign
-    where id = #{id,jdbcType=BIGINT}
+    where sign_id = #{signId,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McUserSignExample">
     delete from mc_user_sign
@@ -102,24 +107,29 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McUserSign">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="signId" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into mc_user_sign (uid, sign_time, sign_type, 
-      sign_lon, sign_lat, sing_address
-      )
-    values (#{uid,jdbcType=INTEGER}, #{signTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, 
-      #{signLon,jdbcType=DECIMAL}, #{signLat,jdbcType=DECIMAL}, #{singAddress,jdbcType=VARCHAR}
-      )
+    insert into mc_user_sign (u_id, u_name, sign_time, 
+      sign_type, lon, lat, 
+      sign_address, extend1, extend2, 
+      extend3)
+    values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{signType,jdbcType=INTEGER}, #{lon,jdbcType=DECIMAL}, #{lat,jdbcType=DECIMAL}, 
+      #{signAddress,jdbcType=VARCHAR}, #{extend1,jdbcType=VARCHAR}, #{extend2,jdbcType=VARCHAR}, 
+      #{extend3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McUserSign">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="signId" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into mc_user_sign
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uid != null">
-        uid,
+      <if test="uId != null">
+        u_id,
+      </if>
+      <if test="uName != null">
+        u_name,
       </if>
       <if test="signTime != null">
         sign_time,
@@ -127,34 +137,55 @@
       <if test="signType != null">
         sign_type,
       </if>
-      <if test="signLon != null">
-        sign_lon,
+      <if test="lon != null">
+        lon,
       </if>
-      <if test="signLat != null">
-        sign_lat,
+      <if test="lat != null">
+        lat,
       </if>
-      <if test="singAddress != null">
-        sing_address,
+      <if test="signAddress != null">
+        sign_address,
+      </if>
+      <if test="extend1 != null">
+        extend1,
+      </if>
+      <if test="extend2 != null">
+        extend2,
+      </if>
+      <if test="extend3 != null">
+        extend3,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null">
+        #{uName,jdbcType=VARCHAR},
       </if>
       <if test="signTime != null">
         #{signTime,jdbcType=TIMESTAMP},
       </if>
       <if test="signType != null">
-        #{signType,jdbcType=TINYINT},
+        #{signType,jdbcType=INTEGER},
       </if>
-      <if test="signLon != null">
-        #{signLon,jdbcType=DECIMAL},
+      <if test="lon != null">
+        #{lon,jdbcType=DECIMAL},
       </if>
-      <if test="signLat != null">
-        #{signLat,jdbcType=DECIMAL},
+      <if test="lat != null">
+        #{lat,jdbcType=DECIMAL},
       </if>
-      <if test="singAddress != null">
-        #{singAddress,jdbcType=VARCHAR},
+      <if test="signAddress != null">
+        #{signAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="extend1 != null">
+        #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        #{extend3,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -167,26 +198,38 @@
   <update id="updateByExampleSelective" parameterType="map">
     update mc_user_sign
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+      <if test="record.signId != null">
+        sign_id = #{record.signId,jdbcType=BIGINT},
       </if>
-      <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+      <if test="record.uId != null">
+        u_id = #{record.uId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uName != null">
+        u_name = #{record.uName,jdbcType=VARCHAR},
       </if>
       <if test="record.signTime != null">
         sign_time = #{record.signTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.signType != null">
-        sign_type = #{record.signType,jdbcType=TINYINT},
+        sign_type = #{record.signType,jdbcType=INTEGER},
       </if>
-      <if test="record.signLon != null">
-        sign_lon = #{record.signLon,jdbcType=DECIMAL},
+      <if test="record.lon != null">
+        lon = #{record.lon,jdbcType=DECIMAL},
       </if>
-      <if test="record.signLat != null">
-        sign_lat = #{record.signLat,jdbcType=DECIMAL},
+      <if test="record.lat != null">
+        lat = #{record.lat,jdbcType=DECIMAL},
       </if>
-      <if test="record.singAddress != null">
-        sing_address = #{record.singAddress,jdbcType=VARCHAR},
+      <if test="record.signAddress != null">
+        sign_address = #{record.signAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extend1 != null">
+        extend1 = #{record.extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extend2 != null">
+        extend2 = #{record.extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extend3 != null">
+        extend3 = #{record.extend3,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -195,13 +238,17 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update mc_user_sign
-    set id = #{record.id,jdbcType=BIGINT},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set sign_id = #{record.signId,jdbcType=BIGINT},
+      u_id = #{record.uId,jdbcType=INTEGER},
+      u_name = #{record.uName,jdbcType=VARCHAR},
       sign_time = #{record.signTime,jdbcType=TIMESTAMP},
-      sign_type = #{record.signType,jdbcType=TINYINT},
-      sign_lon = #{record.signLon,jdbcType=DECIMAL},
-      sign_lat = #{record.signLat,jdbcType=DECIMAL},
-      sing_address = #{record.singAddress,jdbcType=VARCHAR}
+      sign_type = #{record.signType,jdbcType=INTEGER},
+      lon = #{record.lon,jdbcType=DECIMAL},
+      lat = #{record.lat,jdbcType=DECIMAL},
+      sign_address = #{record.signAddress,jdbcType=VARCHAR},
+      extend1 = #{record.extend1,jdbcType=VARCHAR},
+      extend2 = #{record.extend2,jdbcType=VARCHAR},
+      extend3 = #{record.extend3,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,36 +256,52 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McUserSign">
     update mc_user_sign
     <set>
-      <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
+      </if>
+      <if test="uName != null">
+        u_name = #{uName,jdbcType=VARCHAR},
       </if>
       <if test="signTime != null">
         sign_time = #{signTime,jdbcType=TIMESTAMP},
       </if>
       <if test="signType != null">
-        sign_type = #{signType,jdbcType=TINYINT},
+        sign_type = #{signType,jdbcType=INTEGER},
       </if>
-      <if test="signLon != null">
-        sign_lon = #{signLon,jdbcType=DECIMAL},
+      <if test="lon != null">
+        lon = #{lon,jdbcType=DECIMAL},
       </if>
-      <if test="signLat != null">
-        sign_lat = #{signLat,jdbcType=DECIMAL},
+      <if test="lat != null">
+        lat = #{lat,jdbcType=DECIMAL},
       </if>
-      <if test="singAddress != null">
-        sing_address = #{singAddress,jdbcType=VARCHAR},
+      <if test="signAddress != null">
+        sign_address = #{signAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="extend1 != null">
+        extend1 = #{extend1,jdbcType=VARCHAR},
+      </if>
+      <if test="extend2 != null">
+        extend2 = #{extend2,jdbcType=VARCHAR},
+      </if>
+      <if test="extend3 != null">
+        extend3 = #{extend3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where sign_id = #{signId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McUserSign">
     update mc_user_sign
-    set uid = #{uid,jdbcType=INTEGER},
+    set u_id = #{uId,jdbcType=INTEGER},
+      u_name = #{uName,jdbcType=VARCHAR},
       sign_time = #{signTime,jdbcType=TIMESTAMP},
-      sign_type = #{signType,jdbcType=TINYINT},
-      sign_lon = #{signLon,jdbcType=DECIMAL},
-      sign_lat = #{signLat,jdbcType=DECIMAL},
-      sing_address = #{singAddress,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+      sign_type = #{signType,jdbcType=INTEGER},
+      lon = #{lon,jdbcType=DECIMAL},
+      lat = #{lat,jdbcType=DECIMAL},
+      sign_address = #{signAddress,jdbcType=VARCHAR},
+      extend1 = #{extend1,jdbcType=VARCHAR},
+      extend2 = #{extend2,jdbcType=VARCHAR},
+      extend3 = #{extend3,jdbcType=VARCHAR}
+    where sign_id = #{signId,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

@@ -28,11 +28,6 @@
                onclick="deleteAction()"><i class="zmdi zmdi-plus"></i>
                 Delete</a>
         </shiro:hasPermission>
-        <shiro:hasPermission name="ucenter:group:update">
-            <a class="waves-effect waves-button" href="javascript:;"
-               onclick="moveInOutAction()"><i class="zmdi zmdi-plus"></i>
-                Move In/Out Staff</a>
-        </shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>
@@ -82,6 +77,7 @@
                 {field: 'ck', radio: true},
                 {field: 'id', title: 'ID', align: 'center'},
                 {field: 'name', title: 'Name'},
+                {field: 'level', title: 'Level'},
                 {field: 'count', title: 'Population',formatter:'countUser'},
  				{field: 'color', title: '底色', formatter: 'colorFormatter'},
                 {field: 'userList', title: 'Staffs', formatter: 'userListToName'},

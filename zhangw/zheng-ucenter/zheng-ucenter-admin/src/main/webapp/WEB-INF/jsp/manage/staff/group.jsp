@@ -9,33 +9,30 @@
 <div id="groupDialog" class="crudDialog">
     <form id="groupForm" method="post">
         <div class="form-group">
-            <select id="groupId" name="groupId" style="width: 100%">
+            <select id="groupId" name="groupId" style="width: 100%" multiple="multiple">
                 <c:forEach var="mcGroup" items="${mcGroups}">
                     <option value="${mcGroup.id}"
-                            <c:if test="${mcGroup.id==mcUserGroup.id}">selected="selected"</c:if>
+                            <c:forEach var="mcUserGroup" items="${mcUserGroups}">
+                                <c:if test="${mcGroup.id==mcUserGroup.mcGroupId}">selected="selected"</c:if>
+                            </c:forEach>
                     >${mcGroup.name}
                     </option>
                 </c:forEach>
             </select>
         </div>
         <div class="form-group text-right dialog-buttons">
-            <a class="waves-effect waves-button" href="javascript:;" onclick="organizationSubmit();">保存</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="groupSubmit();">保存</a>
             <a class="waves-effect waves-button" href="javascript:;" onclick="groupDialog.close();">取消</a>
         </div>
     </form>
 </div>
 <script>
-    function organizationSubmit() {
+    function groupSubmit() {
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/staff/group/' + groupUserId,
+            url: '${basePath}/manage/staff/group/' + userId,
             data: $('#groupForm').serialize(),
             beforeSend: function () {
-//                var selectGroup=$("#groupId").val();
-//                if(!selectGroup){
-//                    $('#groupId').focus();
-//                    return false;
-//                }
             },
             success: function (result) {
                 if (result.code != 1) {

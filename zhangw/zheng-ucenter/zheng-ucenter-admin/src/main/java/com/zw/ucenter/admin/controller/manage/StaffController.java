@@ -1,10 +1,10 @@
 package com.zw.ucenter.admin.controller.manage;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -20,6 +20,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.zheng.common.base.BaseController;
+import com.zheng.common.util.DateUtils;
 import com.zheng.common.util.MD5Util;
 import com.zheng.common.util.Money;
 import com.zheng.common.validator.LengthValidator;
@@ -29,15 +30,19 @@ import com.zheng.ucenter.common.constant.UcenterResult;
 import com.zheng.ucenter.common.constant.UcenterResultConstant;
 import com.zheng.ucenter.dao.model.McGroup;
 import com.zheng.ucenter.dao.model.McGroupExample;
+import com.zheng.ucenter.dao.model.McUserGroup;
 import com.zheng.ucenter.dao.model.McUserGroupExample;
-import com.zheng.ucenter.dao.model.StaffInfo;
+import com.zheng.ucenter.dao.vo.McSchedulingCell;
+import com.zheng.ucenter.dao.vo.StaffInfo;
 import com.zheng.ucenter.rpc.api.McGroupService;
+import com.zheng.ucenter.rpc.api.McSchedulePlanService;
 import com.zheng.ucenter.rpc.api.McUserGroupService;
 import com.zheng.upms.client.util.UserUtils;
 import com.zheng.upms.dao.model.UpmsUser;
 import com.zheng.upms.dao.model.UpmsUserExample;
 import com.zheng.upms.rpc.api.UpmsApiService;
 import com.zheng.upms.rpc.api.UpmsUserService;
+import com.zw.ucenter.admin.form.SchedulingForm;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,19 +56,22 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/manage/staff")
 public class StaffController extends BaseController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaffController.class);
+    private static final Logger   LOGGER = LoggerFactory.getLogger(StaffController.class);
 
     @Autowired
-    private UpmsUserService     upmsUserService;
+    private UpmsUserService       upmsUserService;
 
     @Autowired
-    private UpmsApiService      upmsApiService;
+    private UpmsApiService        upmsApiService;
 
     @Autowired
-    private McGroupService      mcGroupService;
+    private McGroupService        mcGroupService;
 
     @Autowired
-    private McUserGroupService  mcUserGroupService;
+    private McUserGroupService    mcUserGroupService;
+
+    @Autowired
+    private McSchedulePlanService mcSchedulePlanService;
 
     @ApiOperation(value = "用户员工首页")
     @RequiresPermissions("ucenter:staff:read")
@@ -78,18 +86,22 @@ public class StaffController extends BaseController {
     @ResponseBody
     public Object list(@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
                        @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
-                       @RequestParam(required = false, defaultValue = "", value = "search") String search,
+                       @RequestParam(required = false, defaultValue = "", value = "accountSearch") String accountSearch,
+                       @RequestParam(required = false, defaultValue = "", value = "nameSearch") String nameSearch,
                        @RequestParam(required = false, value = "sort") String sort,
                        @RequestParam(required = false, value = "order") String order) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         //有父级id的为员工
-        upmsUserExample.createCriteria().andParentIdEqualTo(UserUtils.getCurrentUserId());
+        UpmsUserExample.Criteria criteria = upmsUserExample.createCriteria()
+            .andParentIdEqualTo(UserUtils.getCurrentUserId());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsUserExample.setOrderByClause(sort + " " + order);
         }
-        if (StringUtils.isNotBlank(search)) {
-            upmsUserExample.or().andRealnameLike("%" + search + "%");
-            upmsUserExample.or().andUsernameLike("%" + search + "%");
+        if (StringUtils.isNotBlank(accountSearch)) {
+            criteria.andUsernameLike("%" + accountSearch + "%");
+        }
+        if (StringUtils.isNotBlank(nameSearch)) {
+            criteria.andRealnameLike("%" + nameSearch + "%");
         }
         List<UpmsUser> upmsUsers = upmsUserService.selectByExampleForOffsetPage(upmsUserExample,
             offset, limit);
@@ -98,10 +110,9 @@ public class StaffController extends BaseController {
             upmsUsers.forEach((UpmsUser user) -> {
                 StaffInfo staffInfo = new StaffInfo();
                 BeanUtils.copyProperties(user, staffInfo);
-                McGroup userGroup = mcUserGroupService.getUserGroup(user.getUserId());
-                if (userGroup != null) {
-                    staffInfo.setGroupId(userGroup.getId());
-                    staffInfo.setGroupName(userGroup.getName());
+                List<McGroup> userGroups = mcUserGroupService.getUserGroup(user.getUserId());
+                if (!CollectionUtils.isEmpty(userGroups)) {
+                    staffInfo.setGroupList(userGroups);
                 }
                 rows.add(staffInfo);
             });
@@ -168,7 +179,7 @@ public class StaffController extends BaseController {
             userId = upmsUser1.getUserId();
         }
         upmsUser.setParentId(userId);
-        upmsUser = upmsUserService.createUser(upmsUser);
+        upmsUser = upmsApiService.insertStaffInfo(upmsUser);
         if (null == upmsUser) {
             return new UcenterResult(UcenterResultConstant.FAILED, "帐号名已存在！");
         }
@@ -231,27 +242,49 @@ public class StaffController extends BaseController {
         mcGroupExample.createCriteria().andMcIdEqualTo(UserUtils.getCurrentUserId());
         List<McGroup> mcGroups = mcGroupService.selectByExample(mcGroupExample);
         // 当前用户所在组
-        McGroup mcUserGroup = mcUserGroupService.getUserGroup(id);
-        modelMap.put("mcUserGroup", mcUserGroup);
+        McUserGroupExample userGroupExample = new McUserGroupExample();
+        userGroupExample.createCriteria().andMcUserIdEqualTo(id);
+        List<McUserGroup> mcUserGroups = mcUserGroupService.selectByExample(userGroupExample);
+        modelMap.put("mcUserGroups", mcUserGroups);
         modelMap.put("mcGroups", mcGroups);
         return "/manage/staff/group.jsp";
     }
 
     @ApiOperation(value = "用户分组保存")
     @RequiresPermissions("ucenter:staff:group")
-    @RequestMapping(value = "/group/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/group/{userId}", method = RequestMethod.POST)
     @ResponseBody
-    public Object group(@PathVariable("id") int id, HttpServletRequest request) {
-        String groupId = request.getParameter("groupId");
-        if (StringUtils.isNotBlank(groupId)) {
-            mcUserGroupService.deleteAndSave(id, Integer.valueOf(groupId));
-        } else {
-            McUserGroupExample mcUserGroupExample = new McUserGroupExample();
-            mcUserGroupExample.createCriteria().andMcUserIdEqualTo(id);
-            mcUserGroupService.deleteByExample(mcUserGroupExample);
-        }
-        return new UcenterResult(UcenterResultConstant.SUCCESS, "");
+    public Object group(@PathVariable("userId") int userId, HttpServletRequest request) {
+        String[] groupIds = request.getParameterValues("groupId");
+        int group = mcUserGroupService.group(groupIds, userId);
+        return new UcenterResult(UcenterResultConstant.SUCCESS, group);
     }
 
+    @ApiOperation(value = "员工查看自己的排班")
+    @RequiresPermissions("ucenter:staff:schedule")
+    @RequestMapping(value = "/schedule", method = RequestMethod.GET)
+    public String schedule() {
+        return "/manage/staff/schedule.jsp";
+    }
+
+    @ApiOperation(value = "员工查看自己的排班")
+    @RequiresPermissions("ucenter:staff:schedule")
+    @RequestMapping(value = "/schedule", method = RequestMethod.POST)
+    @ResponseBody
+    public Object schedule(@RequestBody SchedulingForm form) {
+        Timestamp dayStartTime = DateUtils.getDayStartTime(form.getPageMonday());
+        Timestamp dayEndTime = DateUtils.getDayEndTime(form.getPageSunday());
+        UpmsUser currentUser = UserUtils.getCurrentUser();
+        List<McSchedulingCell> schedulePlanList = mcSchedulePlanService.selectStaffData(
+            dayStartTime, dayEndTime, currentUser.getParentId(), currentUser.getUserId());
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", schedulePlanList);
+        int total = 0;
+        if (!CollectionUtils.isEmpty(schedulePlanList)) {
+            total = schedulePlanList.size();
+        }
+        result.put("total", total);
+        return result;
+    }
 
 }

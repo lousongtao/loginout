@@ -4,7 +4,6 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.zheng.upms.client.util.UserUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -22,6 +21,7 @@ import com.zheng.common.base.BaseController;
 import com.zheng.common.util.MD5Util;
 import com.zheng.common.validator.LengthValidator;
 import com.zheng.common.validator.NotNullValidator;
+import com.zheng.upms.client.util.UserUtils;
 import com.zheng.upms.common.constant.UpmsResult;
 import com.zheng.upms.common.constant.UpmsResultConstant;
 import com.zheng.upms.dao.model.*;
@@ -147,7 +147,8 @@ public class UpmsUserController extends BaseController {
                        @RequestParam(required = false, value = "sort") String sort,
                        @RequestParam(required = false, value = "order") String order) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria().andParentIdEqualTo(UserUtils.getCurrentUser().getParentId());
+        upmsUserExample.createCriteria()
+            .andParentIdEqualTo(UserUtils.getCurrentUser().getParentId());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsUserExample.setOrderByClause(sort + " " + order);
         }
@@ -190,7 +191,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setParentId(UserUtils.getCurrentUserId());
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
-        upmsUser = upmsUserService.createUser(upmsUser);
+        upmsUser = upmsUserService.createUser(upmsUser, true);
         if (null == upmsUser) {
             return new UpmsResult(UpmsResultConstant.FAILED, "帐号名已存在！");
         }
@@ -208,8 +209,8 @@ public class UpmsUserController extends BaseController {
             UpmsUserPermissionExample example = new UpmsUserPermissionExample();
             String[] userIds = ids.split("-");
             List<String> asList = Arrays.asList(userIds);
-            List<Integer> userIdList=new ArrayList<>();
-            for (String userId:asList){
+            List<Integer> userIdList = new ArrayList<>();
+            for (String userId : asList) {
                 userIdList.add(Integer.valueOf(userId));
             }
             example.createCriteria().andUserIdIn(userIdList);
@@ -245,6 +246,37 @@ public class UpmsUserController extends BaseController {
         upmsUser.setUserId(id);
         int count = upmsUserService.updateByPrimaryKeySelective(upmsUser);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    @ApiOperation(value = "跳转修改密码窗口")
+    @RequestMapping(value = "/changePwd", method = RequestMethod.GET)
+    public String changePwd(ModelMap modelMap) {
+        UpmsUser currentUser = UserUtils.getCurrentUser();
+        modelMap.put("currentUser", currentUser);
+        return "/manage/user/changePwd.jsp";
+    }
+
+    @ApiOperation(value = "修改密码")
+    @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
+    @ResponseBody
+    public Object changePwd(HttpServletRequest request) {
+        UpmsUser currentUser = UserUtils.getCurrentUser();
+        String newPassword = request.getParameter("newPassword");
+        String oldPassword = request.getParameter("oldPassword");
+
+        if (StringUtils.isNotBlank(newPassword) && StringUtils.equalsIgnoreCase(currentUser.getPassword(),
+            MD5Util.md5(oldPassword + currentUser.getSalt()))) {
+            //原密码校验通过
+            UpmsUser upmsUser = new UpmsUser();
+            upmsUser.setUserId(currentUser.getUserId());
+            String salt = UUID.randomUUID().toString().replaceAll("-", "");
+            upmsUser.setSalt(salt);
+            upmsUser.setPassword(MD5Util.md5(newPassword + salt));
+            int result = upmsUserService.updateByPrimaryKeySelective(upmsUser);
+            return new UpmsResult(UpmsResultConstant.SUCCESS, result);
+        } else {
+            return new UpmsResult(UpmsResultConstant.FAILED, "Your old password is incorrect");
+        }
     }
 
 }

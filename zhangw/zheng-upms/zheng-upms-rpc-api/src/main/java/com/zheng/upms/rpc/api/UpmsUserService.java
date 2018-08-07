@@ -10,6 +10,12 @@ import com.zheng.upms.dao.model.UpmsUserExample;
 */
 public interface UpmsUserService extends BaseService<UpmsUser, UpmsUserExample> {
 
-    UpmsUser createUser(UpmsUser upmsUser);
+    /**
+     * 创建用户
+     * @param upmsUser
+     * @param createTable 是否创建相关数据表
+     * @return
+     */
+    UpmsUser createUser(UpmsUser upmsUser,Boolean createTable);
 
 }

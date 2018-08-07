@@ -1,17 +1,19 @@
 package com.zheng.upms.rpc.service.impl;
 
-import com.zheng.upms.dao.mapper.*;
-import com.zheng.upms.dao.model.*;
-import com.zheng.upms.rpc.api.UpmsApiService;
-import com.zheng.upms.rpc.mapper.UpmsApiMapper;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import com.zheng.upms.dao.mapper.*;
+import com.zheng.upms.dao.model.*;
+import com.zheng.upms.rpc.api.UpmsApiService;
+import com.zheng.upms.rpc.mapper.UpmsApiMapper;
 
 /**
  * UpmsApiService实现
@@ -24,25 +26,30 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpmsApiServiceImpl.class);
 
     @Autowired
-    UpmsUserMapper upmsUserMapper;
+    UpmsUserMapper              upmsUserMapper;
 
     @Autowired
-    UpmsApiMapper upmsApiMapper;
+    UpmsRoleMapper              upmsRoleMapper;
+    @Autowired
+    UpmsUserRoleMapper          upmsUserRoleMapper;
 
     @Autowired
-    UpmsRolePermissionMapper upmsRolePermissionMapper;
+    UpmsApiMapper               upmsApiMapper;
 
     @Autowired
-    UpmsUserPermissionMapper upmsUserPermissionMapper;
+    UpmsRolePermissionMapper    upmsRolePermissionMapper;
 
     @Autowired
-    UpmsSystemMapper upmsSystemMapper;
+    UpmsUserPermissionMapper    upmsUserPermissionMapper;
 
     @Autowired
-    UpmsOrganizationMapper upmsOrganizationMapper;
+    UpmsSystemMapper            upmsSystemMapper;
 
     @Autowired
-    UpmsLogMapper upmsLogMapper;
+    UpmsOrganizationMapper      upmsOrganizationMapper;
+
+    @Autowired
+    UpmsLogMapper               upmsLogMapper;
 
     /**
      * 根据用户id获取所拥有的权限
@@ -57,7 +64,8 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             LOGGER.info("selectUpmsPermissionByUpmsUserId : upmsUserId={}", upmsUserId);
             return null;
         }
-        List<UpmsPermission> upmsPermissions = upmsApiMapper.selectUpmsPermissionByUpmsUserId(upmsUserId);
+        List<UpmsPermission> upmsPermissions = upmsApiMapper
+            .selectUpmsPermissionByUpmsUserId(upmsUserId);
         return upmsPermissions;
     }
 
@@ -108,9 +116,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public List<UpmsRolePermission> selectUpmsRolePermisstionByUpmsRoleId(Integer upmsRoleId) {
         UpmsRolePermissionExample upmsRolePermissionExample = new UpmsRolePermissionExample();
-        upmsRolePermissionExample.createCriteria()
-                .andRoleIdEqualTo(upmsRoleId);
-        List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionMapper.selectByExample(upmsRolePermissionExample);
+        upmsRolePermissionExample.createCriteria().andRoleIdEqualTo(upmsRoleId);
+        List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionMapper
+            .selectByExample(upmsRolePermissionExample);
         return upmsRolePermissions;
     }
 
@@ -122,9 +130,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public List<UpmsUserPermission> selectUpmsUserPermissionByUpmsUserId(Integer upmsUserId) {
         UpmsUserPermissionExample upmsUserPermissionExample = new UpmsUserPermissionExample();
-        upmsUserPermissionExample.createCriteria()
-                .andUserIdEqualTo(upmsUserId);
-        List<UpmsUserPermission> upmsUserPermissions = upmsUserPermissionMapper.selectByExample(upmsUserPermissionExample);
+        upmsUserPermissionExample.createCriteria().andUserIdEqualTo(upmsUserId);
+        List<UpmsUserPermission> upmsUserPermissions = upmsUserPermissionMapper
+            .selectByExample(upmsUserPermissionExample);
         return upmsUserPermissions;
     }
 
@@ -156,8 +164,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public UpmsUser selectUpmsUserByUsername(String username) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria()
-                .andUsernameEqualTo(username);
+        upmsUserExample.createCriteria().andUsernameEqualTo(username);
         List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
         if (null != upmsUsers && upmsUsers.size() > 0) {
             return upmsUsers.get(0);
@@ -173,6 +180,32 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public int insertUpmsLogSelective(UpmsLog record) {
         return upmsLogMapper.insertSelective(record);
+    }
+
+    @Override
+    public UpmsUser insertStaffInfo(UpmsUser upmsUser) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria().andUsernameEqualTo(upmsUser.getUsername());
+        long count = upmsUserMapper.countByExample(upmsUserExample);
+        if (count > 0) {
+            return null;
+        }
+        int insert = upmsUserMapper.insert(upmsUser);
+        if (insert > 0) {
+            //默认给与员工角色
+            UpmsRoleExample upmsRoleExample = new UpmsRoleExample();
+            upmsRoleExample.createCriteria().andNameEqualTo("staff");
+            List<UpmsRole> upmsRoles = upmsRoleMapper.selectByExample(upmsRoleExample);
+            if (!CollectionUtils.isEmpty(upmsRoles)) {
+                UpmsRole upmsRole = upmsRoles.get(0);
+                Integer roleId = upmsRole.getRoleId();
+                UpmsUserRole userRole = new UpmsUserRole();
+                userRole.setRoleId(roleId);
+                userRole.setUserId(upmsUser.getUserId());
+                upmsUserRoleMapper.insertSelective(userRole);
+            }
+        }
+        return upmsUser;
     }
 
 }

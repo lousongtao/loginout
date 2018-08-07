@@ -2,16 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zheng.ucenter.dao.mapper.McSchedulePlanMapper">
   <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McSchedulePlan">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="mid" jdbcType="INTEGER" property="mid" />
-    <result column="sid" jdbcType="INTEGER" property="sid" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="u_name" jdbcType="VARCHAR" property="uName" />
-    <result column="day" jdbcType="DATE" property="day" />
-    <result column="shift_id" jdbcType="INTEGER" property="shiftId" />
-    <result column="plan_name" jdbcType="VARCHAR" property="planName" />
-    <result column="check" jdbcType="TINYINT" property="check" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="per_salary" jdbcType="BIGINT" property="perSalary" />
+    <result column="scheduling_date" jdbcType="DATE" property="schedulingDate" />
+    <result column="period_time" jdbcType="VARCHAR" property="periodTime" />
+    <result column="total_time" jdbcType="DECIMAL" property="totalTime" />
+    <result column="estimate_pay" jdbcType="BIGINT" property="estimatePay" />
+    <result column="result" jdbcType="INTEGER" property="result" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, mid, sid, uid, u_name, day, shift_id, plan_name, check, create_time
+    id, u_id, u_name, group_id, per_salary, scheduling_date, period_time, total_time, 
+    estimate_pay, result, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McSchedulePlanExample" resultMap="BaseResultMap">
     select
@@ -88,15 +91,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from mc_schedule_plan
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mc_schedule_plan
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McSchedulePlanExample">
     delete from mc_schedule_plan
@@ -105,77 +108,91 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into mc_schedule_plan (mid, sid, uid, 
-      u_name, day, shift_id, plan_name, 
-      check, create_time)
-    values (#{mid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{uName,jdbcType=VARCHAR}, #{day,jdbcType=DATE}, #{shiftId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, 
-      #{check,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+    insert into mc_schedule_plan (u_id, u_name, group_id, 
+      per_salary, scheduling_date, period_time, 
+      total_time, estimate_pay, result, 
+      create_time, update_time)
+    values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
+      #{perSalary,jdbcType=BIGINT}, #{schedulingDate,jdbcType=DATE}, #{periodTime,jdbcType=VARCHAR}, 
+      #{totalTime,jdbcType=DECIMAL}, #{estimatePay,jdbcType=BIGINT}, #{result,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into mc_schedule_plan
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="mid != null">
-        mid,
-      </if>
-      <if test="sid != null">
-        sid,
-      </if>
-      <if test="uid != null">
-        uid,
+      <if test="uId != null">
+        u_id,
       </if>
       <if test="uName != null">
         u_name,
       </if>
-      <if test="day != null">
-        day,
+      <if test="groupId != null">
+        group_id,
       </if>
-      <if test="shiftId != null">
-        shift_id,
+      <if test="perSalary != null">
+        per_salary,
       </if>
-      <if test="planName != null">
-        plan_name,
+      <if test="schedulingDate != null">
+        scheduling_date,
       </if>
-      <if test="check != null">
-        check,
+      <if test="periodTime != null">
+        period_time,
+      </if>
+      <if test="totalTime != null">
+        total_time,
+      </if>
+      <if test="estimatePay != null">
+        estimate_pay,
+      </if>
+      <if test="result != null">
+        result,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="mid != null">
-        #{mid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+      <if test="uId != null">
+        #{uId,jdbcType=INTEGER},
       </if>
       <if test="uName != null">
         #{uName,jdbcType=VARCHAR},
       </if>
-      <if test="day != null">
-        #{day,jdbcType=DATE},
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="shiftId != null">
-        #{shiftId,jdbcType=INTEGER},
+      <if test="perSalary != null">
+        #{perSalary,jdbcType=BIGINT},
       </if>
-      <if test="planName != null">
-        #{planName,jdbcType=VARCHAR},
+      <if test="schedulingDate != null">
+        #{schedulingDate,jdbcType=DATE},
       </if>
-      <if test="check != null">
-        #{check,jdbcType=TINYINT},
+      <if test="periodTime != null">
+        #{periodTime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalTime != null">
+        #{totalTime,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatePay != null">
+        #{estimatePay,jdbcType=BIGINT},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -189,34 +206,40 @@
     update mc_schedule_plan
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.mid != null">
-        mid = #{record.mid,jdbcType=INTEGER},
-      </if>
-      <if test="record.sid != null">
-        sid = #{record.sid,jdbcType=INTEGER},
-      </if>
-      <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+      <if test="record.uId != null">
+        u_id = #{record.uId,jdbcType=INTEGER},
       </if>
       <if test="record.uName != null">
         u_name = #{record.uName,jdbcType=VARCHAR},
       </if>
-      <if test="record.day != null">
-        day = #{record.day,jdbcType=DATE},
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=INTEGER},
       </if>
-      <if test="record.shiftId != null">
-        shift_id = #{record.shiftId,jdbcType=INTEGER},
+      <if test="record.perSalary != null">
+        per_salary = #{record.perSalary,jdbcType=BIGINT},
       </if>
-      <if test="record.planName != null">
-        plan_name = #{record.planName,jdbcType=VARCHAR},
+      <if test="record.schedulingDate != null">
+        scheduling_date = #{record.schedulingDate,jdbcType=DATE},
       </if>
-      <if test="record.check != null">
-        check = #{record.check,jdbcType=TINYINT},
+      <if test="record.periodTime != null">
+        period_time = #{record.periodTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalTime != null">
+        total_time = #{record.totalTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.estimatePay != null">
+        estimate_pay = #{record.estimatePay,jdbcType=BIGINT},
+      </if>
+      <if test="record.result != null">
+        result = #{record.result,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -225,16 +248,18 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update mc_schedule_plan
-    set id = #{record.id,jdbcType=BIGINT},
-      mid = #{record.mid,jdbcType=INTEGER},
-      sid = #{record.sid,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
+      u_id = #{record.uId,jdbcType=INTEGER},
       u_name = #{record.uName,jdbcType=VARCHAR},
-      day = #{record.day,jdbcType=DATE},
-      shift_id = #{record.shiftId,jdbcType=INTEGER},
-      plan_name = #{record.planName,jdbcType=VARCHAR},
-      check = #{record.check,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      group_id = #{record.groupId,jdbcType=INTEGER},
+      per_salary = #{record.perSalary,jdbcType=BIGINT},
+      scheduling_date = #{record.schedulingDate,jdbcType=DATE},
+      period_time = #{record.periodTime,jdbcType=VARCHAR},
+      total_time = #{record.totalTime,jdbcType=DECIMAL},
+      estimate_pay = #{record.estimatePay,jdbcType=BIGINT},
+      result = #{record.result,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,48 +267,56 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
     update mc_schedule_plan
     <set>
-      <if test="mid != null">
-        mid = #{mid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        sid = #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+      <if test="uId != null">
+        u_id = #{uId,jdbcType=INTEGER},
       </if>
       <if test="uName != null">
         u_name = #{uName,jdbcType=VARCHAR},
       </if>
-      <if test="day != null">
-        day = #{day,jdbcType=DATE},
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="shiftId != null">
-        shift_id = #{shiftId,jdbcType=INTEGER},
+      <if test="perSalary != null">
+        per_salary = #{perSalary,jdbcType=BIGINT},
       </if>
-      <if test="planName != null">
-        plan_name = #{planName,jdbcType=VARCHAR},
+      <if test="schedulingDate != null">
+        scheduling_date = #{schedulingDate,jdbcType=DATE},
       </if>
-      <if test="check != null">
-        check = #{check,jdbcType=TINYINT},
+      <if test="periodTime != null">
+        period_time = #{periodTime,jdbcType=VARCHAR},
+      </if>
+      <if test="totalTime != null">
+        total_time = #{totalTime,jdbcType=DECIMAL},
+      </if>
+      <if test="estimatePay != null">
+        estimate_pay = #{estimatePay,jdbcType=BIGINT},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McSchedulePlan">
     update mc_schedule_plan
-    set mid = #{mid,jdbcType=INTEGER},
-      sid = #{sid,jdbcType=INTEGER},
-      uid = #{uid,jdbcType=INTEGER},
+    set u_id = #{uId,jdbcType=INTEGER},
       u_name = #{uName,jdbcType=VARCHAR},
-      day = #{day,jdbcType=DATE},
-      shift_id = #{shiftId,jdbcType=INTEGER},
-      plan_name = #{planName,jdbcType=VARCHAR},
-      check = #{check,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
+      group_id = #{groupId,jdbcType=INTEGER},
+      per_salary = #{perSalary,jdbcType=BIGINT},
+      scheduling_date = #{schedulingDate,jdbcType=DATE},
+      period_time = #{periodTime,jdbcType=VARCHAR},
+      total_time = #{totalTime,jdbcType=DECIMAL},
+      estimate_pay = #{estimatePay,jdbcType=BIGINT},
+      result = #{result,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

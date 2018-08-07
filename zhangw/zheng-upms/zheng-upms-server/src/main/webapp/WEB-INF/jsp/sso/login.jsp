@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>排班管理系统</title>
+    <title>Scheduling management system</title>
 
     <link href="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${basePath}/resources/zheng-admin/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
@@ -26,19 +26,19 @@
     <div class="input-group m-b-20">
         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
         <div class="fg-line">
-            <input id="username" type="text" class="form-control" name="username" placeholder="帐号" required autofocus value="admin">
+            <input id="username" type="text" class="form-control" name="username" placeholder="Account" required autofocus >
         </div>
     </div>
     <div class="input-group m-b-20">
         <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
         <div class="fg-line">
-            <input id="password" type="password" class="form-control" name="password" placeholder="密码" required value="123456">
+            <input id="password" type="password" class="form-control" name="password" placeholder="Password" required >
         </div>
     </div>
     <div class="clearfix">
     </div>
     <div class="checkbox">
-        <input id="rememberMe" type="checkbox" class="checkbix" data-text="自动登录" name="rememberMe">
+        <input id="rememberMe" type="checkbox" class="checkbix" data-text="Auto Login" name="rememberMe">
     </div>
     <a id="login-bt" href="javascript:;" class="waves-effect waves-button waves-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 </div>
@@ -51,7 +51,7 @@
 <script src="${basePath}/resources/zheng-admin/js/login.js"></script>
 <script>
 <c:if test="${param.forceLogout == 1}">
-alert('您已被强制下线！');
+alert('You have been forced out of line');
 top.location.href = '${basePath}/sso/login';
 </c:if>
 //解决iframe下系统超时无法跳出iframe框架的问题

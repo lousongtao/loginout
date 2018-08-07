@@ -5,6 +5,7 @@ import com.zheng.ucenter.dao.mapper.McUserGroupMapper;
 import com.zheng.ucenter.dao.model.McGroup;
 import com.zheng.ucenter.dao.model.McUserGroup;
 import com.zheng.ucenter.dao.model.McUserGroupExample;
+import com.zheng.upms.dao.model.UpmsUser;
 
 import java.util.List;
 
@@ -20,12 +21,13 @@ public class McUserGroupServiceMock extends BaseServiceMock<McUserGroupMapper, M
     }
 
     @Override
-    public McGroup getUserGroup(int userId) {
+    public List<McGroup> getUserGroup(int userId) {
         return null;
     }
 
     @Override
-    public void deleteAndSave(int userId, Integer groupId) {
-
+    public int group(String[] groupIds, int userId) {
+        return 0;
     }
+
 }

@@ -14,7 +14,6 @@
     <!-- 订阅服务 -->
     <dubbo:consumer check="false"/>
 
-
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.zheng.upms.rpc.api.UpmsApiService" mock="true"/>
     <!-- 用户 -->
@@ -25,12 +24,14 @@
     <dubbo:reference id="mcGroupService" interface="com.zheng.ucenter.rpc.api.McGroupService" mock="true"/>
     <!-- 排班 -->
     <dubbo:reference id="mcSchedulePlanService" interface="com.zheng.ucenter.rpc.api.McSchedulePlanService" mock="true"/>
-    <!-- 班次 -->
-    <dubbo:reference id="mcShiftService" interface="com.zheng.ucenter.rpc.api.McShiftService" mock="true"/>
     <!-- 用户组关联 -->
     <dubbo:reference id="mcUserGroupService" interface="com.zheng.ucenter.rpc.api.McUserGroupService" mock="true"/>
     <!-- 签到 -->
     <dubbo:reference id="mcUserSignService" interface="com.zheng.ucenter.rpc.api.McUserSignService" mock="true"/>
+    <!-- 日统计 -->
+    <dubbo:reference id="mcCountDayService" interface="com.zheng.ucenter.rpc.api.McCountDayService" mock="true"/>
+    <!-- 周统计 -->
+    <dubbo:reference id="mcCountWeekService" interface="com.zheng.ucenter.rpc.api.McCountWeekService" mock="true"/>
     <!-- api -->
     <dubbo:reference id="ucenterApiService" interface="com.zheng.ucenter.rpc.api.UcenterApiService" mock="true"/>
 </beans>

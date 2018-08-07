@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zheng.ucenter.dao.mapper.McShiftMapper">
-  <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McShift">
+<mapper namespace="com.zheng.ucenter.dao.mapper.McCountDayMapper">
+  <resultMap id="BaseResultMap" type="com.zheng.ucenter.dao.model.McCountDay">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="m_id" jdbcType="INTEGER" property="mId" />
-    <result column="plan_name" jdbcType="VARCHAR" property="planName" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="color" jdbcType="VARCHAR" property="color" />
-    <result column="total_time" jdbcType="DECIMAL" property="totalTime" />
-    <result column="mark" jdbcType="VARCHAR" property="mark" />
-    <result column="period_time" jdbcType="VARCHAR" property="periodTime" />
+    <result column="count_date" jdbcType="DATE" property="countDate" />
+    <result column="person_num" jdbcType="INTEGER" property="personNum" />
+    <result column="out_pay" jdbcType="BIGINT" property="outPay" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, m_id, plan_name, type, color, total_time, mark, period_time
+    id, m_id, count_date, person_num, out_pay
   </sql>
-  <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McShiftExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.zheng.ucenter.dao.model.McCountDayExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from mc_shift
+    from mc_count_day
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,90 +86,70 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from mc_shift
+    from mc_count_day
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from mc_shift
+    delete from mc_count_day
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McShiftExample">
-    delete from mc_shift
+  <delete id="deleteByExample" parameterType="com.zheng.ucenter.dao.model.McCountDayExample">
+    delete from mc_count_day
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McShift">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into mc_shift (m_id, plan_name, type, 
-      color, total_time, mark, 
-      period_time)
-    values (#{mId,jdbcType=INTEGER}, #{planName,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{color,jdbcType=VARCHAR}, #{totalTime,jdbcType=DECIMAL}, #{mark,jdbcType=VARCHAR}, 
-      #{periodTime,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.zheng.ucenter.dao.model.McCountDay">
+    insert into mc_count_day (id, m_id, count_date, 
+      person_num, out_pay)
+    values (#{id,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{countDate,jdbcType=DATE}, 
+      #{personNum,jdbcType=INTEGER}, #{outPay,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McShift">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into mc_shift
+  <insert id="insertSelective" parameterType="com.zheng.ucenter.dao.model.McCountDay">
+    insert into mc_count_day
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="mId != null">
         m_id,
       </if>
-      <if test="planName != null">
-        plan_name,
+      <if test="countDate != null">
+        count_date,
       </if>
-      <if test="type != null">
-        type,
+      <if test="personNum != null">
+        person_num,
       </if>
-      <if test="color != null">
-        color,
-      </if>
-      <if test="totalTime != null">
-        total_time,
-      </if>
-      <if test="mark != null">
-        mark,
-      </if>
-      <if test="periodTime != null">
-        period_time,
+      <if test="outPay != null">
+        out_pay,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="mId != null">
         #{mId,jdbcType=INTEGER},
       </if>
-      <if test="planName != null">
-        #{planName,jdbcType=VARCHAR},
+      <if test="countDate != null">
+        #{countDate,jdbcType=DATE},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
+      <if test="personNum != null">
+        #{personNum,jdbcType=INTEGER},
       </if>
-      <if test="color != null">
-        #{color,jdbcType=VARCHAR},
-      </if>
-      <if test="totalTime != null">
-        #{totalTime,jdbcType=DECIMAL},
-      </if>
-      <if test="mark != null">
-        #{mark,jdbcType=VARCHAR},
-      </if>
-      <if test="periodTime != null">
-        #{periodTime,jdbcType=VARCHAR},
+      <if test="outPay != null">
+        #{outPay,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zheng.ucenter.dao.model.McShiftExample" resultType="java.lang.Long">
-    select count(*) from mc_shift
+  <select id="countByExample" parameterType="com.zheng.ucenter.dao.model.McCountDayExample" resultType="java.lang.Long">
+    select count(*) from mc_count_day
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update mc_shift
+    update mc_count_day
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -180,23 +157,14 @@
       <if test="record.mId != null">
         m_id = #{record.mId,jdbcType=INTEGER},
       </if>
-      <if test="record.planName != null">
-        plan_name = #{record.planName,jdbcType=VARCHAR},
+      <if test="record.countDate != null">
+        count_date = #{record.countDate,jdbcType=DATE},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=TINYINT},
+      <if test="record.personNum != null">
+        person_num = #{record.personNum,jdbcType=INTEGER},
       </if>
-      <if test="record.color != null">
-        color = #{record.color,jdbcType=VARCHAR},
-      </if>
-      <if test="record.totalTime != null">
-        total_time = #{record.totalTime,jdbcType=DECIMAL},
-      </if>
-      <if test="record.mark != null">
-        mark = #{record.mark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.periodTime != null">
-        period_time = #{record.periodTime,jdbcType=VARCHAR},
+      <if test="record.outPay != null">
+        out_pay = #{record.outPay,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,55 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update mc_shift
+    update mc_count_day
     set id = #{record.id,jdbcType=INTEGER},
       m_id = #{record.mId,jdbcType=INTEGER},
-      plan_name = #{record.planName,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=TINYINT},
-      color = #{record.color,jdbcType=VARCHAR},
-      total_time = #{record.totalTime,jdbcType=DECIMAL},
-      mark = #{record.mark,jdbcType=VARCHAR},
-      period_time = #{record.periodTime,jdbcType=VARCHAR}
+      count_date = #{record.countDate,jdbcType=DATE},
+      person_num = #{record.personNum,jdbcType=INTEGER},
+      out_pay = #{record.outPay,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McShift">
-    update mc_shift
+  <update id="updateByPrimaryKeySelective" parameterType="com.zheng.ucenter.dao.model.McCountDay">
+    update mc_count_day
     <set>
       <if test="mId != null">
         m_id = #{mId,jdbcType=INTEGER},
       </if>
-      <if test="planName != null">
-        plan_name = #{planName,jdbcType=VARCHAR},
+      <if test="countDate != null">
+        count_date = #{countDate,jdbcType=DATE},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
+      <if test="personNum != null">
+        person_num = #{personNum,jdbcType=INTEGER},
       </if>
-      <if test="color != null">
-        color = #{color,jdbcType=VARCHAR},
-      </if>
-      <if test="totalTime != null">
-        total_time = #{totalTime,jdbcType=DECIMAL},
-      </if>
-      <if test="mark != null">
-        mark = #{mark,jdbcType=VARCHAR},
-      </if>
-      <if test="periodTime != null">
-        period_time = #{periodTime,jdbcType=VARCHAR},
+      <if test="outPay != null">
+        out_pay = #{outPay,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McShift">
-    update mc_shift
+  <update id="updateByPrimaryKey" parameterType="com.zheng.ucenter.dao.model.McCountDay">
+    update mc_count_day
     set m_id = #{mId,jdbcType=INTEGER},
-      plan_name = #{planName,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT},
-      color = #{color,jdbcType=VARCHAR},
-      total_time = #{totalTime,jdbcType=DECIMAL},
-      mark = #{mark,jdbcType=VARCHAR},
-      period_time = #{periodTime,jdbcType=VARCHAR}
+      count_date = #{countDate,jdbcType=DATE},
+      person_num = #{personNum,jdbcType=INTEGER},
+      out_pay = #{outPay,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

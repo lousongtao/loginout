@@ -26,12 +26,14 @@ public interface McUserGroupService extends BaseService<McUserGroup, McUserGroup
      * @param userId
      * @return
      */
-    McGroup getUserGroup(int userId);
+    List<McGroup> getUserGroup(int userId);
 
     /**
-     * 删除并保存
-     * @param userId
-     * @param groupId
+     * 用户分组
+     * @param groupIds 组ids
+     * @param userId 用户id
+     * @return
      */
-    void deleteAndSave(int userId, Integer groupId);
+    int group(String[] groupIds, int userId);
+
 }

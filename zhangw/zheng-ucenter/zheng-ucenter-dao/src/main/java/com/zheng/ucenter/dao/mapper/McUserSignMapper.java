@@ -10,7 +10,7 @@ public interface McUserSignMapper {
 
     int deleteByExample(McUserSignExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long signId);
 
     int insert(McUserSign record);
 
@@ -18,7 +18,7 @@ public interface McUserSignMapper {
 
     List<McUserSign> selectByExample(McUserSignExample example);
 
-    McUserSign selectByPrimaryKey(Long id);
+    McUserSign selectByPrimaryKey(Long signId);
 
     int updateByExampleSelective(@Param("record") McUserSign record, @Param("example") McUserSignExample example);
 

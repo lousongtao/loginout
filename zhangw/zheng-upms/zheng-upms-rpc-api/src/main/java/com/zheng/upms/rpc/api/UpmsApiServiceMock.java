@@ -74,4 +74,9 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return 0;
     }
 
+    @Override
+    public UpmsUser insertStaffInfo(UpmsUser upmsUser) {
+        return null;
+    }
+
 }

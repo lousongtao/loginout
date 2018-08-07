@@ -31,9 +31,6 @@
     <bean id="mcSchedulePlanService" class="com.zheng.ucenter.rpc.service.impl.McSchedulePlanServiceImpl"/>
     <dubbo:service interface="com.zheng.ucenter.rpc.api.McSchedulePlanService" ref="mcSchedulePlanService" timeout="10000"/>
 
-    <!-- 定义班次 -->
-    <bean id="mcShiftService" class="com.zheng.ucenter.rpc.service.impl.McShiftServiceImpl"/>
-    <dubbo:service interface="com.zheng.ucenter.rpc.api.McShiftService" ref="mcShiftService" timeout="10000"/>
 
     <!-- 用户职位关联-->
     <bean id="mcUserGroupService" class="com.zheng.ucenter.rpc.service.impl.McUserGroupServiceImpl"/>
@@ -42,5 +39,12 @@
     <!-- 用户签到 -->
     <bean id="mcUserSignService" class="com.zheng.ucenter.rpc.service.impl.McUserSignServiceImpl"/>
     <dubbo:service interface="com.zheng.ucenter.rpc.api.McUserSignService" ref="mcUserSignService" timeout="10000"/>
+
+    <!-- 日统计 -->
+    <bean id="mcCountDayService" class="com.zheng.ucenter.rpc.service.impl.McCountDayServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McCountDayService" ref="mcCountDayService" timeout="10000"/>
+    <!-- 周统计 -->
+    <bean id="mcCountWeekService" class="com.zheng.ucenter.rpc.service.impl.McCountWeekServiceImpl"/>
+    <dubbo:service interface="com.zheng.ucenter.rpc.api.McCountWeekService" ref="mcCountWeekService" timeout="10000"/>
 
 </beans>

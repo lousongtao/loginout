@@ -1,8 +1,8 @@
 package com.zheng.upms.rpc.api;
 
-import com.zheng.upms.dao.model.*;
-
 import java.util.List;
+
+import com.zheng.upms.dao.model.*;
 
 /**
  * upms系统接口
@@ -80,4 +80,10 @@ public interface UpmsApiService {
      */
     int insertUpmsLogSelective(UpmsLog record);
 
+    /**
+     * 添加员工数据
+     * @param upmsUser
+     * @return
+     */
+    UpmsUser  insertStaffInfo(UpmsUser upmsUser);
 }

@@ -1,6 +1,7 @@
 package com.zheng.ucenter.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -145,233 +146,113 @@ public class McSchedulePlanExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Long value) {
+        public Criteria andIdEqualTo(Integer value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Long value) {
+        public Criteria andIdNotEqualTo(Integer value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Long value) {
+        public Criteria andIdGreaterThan(Integer value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Long value) {
+        public Criteria andIdLessThan(Integer value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Long value) {
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Long> values) {
+        public Criteria andIdIn(List<Integer> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Long> values) {
+        public Criteria andIdNotIn(List<Integer> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Long value1, Long value2) {
+        public Criteria andIdBetween(Integer value1, Integer value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Long value1, Long value2) {
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andMidIsNull() {
-            addCriterion("mid is null");
+        public Criteria andUIdIsNull() {
+            addCriterion("u_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andMidIsNotNull() {
-            addCriterion("mid is not null");
+        public Criteria andUIdIsNotNull() {
+            addCriterion("u_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMidEqualTo(Integer value) {
-            addCriterion("mid =", value, "mid");
+        public Criteria andUIdEqualTo(Integer value) {
+            addCriterion("u_id =", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidNotEqualTo(Integer value) {
-            addCriterion("mid <>", value, "mid");
+        public Criteria andUIdNotEqualTo(Integer value) {
+            addCriterion("u_id <>", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidGreaterThan(Integer value) {
-            addCriterion("mid >", value, "mid");
+        public Criteria andUIdGreaterThan(Integer value) {
+            addCriterion("u_id >", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("mid >=", value, "mid");
+        public Criteria andUIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("u_id >=", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidLessThan(Integer value) {
-            addCriterion("mid <", value, "mid");
+        public Criteria andUIdLessThan(Integer value) {
+            addCriterion("u_id <", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidLessThanOrEqualTo(Integer value) {
-            addCriterion("mid <=", value, "mid");
+        public Criteria andUIdLessThanOrEqualTo(Integer value) {
+            addCriterion("u_id <=", value, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidIn(List<Integer> values) {
-            addCriterion("mid in", values, "mid");
+        public Criteria andUIdIn(List<Integer> values) {
+            addCriterion("u_id in", values, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidNotIn(List<Integer> values) {
-            addCriterion("mid not in", values, "mid");
+        public Criteria andUIdNotIn(List<Integer> values) {
+            addCriterion("u_id not in", values, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidBetween(Integer value1, Integer value2) {
-            addCriterion("mid between", value1, value2, "mid");
+        public Criteria andUIdBetween(Integer value1, Integer value2) {
+            addCriterion("u_id between", value1, value2, "uId");
             return (Criteria) this;
         }
 
-        public Criteria andMidNotBetween(Integer value1, Integer value2) {
-            addCriterion("mid not between", value1, value2, "mid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidIsNull() {
-            addCriterion("sid is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidIsNotNull() {
-            addCriterion("sid is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidEqualTo(Integer value) {
-            addCriterion("sid =", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidNotEqualTo(Integer value) {
-            addCriterion("sid <>", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidGreaterThan(Integer value) {
-            addCriterion("sid >", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sid >=", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidLessThan(Integer value) {
-            addCriterion("sid <", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidLessThanOrEqualTo(Integer value) {
-            addCriterion("sid <=", value, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidIn(List<Integer> values) {
-            addCriterion("sid in", values, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidNotIn(List<Integer> values) {
-            addCriterion("sid not in", values, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidBetween(Integer value1, Integer value2) {
-            addCriterion("sid between", value1, value2, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andSidNotBetween(Integer value1, Integer value2) {
-            addCriterion("sid not between", value1, value2, "sid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidIsNull() {
-            addCriterion("uid is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidIsNotNull() {
-            addCriterion("uid is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidEqualTo(Integer value) {
-            addCriterion("uid =", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotEqualTo(Integer value) {
-            addCriterion("uid <>", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidGreaterThan(Integer value) {
-            addCriterion("uid >", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("uid >=", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidLessThan(Integer value) {
-            addCriterion("uid <", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidLessThanOrEqualTo(Integer value) {
-            addCriterion("uid <=", value, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidIn(List<Integer> values) {
-            addCriterion("uid in", values, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotIn(List<Integer> values) {
-            addCriterion("uid not in", values, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidBetween(Integer value1, Integer value2) {
-            addCriterion("uid between", value1, value2, "uid");
-            return (Criteria) this;
-        }
-
-        public Criteria andUidNotBetween(Integer value1, Integer value2) {
-            addCriterion("uid not between", value1, value2, "uid");
+        public Criteria andUIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("u_id not between", value1, value2, "uId");
             return (Criteria) this;
         }
 
@@ -445,253 +326,433 @@ public class McSchedulePlanExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andDayIsNull() {
-            addCriterion("day is null");
+        public Criteria andGroupIdIsNull() {
+            addCriterion("group_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andDayIsNotNull() {
-            addCriterion("day is not null");
+        public Criteria andGroupIdIsNotNull() {
+            addCriterion("group_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDayEqualTo(Date value) {
-            addCriterionForJDBCDate("day =", value, "day");
+        public Criteria andGroupIdEqualTo(Integer value) {
+            addCriterion("group_id =", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayNotEqualTo(Date value) {
-            addCriterionForJDBCDate("day <>", value, "day");
+        public Criteria andGroupIdNotEqualTo(Integer value) {
+            addCriterion("group_id <>", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayGreaterThan(Date value) {
-            addCriterionForJDBCDate("day >", value, "day");
+        public Criteria andGroupIdGreaterThan(Integer value) {
+            addCriterion("group_id >", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("day >=", value, "day");
+        public Criteria andGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("group_id >=", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayLessThan(Date value) {
-            addCriterionForJDBCDate("day <", value, "day");
+        public Criteria andGroupIdLessThan(Integer value) {
+            addCriterion("group_id <", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("day <=", value, "day");
+        public Criteria andGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("group_id <=", value, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayIn(List<Date> values) {
-            addCriterionForJDBCDate("day in", values, "day");
+        public Criteria andGroupIdIn(List<Integer> values) {
+            addCriterion("group_id in", values, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayNotIn(List<Date> values) {
-            addCriterionForJDBCDate("day not in", values, "day");
+        public Criteria andGroupIdNotIn(List<Integer> values) {
+            addCriterion("group_id not in", values, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("day between", value1, value2, "day");
+        public Criteria andGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("group_id between", value1, value2, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andDayNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("day not between", value1, value2, "day");
+        public Criteria andGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("group_id not between", value1, value2, "groupId");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdIsNull() {
-            addCriterion("shift_id is null");
+        public Criteria andPerSalaryIsNull() {
+            addCriterion("per_salary is null");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdIsNotNull() {
-            addCriterion("shift_id is not null");
+        public Criteria andPerSalaryIsNotNull() {
+            addCriterion("per_salary is not null");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdEqualTo(Integer value) {
-            addCriterion("shift_id =", value, "shiftId");
+        public Criteria andPerSalaryEqualTo(Long value) {
+            addCriterion("per_salary =", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdNotEqualTo(Integer value) {
-            addCriterion("shift_id <>", value, "shiftId");
+        public Criteria andPerSalaryNotEqualTo(Long value) {
+            addCriterion("per_salary <>", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdGreaterThan(Integer value) {
-            addCriterion("shift_id >", value, "shiftId");
+        public Criteria andPerSalaryGreaterThan(Long value) {
+            addCriterion("per_salary >", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("shift_id >=", value, "shiftId");
+        public Criteria andPerSalaryGreaterThanOrEqualTo(Long value) {
+            addCriterion("per_salary >=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdLessThan(Integer value) {
-            addCriterion("shift_id <", value, "shiftId");
+        public Criteria andPerSalaryLessThan(Long value) {
+            addCriterion("per_salary <", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdLessThanOrEqualTo(Integer value) {
-            addCriterion("shift_id <=", value, "shiftId");
+        public Criteria andPerSalaryLessThanOrEqualTo(Long value) {
+            addCriterion("per_salary <=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdIn(List<Integer> values) {
-            addCriterion("shift_id in", values, "shiftId");
+        public Criteria andPerSalaryIn(List<Long> values) {
+            addCriterion("per_salary in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdNotIn(List<Integer> values) {
-            addCriterion("shift_id not in", values, "shiftId");
+        public Criteria andPerSalaryNotIn(List<Long> values) {
+            addCriterion("per_salary not in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdBetween(Integer value1, Integer value2) {
-            addCriterion("shift_id between", value1, value2, "shiftId");
+        public Criteria andPerSalaryBetween(Long value1, Long value2) {
+            addCriterion("per_salary between", value1, value2, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andShiftIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("shift_id not between", value1, value2, "shiftId");
+        public Criteria andPerSalaryNotBetween(Long value1, Long value2) {
+            addCriterion("per_salary not between", value1, value2, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameIsNull() {
-            addCriterion("plan_name is null");
+        public Criteria andSchedulingDateIsNull() {
+            addCriterion("scheduling_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameIsNotNull() {
-            addCriterion("plan_name is not null");
+        public Criteria andSchedulingDateIsNotNull() {
+            addCriterion("scheduling_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameEqualTo(String value) {
-            addCriterion("plan_name =", value, "planName");
+        public Criteria andSchedulingDateEqualTo(Date value) {
+            addCriterionForJDBCDate("scheduling_date =", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameNotEqualTo(String value) {
-            addCriterion("plan_name <>", value, "planName");
+        public Criteria andSchedulingDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("scheduling_date <>", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameGreaterThan(String value) {
-            addCriterion("plan_name >", value, "planName");
+        public Criteria andSchedulingDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("scheduling_date >", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameGreaterThanOrEqualTo(String value) {
-            addCriterion("plan_name >=", value, "planName");
+        public Criteria andSchedulingDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("scheduling_date >=", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameLessThan(String value) {
-            addCriterion("plan_name <", value, "planName");
+        public Criteria andSchedulingDateLessThan(Date value) {
+            addCriterionForJDBCDate("scheduling_date <", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameLessThanOrEqualTo(String value) {
-            addCriterion("plan_name <=", value, "planName");
+        public Criteria andSchedulingDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("scheduling_date <=", value, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameLike(String value) {
-            addCriterion("plan_name like", value, "planName");
+        public Criteria andSchedulingDateIn(List<Date> values) {
+            addCriterionForJDBCDate("scheduling_date in", values, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameNotLike(String value) {
-            addCriterion("plan_name not like", value, "planName");
+        public Criteria andSchedulingDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("scheduling_date not in", values, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameIn(List<String> values) {
-            addCriterion("plan_name in", values, "planName");
+        public Criteria andSchedulingDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("scheduling_date between", value1, value2, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameNotIn(List<String> values) {
-            addCriterion("plan_name not in", values, "planName");
+        public Criteria andSchedulingDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("scheduling_date not between", value1, value2, "schedulingDate");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameBetween(String value1, String value2) {
-            addCriterion("plan_name between", value1, value2, "planName");
+        public Criteria andPeriodTimeIsNull() {
+            addCriterion("period_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNameNotBetween(String value1, String value2) {
-            addCriterion("plan_name not between", value1, value2, "planName");
+        public Criteria andPeriodTimeIsNotNull() {
+            addCriterion("period_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCheckIsNull() {
-            addCriterion("check is null");
+        public Criteria andPeriodTimeEqualTo(String value) {
+            addCriterion("period_time =", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckIsNotNull() {
-            addCriterion("check is not null");
+        public Criteria andPeriodTimeNotEqualTo(String value) {
+            addCriterion("period_time <>", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckEqualTo(Byte value) {
-            addCriterion("check =", value, "check");
+        public Criteria andPeriodTimeGreaterThan(String value) {
+            addCriterion("period_time >", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckNotEqualTo(Byte value) {
-            addCriterion("check <>", value, "check");
+        public Criteria andPeriodTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("period_time >=", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckGreaterThan(Byte value) {
-            addCriterion("check >", value, "check");
+        public Criteria andPeriodTimeLessThan(String value) {
+            addCriterion("period_time <", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckGreaterThanOrEqualTo(Byte value) {
-            addCriterion("check >=", value, "check");
+        public Criteria andPeriodTimeLessThanOrEqualTo(String value) {
+            addCriterion("period_time <=", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLessThan(Byte value) {
-            addCriterion("check <", value, "check");
+        public Criteria andPeriodTimeLike(String value) {
+            addCriterion("period_time like", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckLessThanOrEqualTo(Byte value) {
-            addCriterion("check <=", value, "check");
+        public Criteria andPeriodTimeNotLike(String value) {
+            addCriterion("period_time not like", value, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckIn(List<Byte> values) {
-            addCriterion("check in", values, "check");
+        public Criteria andPeriodTimeIn(List<String> values) {
+            addCriterion("period_time in", values, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckNotIn(List<Byte> values) {
-            addCriterion("check not in", values, "check");
+        public Criteria andPeriodTimeNotIn(List<String> values) {
+            addCriterion("period_time not in", values, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckBetween(Byte value1, Byte value2) {
-            addCriterion("check between", value1, value2, "check");
+        public Criteria andPeriodTimeBetween(String value1, String value2) {
+            addCriterion("period_time between", value1, value2, "periodTime");
             return (Criteria) this;
         }
 
-        public Criteria andCheckNotBetween(Byte value1, Byte value2) {
-            addCriterion("check not between", value1, value2, "check");
+        public Criteria andPeriodTimeNotBetween(String value1, String value2) {
+            addCriterion("period_time not between", value1, value2, "periodTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeIsNull() {
+            addCriterion("total_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeIsNotNull() {
+            addCriterion("total_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeEqualTo(BigDecimal value) {
+            addCriterion("total_time =", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeNotEqualTo(BigDecimal value) {
+            addCriterion("total_time <>", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeGreaterThan(BigDecimal value) {
+            addCriterion("total_time >", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("total_time >=", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeLessThan(BigDecimal value) {
+            addCriterion("total_time <", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("total_time <=", value, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeIn(List<BigDecimal> values) {
+            addCriterion("total_time in", values, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeNotIn(List<BigDecimal> values) {
+            addCriterion("total_time not in", values, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("total_time between", value1, value2, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("total_time not between", value1, value2, "totalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayIsNull() {
+            addCriterion("estimate_pay is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayIsNotNull() {
+            addCriterion("estimate_pay is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayEqualTo(Long value) {
+            addCriterion("estimate_pay =", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayNotEqualTo(Long value) {
+            addCriterion("estimate_pay <>", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayGreaterThan(Long value) {
+            addCriterion("estimate_pay >", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayGreaterThanOrEqualTo(Long value) {
+            addCriterion("estimate_pay >=", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayLessThan(Long value) {
+            addCriterion("estimate_pay <", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayLessThanOrEqualTo(Long value) {
+            addCriterion("estimate_pay <=", value, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayIn(List<Long> values) {
+            addCriterion("estimate_pay in", values, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayNotIn(List<Long> values) {
+            addCriterion("estimate_pay not in", values, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayBetween(Long value1, Long value2) {
+            addCriterion("estimate_pay between", value1, value2, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andEstimatePayNotBetween(Long value1, Long value2) {
+            addCriterion("estimate_pay not between", value1, value2, "estimatePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultIsNull() {
+            addCriterion("result is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultIsNotNull() {
+            addCriterion("result is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultEqualTo(Integer value) {
+            addCriterion("result =", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultNotEqualTo(Integer value) {
+            addCriterion("result <>", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultGreaterThan(Integer value) {
+            addCriterion("result >", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultGreaterThanOrEqualTo(Integer value) {
+            addCriterion("result >=", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultLessThan(Integer value) {
+            addCriterion("result <", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultLessThanOrEqualTo(Integer value) {
+            addCriterion("result <=", value, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultIn(List<Integer> values) {
+            addCriterion("result in", values, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultNotIn(List<Integer> values) {
+            addCriterion("result not in", values, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultBetween(Integer value1, Integer value2) {
+            addCriterion("result between", value1, value2, "result");
+            return (Criteria) this;
+        }
+
+        public Criteria andResultNotBetween(Integer value1, Integer value2) {
+            addCriterion("result not between", value1, value2, "result");
             return (Criteria) this;
         }
 
@@ -752,6 +813,66 @@ public class McSchedulePlanExample implements Serializable {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("update_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
     }
