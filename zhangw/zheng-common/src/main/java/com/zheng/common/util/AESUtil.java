@@ -128,17 +128,15 @@ public class AESUtil {
     }
 
     public static void main(String[] args) {
-        String[] keys = {"14yhl9tAA"};
+        String[] keys = {"JS-Link2018"};
         System.out.println("key | AESEncode | AESDecode");
         for (String key : keys) {
             System.out.println(key);
             String encryptString = aesEncode(key);
             System.out.println(encryptString);
-            String decryptString = aesDecode("yUtln5DLhU+4zrEcGVumXw==");
+            String decryptString = aesDecode(encryptString);
             System.out.println(decryptString);
         }
-        String decryptString = aesDecode("yUtln5DLhU+4zrEcGVumXw==");
-        System.out.println(decryptString);
     }
 
 }

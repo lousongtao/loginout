@@ -13,15 +13,14 @@ import org.springframework.util.CollectionUtils;
 
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.ucenter.dao.mapper.McGroupMapper;
 import com.zheng.ucenter.dao.mapper.McUserGroupMapper;
 import com.zheng.ucenter.dao.model.McGroup;
 import com.zheng.ucenter.dao.model.McUserGroup;
 import com.zheng.ucenter.dao.model.McUserGroupExample;
 import com.zheng.ucenter.rpc.api.McUserGroupService;
-import com.zheng.upms.dao.mapper.UpmsUserMapper;
-import com.zheng.upms.dao.model.UpmsUser;
-import com.zheng.upms.dao.model.UpmsUserExample;
 
 /**
 * McUserGroupService实现
@@ -44,34 +43,45 @@ public class McUserGroupServiceImpl extends
 
     @Override
     public List<Integer> getGroupUsers(Integer groupId) {
-        McUserGroupExample userGroupExample = new McUserGroupExample();
-        userGroupExample.createCriteria().andMcGroupIdEqualTo(groupId);
-        List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
-        if (!CollectionUtils.isEmpty(mcUserGroups)) {
-            ArrayList<Integer> userList = new ArrayList<>();
-            for (McUserGroup userGroup : mcUserGroups) {
-                Integer mcUserId = userGroup.getMcUserId();
-                userList.add(mcUserId);
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            McUserGroupExample userGroupExample = new McUserGroupExample();
+            userGroupExample.createCriteria().andMcGroupIdEqualTo(groupId);
+            List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
+            if (!CollectionUtils.isEmpty(mcUserGroups)) {
+                ArrayList<Integer> userList = new ArrayList<>();
+                for (McUserGroup userGroup : mcUserGroups) {
+                    Integer mcUserId = userGroup.getMcUserId();
+                    userList.add(mcUserId);
+                }
+                return userList;
             }
-            return userList;
+        } catch (Exception e) {
         }
+        DynamicDataSource.clearDataSource();
         return null;
     }
 
     @Override
     public List<McGroup> getUserGroup(int userId) {
-        McUserGroupExample userGroupExample = new McUserGroupExample();
-        userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
-        List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
-        if (!CollectionUtils.isEmpty(mcUserGroups)) {
-            ArrayList<McGroup> list = new ArrayList<>();
-            for (McUserGroup mcUserGroup : mcUserGroups) {
-                Integer mcGroupId = mcUserGroup.getMcGroupId();
-                McGroup mcGroup = mcGroupMapper.selectByPrimaryKey(mcGroupId);
-                list.add(mcGroup);
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            McUserGroupExample userGroupExample = new McUserGroupExample();
+            userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
+            List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
+            if (!CollectionUtils.isEmpty(mcUserGroups)) {
+                ArrayList<McGroup> list = new ArrayList<>();
+                for (McUserGroup mcUserGroup : mcUserGroups) {
+                    Integer mcGroupId = mcUserGroup.getMcGroupId();
+                    McGroup mcGroup = mcGroupMapper.selectByPrimaryKey(mcGroupId);
+                    list.add(mcGroup);
+                }
+                return list;
             }
-            return list;
+        } catch (Exception e) {
+
         }
+        DynamicDataSource.clearDataSource();
         return null;
     }
 
@@ -79,21 +89,26 @@ public class McUserGroupServiceImpl extends
     public int group(String[] groupIds, int userId) {
         int result = 0;
         // 删除旧记录
-        McUserGroupExample userGroupExample = new McUserGroupExample();
-        userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
-        mcUserGroupMapper.deleteByExample(userGroupExample);
-        // 增加新记录
-        if (null != groupIds) {
-            for (String groupId : groupIds) {
-                if (StringUtils.isBlank(groupId)) {
-                    continue;
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+            McUserGroupExample userGroupExample = new McUserGroupExample();
+            userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
+            mcUserGroupMapper.deleteByExample(userGroupExample);
+            // 增加新记录
+            if (null != groupIds) {
+                for (String groupId : groupIds) {
+                    if (StringUtils.isBlank(groupId)) {
+                        continue;
+                    }
+                    McUserGroup userGroup = new McUserGroup();
+                    userGroup.setMcUserId(userId);
+                    userGroup.setMcGroupId(Integer.valueOf(groupId));
+                    result = mcUserGroupMapper.insertSelective(userGroup);
                 }
-                McUserGroup userGroup = new McUserGroup();
-                userGroup.setMcUserId(userId);
-                userGroup.setMcGroupId(Integer.valueOf(groupId));
-                result = mcUserGroupMapper.insertSelective(userGroup);
             }
+        } catch (Exception e) {
         }
+        DynamicDataSource.clearDataSource();
         return result;
     }
 

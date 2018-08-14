@@ -134,7 +134,7 @@ public class SchedulingController extends BaseController {
     @RequiresPermissions("ucenter:scheduling:write")
     @ResponseBody
     public Object batchDeleteCell(@RequestParam("ids") String ids) {
-        int deleteCell=mcSchedulePlanService.batchDeleteCell(ids,UserUtils.getCurrentUserId());
+        int deleteCell = mcSchedulePlanService.batchDeleteCell(ids, UserUtils.getCurrentUserId());
         return new UcenterResult(UcenterResultConstant.SUCCESS, deleteCell);
     }
 
@@ -151,9 +151,10 @@ public class SchedulingController extends BaseController {
 
         List<McSchedulingCell> mcSchedulePlans = mcSchedulePlanService
             .selectDataByDate(dayStartTime, dayEndTime, currentUserId);
-        //处理数据
+        //处理数据,并排序
         List<SchedulingRow> rows = formatterScheduleData(mcSchedulePlans, dayStartTime, dayEndTime);
         //        List<SchedulingRow> rows = getD(currentUserId);
+
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         int total = 0;
@@ -235,7 +236,8 @@ public class SchedulingController extends BaseController {
                 rows.add(row);
             }
         });
-
+        //降序排序
+        rows.sort((o1, o2) -> o2.getMcGroup().getLevel() - o1.getMcGroup().getLevel());
         return rows;
     }
 

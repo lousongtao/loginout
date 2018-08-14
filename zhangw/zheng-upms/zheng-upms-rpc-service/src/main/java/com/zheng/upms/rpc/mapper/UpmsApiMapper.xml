@@ -65,7 +65,7 @@
     </select>
 
     <update id="createScheduleTable">
-		CREATE TABLE IF NOT EXISTS `schedule_plan_${mcId}_copy` (
+		CREATE TABLE IF NOT EXISTS `mc_schedule_plan_${mcId}_copy` (
 		   `id` int(11) NOT NULL AUTO_INCREMENT,
           `u_id` int(11) NOT NULL COMMENT '员工id',
           `u_name` varchar(255) NOT NULL COMMENT '员工姓名',
@@ -85,7 +85,7 @@
 	</update>
 
     <update id="createSignTable">
-		CREATE TABLE IF NOT EXISTS `user_sign_${mcId}_copy` (
+		CREATE TABLE IF NOT EXISTS `mc_user_sign_${mcId}_copy` (
 		`sign_id` bigint(20) NOT NULL COMMENT '主键 支持高并发',
 		`u_id` int(11) NOT NULL COMMENT '员工id',
 		`u_name` varchar(32) DEFAULT NULL COMMENT '员工姓名',

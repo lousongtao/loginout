@@ -33,40 +33,67 @@ public class McSchedulePlanServiceImpl implements McSchedulePlanService {
 
     @Override
     public McSchedulePlan getCellDataById(Integer cellId, Integer currentUserId) {
-        return ucenterApiMapper.selectScheduleDataByPrimaryKey(cellId, currentUserId);
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            return ucenterApiMapper.selectScheduleDataByPrimaryKey(cellId, currentUserId);
+        } catch (Exception e) {
+        }
+        DynamicDataSource.clearDataSource();
+        return null;
     }
 
     @Override
     public int updateCellData(McSchedulePlan cell, Integer currentUserId) {
-        int result;
-        cell.setUpdateTime(new Date());
-        if (cell.getId() == null) {
-            //新增
-            cell.setResult(0);
-            cell.setCreateTime(new Date());
-            result = ucenterApiMapper.insertScheduleData(cell, currentUserId);
-        } else {
-            result = ucenterApiMapper.updateScheduleDataSelective(cell, currentUserId);
+        int result = 0;
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+            cell.setUpdateTime(new Date());
+            if (cell.getId() == null) {
+                //新增
+                cell.setResult(0);
+                cell.setCreateTime(new Date());
+                result = ucenterApiMapper.insertScheduleData(cell, currentUserId);
+            } else {
+                result = ucenterApiMapper.updateScheduleDataSelective(cell, currentUserId);
+            }
+        } catch (Exception e) {
+
         }
+        DynamicDataSource.clearDataSource();
         return result;
     }
 
     @Override
     public int deleteCell(Integer cellId, Integer currentUserId) {
-        return ucenterApiMapper.deleteScheduleDataByPrimaryKey(cellId, currentUserId);
+        int result = 0;
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+            result = ucenterApiMapper.deleteScheduleDataByPrimaryKey(cellId, currentUserId);
+        } catch (Exception e) {
+
+        }
+        DynamicDataSource.clearDataSource();
+        return result;
     }
 
     @Override
     public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId) {
-        int size = 0;
-        List<McSchedulingCell> mcSchedulePlans = ucenterApiMapper
-            .selectSchedulingDataByDate(startDate, endDate, mcId);
-        if (!CollectionUtils.isEmpty(mcSchedulePlans)) {
-            size = mcSchedulePlans.size();
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            int size = 0;
+            List<McSchedulingCell> mcSchedulePlans = ucenterApiMapper
+                .selectSchedulingDataByDate(startDate, endDate, mcId);
+            if (!CollectionUtils.isEmpty(mcSchedulePlans)) {
+                size = mcSchedulePlans.size();
+            }
+            LOGGER.info("用户:" + mcId + "时间段:" + startDate.toString() + "---" + endDate.toString()
+                        + "->" + size + " 条记录");
+            return mcSchedulePlans;
+        } catch (Exception e) {
+
         }
-        LOGGER.info("用户:" + mcId + "时间段:" + startDate.toString() + "---" + endDate.toString() + "->"
-                    + size + " 条记录");
-        return mcSchedulePlans;
+        DynamicDataSource.clearDataSource();
+        return null;
     }
 
     @Override
@@ -88,7 +115,7 @@ public class McSchedulePlanServiceImpl implements McSchedulePlanService {
 
     @Override
     public List<McSchedulingCell> selectStaffData(Date startDate, Date endDate, Integer parentId,
-                                                Integer uId) {
+                                                  Integer uId) {
         try {
             DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             List<McSchedulingCell> mcSchedulePlans = ucenterApiMapper.selectStaffData(startDate,

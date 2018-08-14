@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="level">Level</label>
-            <input id="level" type="text" class="form-control" name="level" maxlength="20" value="${mcGroup.level}">
+            <input id="level" type="number" class="form-control" name="level" maxlength="20" value="${mcGroup.level}">
         </div>
         <div class="form-group">
             <label for="color">颜色</label>

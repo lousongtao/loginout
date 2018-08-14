@@ -11,10 +11,6 @@ import io.swagger.models.auth.In;
 * Created by shuzheng on 2018/7/16.
 */
 public class McGroupServiceMock extends BaseServiceMock<McGroupMapper, McGroup, McGroupExample> implements McGroupService {
-    @Override
-    public int createOrUpdateGroup(McGroup mcGroup,String staffIds) {
-        return 0;
-    }
 
     @Override
     public int checkAndDeleteById(Integer ids) {

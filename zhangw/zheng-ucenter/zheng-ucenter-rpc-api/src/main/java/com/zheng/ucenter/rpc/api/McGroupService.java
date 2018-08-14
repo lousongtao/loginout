@@ -9,7 +9,6 @@ import com.zheng.ucenter.dao.model.McGroupExample;
 * Created by shuzheng on 2018/7/16.
 */
 public interface McGroupService extends BaseService<McGroup, McGroupExample> {
-    int createOrUpdateGroup(McGroup mcGroup,String staffIds);
 
     int checkAndDeleteById(Integer groupId);
 }

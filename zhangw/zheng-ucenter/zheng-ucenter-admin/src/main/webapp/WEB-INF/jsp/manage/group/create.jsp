@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="level">Level</label>
-            <input id="level" type="text" class="form-control" name="level" maxlength="20">
+            <input id="level" type="number" class="form-control" name="level" maxlength="20">
         </div>
         <div class="form-group">
             <label for="color">底色</label>

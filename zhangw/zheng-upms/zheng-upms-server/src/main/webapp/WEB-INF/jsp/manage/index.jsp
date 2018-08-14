@@ -201,6 +201,10 @@
 <script src="${basePath}/resources/zheng-admin/plugins/jquery-confirm/jquery-confirm.min.js"></script>
 <script>
     var BASE_PATH = '${basePath}';
+    $(function(){
+        //初始化展开菜单
+		$('.sub-menu a').click();
+	})
     // 新增
     var changePwdDialog;
     function changePwd() {

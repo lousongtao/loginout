@@ -190,7 +190,6 @@ public class GroupController extends BaseController {
         }
         mcGroup.setId(id);
         int count = mcGroupService.updateByPrimaryKeySelective(mcGroup);
-        //        int count = mcGroupService.createOrUpdateGroup(mcGroup, "");
         if (count > 0) {
             return new UcenterResult(UcenterResultConstant.SUCCESS, count);
         } else {

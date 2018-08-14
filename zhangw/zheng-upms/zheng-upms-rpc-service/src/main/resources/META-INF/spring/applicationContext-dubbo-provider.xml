@@ -9,9 +9,9 @@
 
     <dubbo:application name="zheng-upms-rpc-service"/>
 
-    <dubbo:registry address="zookeeper://zkserver:2181"/>
+    <dubbo:registry address="${dubbo.registry.address}"/>
 
-    <dubbo:protocol name="dubbo" port="20881"/>
+    <dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}"/>
 
     <!--<dubbo:monitor protocol="registry"/>-->
 

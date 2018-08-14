@@ -103,8 +103,4 @@ public class UpmsRealm extends AuthorizingRealm {
         return new SimpleAuthenticationInfo(username, password, getName());
     }
 
-    public void clearAuthz() {
-        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
-    }
-
 }

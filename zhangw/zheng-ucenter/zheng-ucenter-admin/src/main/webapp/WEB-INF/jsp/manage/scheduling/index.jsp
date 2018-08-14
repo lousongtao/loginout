@@ -43,7 +43,8 @@
         <button id="nextWeek" type="button" class="btn btn-default">Next Week</button>
     </div>
     <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-info" style="float: right">Save Template</a>
-    <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-success" style="float: right">Choose My Template</a>
+    <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-success" style="float: right">Choose My
+        Template</a>
     <table id="table"></table>
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
@@ -83,6 +84,11 @@
             getData();
         });
         $("#deleteRow").dblclick(function () {
+            //该行数据先确定是否可以删除
+            if (pageToday > pageSunday) {
+                showTips("Be overdue");
+                return;
+            }
             var rows = $table.bootstrapTable('getSelections');
             if (rows.length == 0) {
                 $.confirm({
@@ -228,7 +234,7 @@
             rowStyle: myRowStyle,
             onDblClickCell: function (field, value, row, $element) {
                 var cellIndex = $element[0].cellIndex;
-                var editDate = addDay(pageMonday, cellIndex - 1);
+                var editDate = addDay(pageMonday, cellIndex - 2);
                 var paramEditDate = "?schedulingDate=" + transferDate(editDate);
                 var paramCellId = "";
                 console.log(value);
@@ -292,6 +298,10 @@
     }
 
     function addRowAction(groupId) {
+        if (pageToday > pageSunday) {
+            showTips("Be overdue");
+            return;
+        }
         var groupName = $("#groupId" + groupId).html();
 
         $table.bootstrapTable('insertRow', {
@@ -553,7 +563,8 @@
                     countPay += rows[i].data1.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -571,7 +582,7 @@
                     countPay += rows[i].data2.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -589,7 +600,7 @@
                     countPay += rows[i].data3.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -607,7 +618,7 @@
                     countPay += rows[i].data4.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -625,7 +636,7 @@
                     countPay += rows[i].data5.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -643,7 +654,7 @@
                     countPay += rows[i].data6.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -661,7 +672,7 @@
                     countPay += rows[i].data7.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + countHour + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
         } else {
             return '-';
         }
@@ -676,7 +687,9 @@
                 countHour += countTotalTime(rows[i]);
                 countPay += countTotalPay(rows[i]);
             }
-            return countHour.toFixed(2) + " hours<br>$" + countPay.toFixed(2);
+            //小时保留一位小数,countPay保留2位
+
+            return hourDeal(countHour) + " hours<br>$" + moneyDeal(countPay);
         } else {
             return '-';
         }
@@ -721,6 +734,15 @@
             return h + m;
         }
         return "??:??"
+    }
+
+    function moneyDeal(money) {
+        money = Math.round(parseFloat(money) * 100) / 100;
+        return money;
+    }
+
+    function hourDeal(hour) {
+        return Math.round(parseFloat(hour) * 10) / 10;
     }
 </script>
 </body>
