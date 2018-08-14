@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsRolePermissionMapper;
 import com.zheng.upms.dao.model.UpmsRolePermission;
 import com.zheng.upms.dao.model.UpmsRolePermissionExample;
@@ -33,6 +35,7 @@ public class UpmsRolePermissionServiceImpl extends BaseServiceImpl<UpmsRolePermi
 
     @Override
     public int rolePermission(JSONArray datas, int id) {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         List<Integer> deleteIds = new ArrayList<>();
         for (int i = 0; i < datas.size(); i ++) {
             JSONObject json = datas.getJSONObject(i);
@@ -54,6 +57,7 @@ public class UpmsRolePermissionServiceImpl extends BaseServiceImpl<UpmsRolePermi
                     .andRoleIdEqualTo(id);
             upmsRolePermissionMapper.deleteByExample(upmsRolePermissionExample);
         }
+        DynamicDataSource.clearDataSource();
         return datas.size();
     }
 

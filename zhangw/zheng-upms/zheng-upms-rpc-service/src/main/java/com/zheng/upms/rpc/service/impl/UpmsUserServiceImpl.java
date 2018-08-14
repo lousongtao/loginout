@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsRoleMapper;
 import com.zheng.upms.dao.mapper.UpmsUserMapper;
 import com.zheng.upms.dao.mapper.UpmsUserRoleMapper;
@@ -39,6 +41,7 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
 
     @Override
     public UpmsUser createUser(UpmsUser upmsUser, Boolean createTable) {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andUsernameEqualTo(upmsUser.getUsername());
         long count = upmsUserMapper.countByExample(upmsUserExample);
@@ -51,6 +54,7 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
             upmsApiMapper.createSignTable(upmsUser.getUserId());
             LOGGER.info("Create ScheduleTable And SignTable Success");
         }
+        DynamicDataSource.clearDataSource();
         return upmsUser;
     }
 

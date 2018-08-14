@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsPermissionMapper;
 import com.zheng.upms.dao.mapper.UpmsSystemMapper;
 import com.zheng.upms.dao.mapper.UpmsUserPermissionMapper;
@@ -43,6 +45,7 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
 
     @Override
     public JSONArray getTreeByRoleId(Integer roleId) {
+        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         // 角色已有权限
         List<UpmsRolePermission> rolePermissions = upmsApiService.selectUpmsRolePermisstionByUpmsRoleId(roleId);
 
@@ -141,11 +144,13 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
                 }
             }
         }
+        DynamicDataSource.clearDataSource();
         return systems;
     }
 
     @Override
     public JSONArray getTreeByUserId(Integer usereId, Byte type) {
+        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         // 角色权限
         UpmsUserPermissionExample upmsUserPermissionExample = new UpmsUserPermissionExample();
         upmsUserPermissionExample.createCriteria()
@@ -248,6 +253,7 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
                 }
             }
         }
+        DynamicDataSource.clearDataSource();
         return systems;
     }
 

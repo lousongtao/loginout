@@ -2,6 +2,8 @@ package com.zheng.upms.rpc.service.impl;
 
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsSystemMapper;
 import com.zheng.upms.dao.model.UpmsSystem;
 import com.zheng.upms.dao.model.UpmsSystemExample;
@@ -30,6 +32,7 @@ public class UpmsSystemServiceImpl extends BaseServiceImpl<UpmsSystemMapper, Upm
 
     @Override
     public UpmsSystem selectUpmsSystemByName(String name) {
+        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria()
                 .andNameEqualTo(name);
@@ -37,6 +40,7 @@ public class UpmsSystemServiceImpl extends BaseServiceImpl<UpmsSystemMapper, Upm
         if (null != upmsSystems && upmsSystems.size() > 0) {
             return upmsSystems.get(0);
         }
+        DynamicDataSource.clearDataSource();
         return null;
     }
 

@@ -2,6 +2,8 @@ package com.zheng.upms.rpc.service.impl;
 
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsUserRoleMapper;
 import com.zheng.upms.dao.model.UpmsUserRole;
 import com.zheng.upms.dao.model.UpmsUserRoleExample;
@@ -30,6 +32,7 @@ public class UpmsUserRoleServiceImpl extends BaseServiceImpl<UpmsUserRoleMapper,
 
     @Override
     public int role(String[] roleIds, int id) {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         int result = 0;
         // 删除旧记录
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
@@ -48,6 +51,7 @@ public class UpmsUserRoleServiceImpl extends BaseServiceImpl<UpmsUserRoleMapper,
                 result = upmsUserRoleMapper.insertSelective(upmsUserRole);
             }
         }
+        DynamicDataSource.clearDataSource();
         return result;
     }
 

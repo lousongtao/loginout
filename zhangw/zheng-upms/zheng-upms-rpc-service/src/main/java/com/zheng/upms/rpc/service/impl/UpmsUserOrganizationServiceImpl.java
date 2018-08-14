@@ -2,6 +2,8 @@ package com.zheng.upms.rpc.service.impl;
 
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsUserOrganizationMapper;
 import com.zheng.upms.dao.model.UpmsUserOrganization;
 import com.zheng.upms.dao.model.UpmsUserOrganizationExample;
@@ -30,6 +32,7 @@ public class UpmsUserOrganizationServiceImpl extends BaseServiceImpl<UpmsUserOrg
 
     @Override
     public int organization(String[] organizationIds, int id) {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         int result = 0;
         // 删除旧记录
         UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
@@ -48,6 +51,7 @@ public class UpmsUserOrganizationServiceImpl extends BaseServiceImpl<UpmsUserOrg
                 result = upmsUserOrganizationMapper.insertSelective(upmsUserOrganization);
             }
         }
+        DynamicDataSource.clearDataSource();
         return result;
     }
 

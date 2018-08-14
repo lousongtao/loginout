@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zheng.common.annotation.BaseService;
 import com.zheng.common.base.BaseServiceImpl;
+import com.zheng.common.db.DataSourceEnum;
+import com.zheng.common.db.DynamicDataSource;
 import com.zheng.upms.dao.mapper.UpmsUserPermissionMapper;
 import com.zheng.upms.dao.model.UpmsUserPermission;
 import com.zheng.upms.dao.model.UpmsUserPermissionExample;
@@ -30,6 +32,7 @@ public class UpmsUserPermissionServiceImpl extends BaseServiceImpl<UpmsUserPermi
 
     @Override
     public int permission(JSONArray datas, int id) {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         for (int i = 0; i < datas.size(); i ++) {
             JSONObject json = datas.getJSONObject(i);
             if (json.getBoolean("checked")) {
@@ -48,6 +51,7 @@ public class UpmsUserPermissionServiceImpl extends BaseServiceImpl<UpmsUserPermi
                 upmsUserPermissionMapper.deleteByExample(upmsUserPermissionExample);
             }
         }
+        DynamicDataSource.clearDataSource();
         return datas.size();
     }
 
