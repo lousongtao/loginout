@@ -1,6 +1,7 @@
 package com.zheng.ucenter.rpc.api;
 
 import com.zheng.ucenter.dao.model.McSchedulePlan;
+import com.zheng.ucenter.dao.model.McSchedulePlanExample;
 import com.zheng.ucenter.dao.vo.McSchedulingCell;
 
 import java.util.Date;
@@ -29,6 +30,11 @@ public class McSchedulePlanServiceMock implements McSchedulePlanService {
 
     @Override
     public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId) {
+        return null;
+    }
+
+    @Override
+    public List<McSchedulingCell> selectDataByExample(McSchedulePlanExample example, Integer mcId) {
         return null;
     }
 

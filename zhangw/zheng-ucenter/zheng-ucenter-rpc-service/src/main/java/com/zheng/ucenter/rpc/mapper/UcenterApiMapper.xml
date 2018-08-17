@@ -122,6 +122,47 @@
         where scheduling_date &gt;= #{startDate,jdbcType=DATE} AND scheduling_date &lt;= #{endDate,jdbcType=DATE}
     </select>
 
+    <!--条件查询 -->
+    <select id="selectDataByExample" resultMap="schedulingCell">
+        select p.id,p.u_id,p.u_name,p.group_id,p.per_salary,p.scheduling_date,p.period_time,p.total_time,
+        p.estimate_pay,p.result,p.create_time,p.update_time,g.name,g.color
+        from mc_schedule_plan_${mcId}_copy AS p LEFT JOIN mc_group g ON p.group_id=g.id
+        <if test="_parameter != null">
+            <where>
+                <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                    <if test="criteria.valid">
+                        <trim prefix="(" prefixOverrides="and" suffix=")">
+                            <foreach collection="criteria.criteria" item="criterion">
+                                <choose>
+                                    <when test="criterion.noValue">
+                                        and ${criterion.condition}
+                                    </when>
+                                    <when test="criterion.singleValue">
+                                        and ${criterion.condition} #{criterion.value}
+                                    </when>
+                                    <when test="criterion.betweenValue">
+                                        and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                    </when>
+                                    <when test="criterion.listValue">
+                                        and ${criterion.condition}
+                                        <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                                 separator=",">
+                                            #{listItem}
+                                        </foreach>
+                                    </when>
+                                </choose>
+                            </foreach>
+                        </trim>
+                    </if>
+                </foreach>
+            </where>
+        </if>
+        <if test="example.orderByClause != null">
+            order by ${example.orderByClause}
+        </if>
+    </select>
+
+
     <!-- 员工查看自己的排班数据 -->
     <select id="selectStaffData" resultMap="schedulingCell">
         select p.id,p.u_id,p.u_name,p.group_id,p.per_salary,p.scheduling_date,p.period_time,p.total_time,

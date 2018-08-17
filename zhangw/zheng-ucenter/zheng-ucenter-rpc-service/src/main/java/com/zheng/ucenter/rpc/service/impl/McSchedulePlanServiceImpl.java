@@ -3,6 +3,7 @@ package com.zheng.ucenter.rpc.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.zheng.ucenter.dao.model.McSchedulePlanExample;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +50,16 @@ public class McSchedulePlanServiceImpl implements McSchedulePlanService {
             DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             cell.setUpdateTime(new Date());
             if (cell.getId() == null) {
-                //新增
-                cell.setResult(0);
-                cell.setCreateTime(new Date());
-                result = ucenterApiMapper.insertScheduleData(cell, currentUserId);
+                //todo 新增要校验当天是否已排班
+                Integer getuId = cell.getuId();
+                Date schedulingDate = cell.getSchedulingDate();
+                List<McSchedulingCell> schedulingCells = ucenterApiMapper
+                    .selectStaffData(schedulingDate, schedulingDate, currentUserId, getuId);
+                if (CollectionUtils.isEmpty(schedulingCells)) {
+                    cell.setResult(0);
+                    cell.setCreateTime(new Date());
+                    result = ucenterApiMapper.insertScheduleData(cell, currentUserId);
+                }
             } else {
                 result = ucenterApiMapper.updateScheduleDataSelective(cell, currentUserId);
             }
@@ -88,6 +95,20 @@ public class McSchedulePlanServiceImpl implements McSchedulePlanService {
             }
             LOGGER.info("用户:" + mcId + "时间段:" + startDate.toString() + "---" + endDate.toString()
                         + "->" + size + " 条记录");
+            return mcSchedulePlans;
+        } catch (Exception e) {
+
+        }
+        DynamicDataSource.clearDataSource();
+        return null;
+    }
+
+    @Override
+    public List<McSchedulingCell> selectDataByExample(McSchedulePlanExample example, Integer mcId) {
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            List<McSchedulingCell> mcSchedulePlans = ucenterApiMapper.selectDataByExample(example,
+                mcId);
             return mcSchedulePlans;
         } catch (Exception e) {
 

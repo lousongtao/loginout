@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <label for="nameSearch">Name</label>
-            <input type="email" class="form-control" id="nameSearch">
+            <input type="text" class="form-control" id="nameSearch">
         </div>
         <button id="searchButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
     </form>

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.zheng.ucenter.dao.model.McSchedulePlan;
+import com.zheng.ucenter.dao.model.McSchedulePlanExample;
+import com.zheng.ucenter.dao.model.McUserSignExample;
 import com.zheng.ucenter.dao.vo.McSchedulingCell;
 
 /**
@@ -43,6 +45,14 @@ public interface McSchedulePlanService {
      * @return
      */
     List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId);
+
+    /**
+     * 条件查询
+     * @param example
+     * @param mcId
+     * @return
+     */
+    List<McSchedulingCell> selectDataByExample(McSchedulePlanExample example, Integer mcId);
 
     /**
      * 批量删除单元格数据

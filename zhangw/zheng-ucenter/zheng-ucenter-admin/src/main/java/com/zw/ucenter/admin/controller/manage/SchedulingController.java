@@ -116,8 +116,12 @@ public class SchedulingController extends BaseController {
             cell.setuName(upmsUser.getRealname());
             cell.setPerSalary(perSalary);
         }
-        mcSchedulePlanService.updateCellData(cell, UserUtils.getCurrentUserId());
-        return new UcenterResult(UcenterResultConstant.SUCCESS, 1);
+        int result = mcSchedulePlanService.updateCellData(cell, UserUtils.getCurrentUserId());
+        if (result > 0) {
+            LOGGER.info("schedule data operation successful");
+            return new UcenterResult(UcenterResultConstant.SUCCESS, result);
+        }
+        return new UcenterResult(UcenterResultConstant.FAILED, "operation failed");
     }
 
     @ApiOperation(value = "删除单元格数据")
@@ -153,8 +157,6 @@ public class SchedulingController extends BaseController {
             .selectDataByDate(dayStartTime, dayEndTime, currentUserId);
         //处理数据,并排序
         List<SchedulingRow> rows = formatterScheduleData(mcSchedulePlans, dayStartTime, dayEndTime);
-        //        List<SchedulingRow> rows = getD(currentUserId);
-
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         int total = 0;

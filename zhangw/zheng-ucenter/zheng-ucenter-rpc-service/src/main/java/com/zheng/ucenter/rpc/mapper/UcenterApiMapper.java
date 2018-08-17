@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.zheng.ucenter.dao.model.McSchedulePlan;
+import com.zheng.ucenter.dao.model.McSchedulePlanExample;
 import com.zheng.ucenter.dao.model.McUserSign;
 import com.zheng.ucenter.dao.model.McUserSignExample;
 import com.zheng.ucenter.dao.vo.McSchedulingCell;
@@ -58,7 +59,7 @@ public interface UcenterApiMapper {
                                                   @Param("mcId") Integer mcId);
 
     /**
-     * 根据日期查询排班数据
+     * 根据日期查询排班数据,
      * @param startDate 起始日期
      * @param endDate 结束过期
      * @param mcId 操作人ID
@@ -69,6 +70,15 @@ public interface UcenterApiMapper {
                                                       @Param("mcId") Integer mcId);
 
     /**
+     * 条件查询,补充 selectSchedulingDataByDate 方法
+     * @param example
+     * @param mcId
+     * @return
+     */
+    List<McSchedulingCell> selectDataByExample(@Param("example") McSchedulePlanExample example,
+                                               @Param("mcId") Integer mcId);
+
+    /**
      * 员工查看自己的排班数据
      * @param startDate
      * @param endDate
@@ -77,9 +87,9 @@ public interface UcenterApiMapper {
      * @return
      */
     List<McSchedulingCell> selectStaffData(@Param("startDate") Date startDate,
-                                         @Param("endDate") Date endDate,
-                                         @Param("parentId") Integer parentId,
-                                         @Param("uId") Integer uId);
+                                           @Param("endDate") Date endDate,
+                                           @Param("parentId") Integer parentId,
+                                           @Param("uId") Integer uId);
 
     /**
      * 员工签到
