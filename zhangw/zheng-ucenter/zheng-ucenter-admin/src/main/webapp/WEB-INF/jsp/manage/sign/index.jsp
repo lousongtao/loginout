@@ -18,7 +18,9 @@
 <body>
 <div id="main">
     <div id="toolbar">
-        <button type="button" class="btn btn-success signButton">Sign In</button>
+        <shiro:hasPermission name="ucenter:sign:write">
+            <button type="button" class="btn btn-success signButton">Sign In</button>
+        </shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>

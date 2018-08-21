@@ -145,7 +145,7 @@
         if (value == 1) {
             return '男';
         }
-        if (value == 2) {
+        if (value == 0) {
             return '女';
         }
         return '-';
