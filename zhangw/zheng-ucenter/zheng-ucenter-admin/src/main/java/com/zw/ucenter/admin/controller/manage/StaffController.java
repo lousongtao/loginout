@@ -38,6 +38,7 @@ import com.zheng.ucenter.rpc.api.McGroupService;
 import com.zheng.ucenter.rpc.api.McSchedulePlanService;
 import com.zheng.ucenter.rpc.api.McUserGroupService;
 import com.zheng.upms.client.util.UserUtils;
+import com.zheng.upms.common.constant.UpmsUserTypeConstant;
 import com.zheng.upms.dao.model.UpmsUser;
 import com.zheng.upms.dao.model.UpmsUserExample;
 import com.zheng.upms.rpc.api.UpmsApiService;
@@ -93,7 +94,8 @@ public class StaffController extends BaseController {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         //有父级id的为员工
         UpmsUserExample.Criteria criteria = upmsUserExample.createCriteria()
-            .andParentIdEqualTo(UserUtils.getCurrentUserId());
+            .andParentIdEqualTo(UserUtils.getCurrentUserId())
+            .andTypeEqualTo(UpmsUserTypeConstant.staff.getCode());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsUserExample.setOrderByClause(sort + " " + order);
         }
@@ -172,6 +174,7 @@ public class StaffController extends BaseController {
         upmsUser.setSalt(salt);
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
+        upmsUser.setType(UpmsUserTypeConstant.staff.getCode());
         Integer userId = UserUtils.getCurrentUserId();
         if (userId == null) {
             UpmsUser upmsUser1 = upmsApiService

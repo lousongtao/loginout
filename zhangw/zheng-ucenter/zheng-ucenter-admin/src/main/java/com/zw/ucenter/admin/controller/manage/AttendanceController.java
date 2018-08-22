@@ -112,7 +112,7 @@ public class AttendanceController extends BaseController {
                 dayEndTime);
             example.setOrderByClause("sign_time");
             List<McUserSign> userSignList = mcUserSignService.selectSignRecordByExample(example,
-                UserUtils.getCurrentUserId(), 0, 100);
+                UserUtils.getCurrentUserId(), null, null);
             if (!CollectionUtils.isEmpty(userSignList)) {
                 model.addAttribute("userSignFirst", userSignList.get(0).getSignTime());
                 model.addAttribute("userSignLast",

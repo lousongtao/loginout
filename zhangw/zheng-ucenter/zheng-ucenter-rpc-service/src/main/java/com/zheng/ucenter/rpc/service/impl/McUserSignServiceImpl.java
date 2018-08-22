@@ -47,7 +47,9 @@ public class McUserSignServiceImpl implements McUserSignService {
                                                       Integer pageNum, Integer pageSize) {
         try {
             DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
-            PageHelper.startPage(pageNum, pageSize, false);
+            if (pageNum != null && pageSize != null) {
+                PageHelper.startPage(pageNum, pageSize, false);
+            }
             List<McUserSign> mcUserSigns = ucenterApiMapper.selectSignRecordByExample(example,
                 parentId);
             return mcUserSigns;

@@ -24,6 +24,7 @@ import com.zheng.common.validator.NotNullValidator;
 import com.zheng.upms.client.util.UserUtils;
 import com.zheng.upms.common.constant.UpmsResult;
 import com.zheng.upms.common.constant.UpmsResultConstant;
+import com.zheng.upms.common.constant.UpmsUserTypeConstant;
 import com.zheng.upms.dao.model.*;
 import com.zheng.upms.rpc.api.*;
 
@@ -147,7 +148,7 @@ public class UpmsUserController extends BaseController {
                        @RequestParam(required = false, value = "sort") String sort,
                        @RequestParam(required = false, value = "order") String order) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria()
+        upmsUserExample.createCriteria().andTypeEqualTo(UpmsUserTypeConstant.customer.getCode())
             .andParentIdEqualTo(UserUtils.getCurrentUser().getParentId());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsUserExample.setOrderByClause(sort + " " + order);
@@ -191,6 +192,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setParentId(UserUtils.getCurrentUserId());
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
+        upmsUser.setType(UpmsUserTypeConstant.customer.getCode());
         upmsUser = upmsUserService.createUser(upmsUser, true);
         if (null == upmsUser) {
             return new UpmsResult(UpmsResultConstant.FAILED, "帐号名已存在！");
@@ -264,8 +266,8 @@ public class UpmsUserController extends BaseController {
         String newPassword = request.getParameter("newPassword");
         String oldPassword = request.getParameter("oldPassword");
 
-        if (StringUtils.isNotBlank(newPassword) && StringUtils.equalsIgnoreCase(currentUser.getPassword(),
-            MD5Util.md5(oldPassword + currentUser.getSalt()))) {
+        if (StringUtils.isNotBlank(newPassword) && StringUtils.equalsIgnoreCase(
+            currentUser.getPassword(), MD5Util.md5(oldPassword + currentUser.getSalt()))) {
             //原密码校验通过
             UpmsUser upmsUser = new UpmsUser();
             upmsUser.setUserId(currentUser.getUserId());

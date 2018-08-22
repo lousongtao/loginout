@@ -7,7 +7,7 @@ case "$1" in
 		if [ -s app.pid ] && kill -0 `cat app.pid` 2>/dev/null; then
 			echo "Application is running."
 		else
-			java -Xms128M -Xmx512M -XX:-UseGCOverheadLimit -cp . -Dfile.encoding=UTF-8 -Djava.ext.dirs=./lib com.snaoad.flow.TaskApplication 1>/dev/null 2>&1 &
+			java -Xms128M -Xmx256M -XX:-UseGCOverheadLimit -cp . -Dfile.encoding=UTF-8 -Djava.ext.dirs=./lib com.zhang.task.TaskApplication 1>out.txt 2>&1 &
 			echo $! > app.pid
 		fi
 		;;

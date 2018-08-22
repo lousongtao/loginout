@@ -98,7 +98,6 @@ public class DateUtils {
         todayStart.set(Calendar.MINUTE, 0);
         todayStart.set(Calendar.SECOND, 0);
         todayStart.set(Calendar.MILLISECOND, 0);
-        System.out.println(todayStart.getTime().toLocaleString());
         return todayStart.getTime();
     }
 
@@ -283,7 +282,7 @@ public class DateUtils {
     }
 
     /**
-     * 获取一周的时间字符串  yyyy-MM-dd
+     * 获取时间字符串  yyyy-MM-dd
      * @param weekStartDate
      * @param weekEndDate
      * @return
@@ -307,6 +306,9 @@ public class DateUtils {
             }
         } while (flag);
         return list;
+    }
+
+    public static void main(String[] args) {
     }
 
 }

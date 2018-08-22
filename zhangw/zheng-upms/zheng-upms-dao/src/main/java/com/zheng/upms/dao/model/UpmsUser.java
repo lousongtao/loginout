@@ -1,5 +1,7 @@
 package com.zheng.upms.dao.model;
 
+import com.zheng.upms.common.constant.UpmsUserTypeConstant;
+
 import java.io.Serializable;
 
 public class UpmsUser implements Serializable {
@@ -60,7 +62,7 @@ public class UpmsUser implements Serializable {
     private String email;
 
     /**
-     * 性别
+     * 性别 1男 0女
      *
      * @mbg.generated
      */
@@ -102,11 +104,18 @@ public class UpmsUser implements Serializable {
     private Long perSalary;
 
     /**
-     * 是否参与排班(1=参与，0=不要参与)
+     * 是否参与排班(0=不参与，1=参与)
      *
      * @mbg.generated
      */
     private Byte schedulestatus;
+
+    /**
+     * 用户类型
+     * @see UpmsUserTypeConstant
+     * @mbg.generated
+     */
+    private String type;
 
     private static final long serialVersionUID = 1L;
 
@@ -230,6 +239,14 @@ public class UpmsUser implements Serializable {
         this.schedulestatus = schedulestatus;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -251,6 +268,7 @@ public class UpmsUser implements Serializable {
         sb.append(", baseSalary=").append(baseSalary);
         sb.append(", perSalary=").append(perSalary);
         sb.append(", schedulestatus=").append(schedulestatus);
+        sb.append(", type=").append(type);
         sb.append("]");
         return sb.toString();
     }
@@ -281,7 +299,8 @@ public class UpmsUser implements Serializable {
             && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
             && (this.getBaseSalary() == null ? other.getBaseSalary() == null : this.getBaseSalary().equals(other.getBaseSalary()))
             && (this.getPerSalary() == null ? other.getPerSalary() == null : this.getPerSalary().equals(other.getPerSalary()))
-            && (this.getSchedulestatus() == null ? other.getSchedulestatus() == null : this.getSchedulestatus().equals(other.getSchedulestatus()));
+            && (this.getSchedulestatus() == null ? other.getSchedulestatus() == null : this.getSchedulestatus().equals(other.getSchedulestatus()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()));
     }
 
     @Override
@@ -303,6 +322,7 @@ public class UpmsUser implements Serializable {
         result = prime * result + ((getBaseSalary() == null) ? 0 : getBaseSalary().hashCode());
         result = prime * result + ((getPerSalary() == null) ? 0 : getPerSalary().hashCode());
         result = prime * result + ((getSchedulestatus() == null) ? 0 : getSchedulestatus().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         return result;
     }
 }

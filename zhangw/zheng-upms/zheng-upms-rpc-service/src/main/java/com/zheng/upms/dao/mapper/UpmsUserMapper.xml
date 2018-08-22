@@ -17,6 +17,7 @@
     <result column="base_salary" jdbcType="BIGINT" property="baseSalary" />
     <result column="per_salary" jdbcType="BIGINT" property="perSalary" />
     <result column="scheduleStatus" jdbcType="TINYINT" property="schedulestatus" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, username, password, salt, realname, avatar, phone, email, sex, locked, ctime, 
-    parent_id, base_salary, per_salary, scheduleStatus
+    parent_id, base_salary, per_salary, scheduleStatus, type
   </sql>
   <select id="selectByExample" parameterType="com.zheng.upms.dao.model.UpmsUserExample" resultMap="BaseResultMap">
     select
@@ -118,12 +119,14 @@
       realname, avatar, phone, 
       email, sex, locked, 
       ctime, parent_id, base_salary, 
-      per_salary, scheduleStatus)
+      per_salary, scheduleStatus, type
+      )
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{locked,jdbcType=TINYINT}, 
       #{ctime,jdbcType=BIGINT}, #{parentId,jdbcType=INTEGER}, #{baseSalary,jdbcType=BIGINT}, 
-      #{perSalary,jdbcType=BIGINT}, #{schedulestatus,jdbcType=TINYINT})
+      #{perSalary,jdbcType=BIGINT}, #{schedulestatus,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.upms.dao.model.UpmsUser">
     <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
@@ -173,6 +176,9 @@
       <if test="schedulestatus != null">
         scheduleStatus,
       </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -216,6 +222,9 @@
       </if>
       <if test="schedulestatus != null">
         #{schedulestatus,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -273,6 +282,9 @@
       <if test="record.schedulestatus != null">
         scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -294,7 +306,8 @@
       parent_id = #{record.parentId,jdbcType=INTEGER},
       base_salary = #{record.baseSalary,jdbcType=BIGINT},
       per_salary = #{record.perSalary,jdbcType=BIGINT},
-      scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT}
+      scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -344,6 +357,9 @@
       <if test="schedulestatus != null">
         scheduleStatus = #{schedulestatus,jdbcType=TINYINT},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -362,7 +378,8 @@
       parent_id = #{parentId,jdbcType=INTEGER},
       base_salary = #{baseSalary,jdbcType=BIGINT},
       per_salary = #{perSalary,jdbcType=BIGINT},
-      scheduleStatus = #{schedulestatus,jdbcType=TINYINT}
+      scheduleStatus = #{schedulestatus,jdbcType=TINYINT},
+      type = #{type,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
