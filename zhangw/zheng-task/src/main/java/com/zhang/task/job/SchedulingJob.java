@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +32,7 @@ import com.zheng.upms.rpc.api.UpmsUserService;
  */
 @Component
 public class SchedulingJob {
-    private static final Logger   LOGGER = Logger.getLogger(SchedulingJob.class);
+    private static final Logger   LOGGER = LoggerFactory.getLogger(SchedulingJob.class);
     @Autowired
     private McSchedulePlanService schedulePlanService;
     @Autowired
@@ -113,7 +114,6 @@ public class SchedulingJob {
                         }
                     }
                 });
-
             }
         } catch (Exception e) {
             LOGGER.error("Please Deal:" + e.getMessage());
