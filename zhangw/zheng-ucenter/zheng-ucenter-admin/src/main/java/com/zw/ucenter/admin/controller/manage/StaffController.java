@@ -196,6 +196,24 @@ public class StaffController extends BaseController {
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
         int count = upmsUserService.deleteByPrimaryKeys(ids);
+        if (count > 0) {
+            //删除员工所在组关联
+            String[] id = StringUtils.split(ids, "-");
+            if (id != null && id.length > 0) {
+                List<Integer> idList = new ArrayList<>();
+                for (String idStr : Arrays.asList(id)) {
+                    if (StringUtils.isBlank(idStr)) {
+                        continue;
+                    }
+                    idList.add(Integer.valueOf(idStr));
+                }
+                if (!CollectionUtils.isEmpty(idList)) {
+                    McUserGroupExample userGroupExample = new McUserGroupExample();
+                    userGroupExample.createCriteria().andMcUserIdIn(idList);
+                    mcUserGroupService.deleteByExample(userGroupExample);
+                }
+            }
+        }
         return new UcenterResult(UcenterResultConstant.SUCCESS, count);
     }
 
