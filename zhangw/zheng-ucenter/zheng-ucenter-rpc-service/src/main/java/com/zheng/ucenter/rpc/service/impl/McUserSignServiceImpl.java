@@ -44,11 +44,11 @@ public class McUserSignServiceImpl implements McUserSignService {
 
     @Override
     public List<McUserSign> selectSignRecordByExample(McUserSignExample example, Integer parentId,
-                                                      Integer pageNum, Integer pageSize) {
+                                                      Integer offset, Integer limit) {
         try {
             DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
-            if (pageNum != null && pageSize != null) {
-                PageHelper.startPage(pageNum, pageSize, false);
+            if (offset != null && limit != null) {
+                PageHelper.offsetPage(offset, limit, false);
             }
             List<McUserSign> mcUserSigns = ucenterApiMapper.selectSignRecordByExample(example,
                 parentId);

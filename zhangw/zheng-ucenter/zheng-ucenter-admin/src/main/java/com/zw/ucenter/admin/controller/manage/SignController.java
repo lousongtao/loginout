@@ -70,7 +70,7 @@ public class SignController extends BaseController {
             currentUser = upmsUserService.selectByPrimaryKey(UserUtils.getCurrentUserId());
         }
         Map<String, Object> result = new HashMap<>();
-        //检查role是客户管理员还是普通员工
+        //检查role是客户管理员还是普通员工 todo 用户表里有字段标识用户type,不需要查
         UpmsUserRoleExample urExample = new UpmsUserRoleExample();
         urExample.createCriteria().andUserIdEqualTo(currentUser.getUserId());
         List<UpmsUserRole> userRoles = upmsUserRoleService.selectByExample(urExample);

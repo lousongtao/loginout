@@ -17,12 +17,12 @@ public interface McUserSignService {
      * 分页条件查询 签到数据
      * @param example
      * @param parentId
-     * @param pageNum
-     * @param pageSize
+     * @param offset
+     * @param limit
      * @return
      */
     List<McUserSign> selectSignRecordByExample(McUserSignExample example, Integer parentId,
-                                               Integer pageNum, Integer pageSize);
+                                               Integer offset, Integer limit);
 
     /**
      * 根据条件统计
