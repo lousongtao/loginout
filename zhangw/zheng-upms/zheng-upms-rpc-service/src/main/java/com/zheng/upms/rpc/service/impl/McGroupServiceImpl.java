@@ -41,7 +41,6 @@ public class McGroupServiceImpl extends BaseServiceImpl<McGroupMapper, McGroup, 
     public int checkAndDeleteById(Integer groupId) {
         //先检查是否有成员在组内
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             McUserGroupExample mcUserGroupExample = new McUserGroupExample();
             mcUserGroupExample.createCriteria().andMcGroupIdEqualTo(groupId);
             List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(mcUserGroupExample);
@@ -50,7 +49,6 @@ public class McGroupServiceImpl extends BaseServiceImpl<McGroupMapper, McGroup, 
             }
         } catch (Exception e) {
         }
-        DynamicDataSource.clearDataSource();
         return 0;
     }
 }

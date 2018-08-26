@@ -35,7 +35,6 @@ public class UpmsRolePermissionServiceImpl extends BaseServiceImpl<UpmsRolePermi
 
     @Override
     public int rolePermission(JSONArray datas, int id) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         List<Integer> deleteIds = new ArrayList<>();
         for (int i = 0; i < datas.size(); i ++) {
             JSONObject json = datas.getJSONObject(i);
@@ -57,7 +56,6 @@ public class UpmsRolePermissionServiceImpl extends BaseServiceImpl<UpmsRolePermi
                     .andRoleIdEqualTo(id);
             upmsRolePermissionMapper.deleteByExample(upmsRolePermissionExample);
         }
-        DynamicDataSource.clearDataSource();
         return datas.size();
     }
 

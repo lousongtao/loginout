@@ -32,7 +32,6 @@ public class UpmsUserRoleServiceImpl extends BaseServiceImpl<UpmsUserRoleMapper,
 
     @Override
     public int role(String[] roleIds, int id) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         int result = 0;
         // 删除旧记录
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
@@ -51,7 +50,6 @@ public class UpmsUserRoleServiceImpl extends BaseServiceImpl<UpmsUserRoleMapper,
                 result = upmsUserRoleMapper.insertSelective(upmsUserRole);
             }
         }
-        DynamicDataSource.clearDataSource();
         return result;
     }
 

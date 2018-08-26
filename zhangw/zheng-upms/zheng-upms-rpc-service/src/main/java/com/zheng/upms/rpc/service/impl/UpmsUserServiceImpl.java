@@ -41,7 +41,6 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
 
     @Override
     public UpmsUser createUser(UpmsUser upmsUser, Boolean createTable) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andLoginnameEqualTo(upmsUser.getLoginname());
         long count = upmsUserMapper.countByExample(upmsUserExample);
@@ -54,7 +53,6 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
             upmsApiMapper.createSignTable(upmsUser.getUserId());
             LOGGER.info("Create ScheduleTable And SignTable Success");
         }
-        DynamicDataSource.clearDataSource();
         return upmsUser;
     }
 

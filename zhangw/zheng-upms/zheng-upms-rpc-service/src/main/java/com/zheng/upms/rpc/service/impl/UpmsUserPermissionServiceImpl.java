@@ -32,7 +32,6 @@ public class UpmsUserPermissionServiceImpl extends BaseServiceImpl<UpmsUserPermi
 
     @Override
     public int permission(JSONArray datas, int id) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         for (int i = 0; i < datas.size(); i ++) {
             JSONObject json = datas.getJSONObject(i);
             if (json.getBoolean("checked")) {
@@ -51,7 +50,6 @@ public class UpmsUserPermissionServiceImpl extends BaseServiceImpl<UpmsUserPermi
                 upmsUserPermissionMapper.deleteByExample(upmsUserPermissionExample);
             }
         }
-        DynamicDataSource.clearDataSource();
         return datas.size();
     }
 

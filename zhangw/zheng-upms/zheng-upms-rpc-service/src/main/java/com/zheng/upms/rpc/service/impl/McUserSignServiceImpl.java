@@ -31,13 +31,11 @@ public class McUserSignServiceImpl implements McUserSignService {
     @Override
     public int insertSignRecord(McUserSign mcUserSign, Integer parentId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             return upmsApiMapper.insertSignRecord(mcUserSign, parentId);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("insertSignRecord error");
         }
-        DynamicDataSource.clearDataSource();
         return 0;
     }
 
@@ -45,7 +43,6 @@ public class McUserSignServiceImpl implements McUserSignService {
     public List<McUserSign> selectSignRecordByExample(McUserSignExample example, Integer parentId,
                                                       Integer offset, Integer limit) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             if (offset != null && limit != null) {
                 PageHelper.offsetPage(offset, limit, false);
             }
@@ -56,21 +53,18 @@ public class McUserSignServiceImpl implements McUserSignService {
             e.printStackTrace();
             LOGGER.error("selectSignRecordByExample error");
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
     @Override
     public long countByExample(McUserSignExample example, Integer parentId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             long count = upmsApiMapper.countSignRecordByExample(example, parentId);
             return count;
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("selectSignRecordByExample error");
         }
-        DynamicDataSource.clearDataSource();
         return 0;
     }
 }

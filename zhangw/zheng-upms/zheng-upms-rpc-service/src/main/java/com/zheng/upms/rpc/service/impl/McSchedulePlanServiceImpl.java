@@ -40,11 +40,9 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
     @Override
     public McSchedulePlan getCellDataById(Integer cellId, Integer currentUserId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             return upmsApiMapper.selectScheduleDataByPrimaryKey(cellId, currentUserId);
         } catch (Exception e) {
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
@@ -52,7 +50,6 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
     public int updateCellData(McSchedulePlan cell, Integer currentUserId) {
         int result = 0;
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             cell.setUpdateTime(new Date());
             if (cell.getId() == null) {
                 //todo 新增要校验当天是否已排班
@@ -71,7 +68,6 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
         } catch (Exception e) {
 
         }
-        DynamicDataSource.clearDataSource();
         return result;
     }
 
@@ -79,19 +75,16 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
     public int deleteCell(Integer cellId, Integer currentUserId) {
         int result = 0;
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             result = upmsApiMapper.deleteScheduleDataByPrimaryKey(cellId, currentUserId);
         } catch (Exception e) {
 
         }
-        DynamicDataSource.clearDataSource();
         return result;
     }
 
     @Override
     public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             int size = 0;
             List<McSchedulingCell> mcSchedulePlans = upmsApiMapper
                     .selectSchedulingDataByDate(startDate, endDate, mcId);
@@ -104,21 +97,18 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
         } catch (Exception e) {
 
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
     @Override
     public List<McSchedulingCell> selectDataByExample(McSchedulePlanExample example, Integer mcId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             List<McSchedulingCell> mcSchedulePlans = upmsApiMapper.selectDataByExample(example,
                     mcId);
             return mcSchedulePlans;
         } catch (Exception e) {
 
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
@@ -128,14 +118,12 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
             if (StringUtils.isBlank(ids)) {
                 return 0;
             }
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             String[] idArray = ids.split("-");
             int result = upmsApiMapper.batchDeleteScheduleData(idArray, currentUserId);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DynamicDataSource.clearDataSource();
         return 0;
     }
 
@@ -143,14 +131,12 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
     public List<McSchedulingCell> selectStaffData(Date startDate, Date endDate, Integer parentId,
                                                   Integer uId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             List<McSchedulingCell> mcSchedulePlans = upmsApiMapper.selectStaffData(startDate,
                     endDate, parentId, uId);
             return mcSchedulePlans;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 }

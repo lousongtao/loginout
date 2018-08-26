@@ -32,7 +32,6 @@ public class UpmsSystemServiceImpl extends BaseServiceImpl<UpmsSystemMapper, Upm
 
     @Override
     public UpmsSystem selectUpmsSystemByName(String name) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria()
                 .andNameEqualTo(name);
@@ -40,7 +39,6 @@ public class UpmsSystemServiceImpl extends BaseServiceImpl<UpmsSystemMapper, Upm
         if (null != upmsSystems && upmsSystems.size() > 0) {
             return upmsSystems.get(0);
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 

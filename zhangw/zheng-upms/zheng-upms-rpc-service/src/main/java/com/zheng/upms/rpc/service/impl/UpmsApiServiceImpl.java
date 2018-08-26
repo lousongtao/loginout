@@ -60,7 +60,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsPermission> selectUpmsPermissionByUpmsUserId(Integer upmsUserId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         // 用户不存在或锁定状态
         UpmsUser upmsUser = upmsUserMapper.selectByPrimaryKey(upmsUserId);
         if (null == upmsUser || 1 == upmsUser.getLocked()) {
@@ -69,7 +68,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         }
         List<UpmsPermission> upmsPermissions = upmsApiMapper
             .selectUpmsPermissionByUpmsUserId(upmsUserId);
-        DynamicDataSource.clearDataSource();
         return upmsPermissions;
     }
 
@@ -81,9 +79,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     @Cacheable(value = "zheng-upms-rpc-service-ehcache", key = "'selectUpmsPermissionByUpmsUserId_' + #upmsUserId")
     public List<UpmsPermission> selectUpmsPermissionByUpmsUserIdByCache(Integer upmsUserId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         List<UpmsPermission> upmsPermissions = selectUpmsPermissionByUpmsUserId(upmsUserId);
-        DynamicDataSource.clearDataSource();
         return upmsPermissions;
     }
 
@@ -94,7 +90,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsRole> selectUpmsRoleByUpmsUserId(Integer upmsUserId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         // 用户不存在或锁定状态
         UpmsUser upmsUser = upmsUserMapper.selectByPrimaryKey(upmsUserId);
         if (null == upmsUser || 1 == upmsUser.getLocked()) {
@@ -102,7 +97,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             return null;
         }
         List<UpmsRole> upmsRoles = upmsApiMapper.selectUpmsRoleByUpmsUserId(upmsUserId);
-        DynamicDataSource.clearDataSource();
         return upmsRoles;
     }
 
@@ -114,9 +108,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     @Cacheable(value = "zheng-upms-rpc-service-ehcache", key = "'selectUpmsRoleByUpmsUserId_' + #upmsUserId")
     public List<UpmsRole> selectUpmsRoleByUpmsUserIdByCache(Integer upmsUserId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         List<UpmsRole> upmsRoles = selectUpmsRoleByUpmsUserId(upmsUserId);
-        DynamicDataSource.clearDataSource();
         return upmsRoles;
     }
 
@@ -127,12 +119,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsRolePermission> selectUpmsRolePermisstionByUpmsRoleId(Integer upmsRoleId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsRolePermissionExample upmsRolePermissionExample = new UpmsRolePermissionExample();
         upmsRolePermissionExample.createCriteria().andRoleIdEqualTo(upmsRoleId);
         List<UpmsRolePermission> upmsRolePermissions = upmsRolePermissionMapper
             .selectByExample(upmsRolePermissionExample);
-        DynamicDataSource.clearDataSource();
         return upmsRolePermissions;
     }
 
@@ -143,12 +133,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsUserPermission> selectUpmsUserPermissionByUpmsUserId(Integer upmsUserId) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsUserPermissionExample upmsUserPermissionExample = new UpmsUserPermissionExample();
         upmsUserPermissionExample.createCriteria().andUserIdEqualTo(upmsUserId);
         List<UpmsUserPermission> upmsUserPermissions = upmsUserPermissionMapper
             .selectByExample(upmsUserPermissionExample);
-        DynamicDataSource.clearDataSource();
         return upmsUserPermissions;
     }
 
@@ -159,9 +147,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsSystem> selectUpmsSystemByExample(UpmsSystemExample upmsSystemExample) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         List<UpmsSystem> upmsSystems = upmsSystemMapper.selectByExample(upmsSystemExample);
-        DynamicDataSource.clearDataSource();
         return upmsSystems;
     }
 
@@ -172,10 +158,8 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public List<UpmsOrganization> selectUpmsOrganizationByExample(UpmsOrganizationExample upmsOrganizationExample) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         List<UpmsOrganization> upmsOrganizations = upmsOrganizationMapper
             .selectByExample(upmsOrganizationExample);
-        DynamicDataSource.clearDataSource();
         return upmsOrganizations;
     }
 
@@ -186,7 +170,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public UpmsUser selectUpmsUserByUsername(String username) {
-        DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andLoginnameEqualTo(username);
         List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
@@ -204,15 +187,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public int insertUpmsLogSelective(UpmsLog record) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         int result = upmsLogMapper.insertSelective(record);
-        DynamicDataSource.clearDataSource();
         return result;
     }
 
     @Override
     public UpmsUser insertStaffInfo(UpmsUser upmsUser) {
-        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andLoginnameEqualTo(upmsUser.getLoginname());
         long count = upmsUserMapper.countByExample(upmsUserExample);
@@ -234,7 +214,6 @@ public class UpmsApiServiceImpl implements UpmsApiService {
                 upmsUserRoleMapper.insertSelective(userRole);
             }
         }
-        DynamicDataSource.clearDataSource();
         return upmsUser;
     }
 

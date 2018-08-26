@@ -43,7 +43,6 @@ public class McUserGroupServiceImpl extends
     @Override
     public List<Integer> getGroupUsers(Integer groupId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             McUserGroupExample userGroupExample = new McUserGroupExample();
             userGroupExample.createCriteria().andMcGroupIdEqualTo(groupId);
             List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
@@ -57,14 +56,12 @@ public class McUserGroupServiceImpl extends
             }
         } catch (Exception e) {
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
     @Override
     public List<McGroup> getUserGroup(int userId) {
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
             McUserGroupExample userGroupExample = new McUserGroupExample();
             userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
             List<McUserGroup> mcUserGroups = mcUserGroupMapper.selectByExample(userGroupExample);
@@ -80,7 +77,6 @@ public class McUserGroupServiceImpl extends
         } catch (Exception e) {
 
         }
-        DynamicDataSource.clearDataSource();
         return null;
     }
 
@@ -89,7 +85,6 @@ public class McUserGroupServiceImpl extends
         int result = 0;
         // 删除旧记录
         try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
             McUserGroupExample userGroupExample = new McUserGroupExample();
             userGroupExample.createCriteria().andMcUserIdEqualTo(userId);
             mcUserGroupMapper.deleteByExample(userGroupExample);
@@ -107,7 +102,6 @@ public class McUserGroupServiceImpl extends
             }
         } catch (Exception e) {
         }
-        DynamicDataSource.clearDataSource();
         return result;
     }
 
