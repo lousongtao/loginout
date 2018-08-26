@@ -1,0 +1,14 @@
+upms和UCenter项目合并需要考虑
+1. 把UCenter合并到upms下
+2. 数据库system中的link需要修改
+3. 需要合并dubbo的注册配置文件
+4. webapps/jsp文件合并到一起
+   4.1 jsp文件大多不冲突, 只有staff/index.jsp冲突, 这里选用UCenter的覆盖upms的
+5. UCenter的web.xml文件, dispatchServlet增加了async-supported, ---这个在代码中未发现使用的地方, 也许没有用
+6. webapp/resources中的文件合并
+7. springMVC-servlet.xml 有很大不同
+8. com\zw\ucenter\admin\conf\SeqKit.java这里用到了配置项zheng.admin.workId/zheng.admin.datacenterId, 这是upms中没有的, 涉及到几个配置文件, dev.properties, prod.properties, zheng-admin-client.properties
+9. pom.xml要改
+10.mybatis的合并工具要比对
+11.controller不一致的地方
+   11.1 ManageController, 未做处理

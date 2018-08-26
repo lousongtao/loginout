@@ -9,9 +9,9 @@
 <div id="changePwdDialog" class="crudDialog">
     <form id="modifyForm" method="post">
         <div class="form-group">
-            <label for="username">Your Account</label>
-            <input id="username" type="text" class="form-control" readonly
-                   value="${currentUser.username}">
+            <label for="loginname">Your Account</label>
+            <input id="loginname" type="text" class="form-control" readonly
+                   value="${currentUser.loginname}">
         </div>
         <div class="form-group">
             <label for="oldPassword">Old Password</label>

@@ -9,46 +9,46 @@
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
 		<div class="form-group">
-			<label for="username">帐号</label>
-			<input id="username" type="text" class="form-control" name="username" maxlength="20">
+			<label for="loginname">Login Name</label>
+			<input id="loginname" type="text" class="form-control" name="loginname" maxlength="20">
 		</div>
 		<div class="form-group">
-			<label for="password">密码</label>
+			<label for="password">Password</label>
 			<input id="password" type="text" class="form-control" name="password" maxlength="32">
 		</div>
 		<div class="form-group">
-			<label for="realname">姓名</label>
+			<label for="realname">Name</label>
 			<input id="realname" type="text" class="form-control" name="realname" maxlength="20">
 		</div>
 		<div class="form-group">
-			<label for="phone">电话</label>
+			<label for="phone">Telephone</label>
 			<input id="phone" type="text" class="form-control" name="phone" maxlength="20">
 		</div>
 		<div class="form-group">
-			<label for="email">邮箱</label>
+			<label for="email">Email</label>
 			<input id="email" type="text" class="form-control" name="email" maxlength="50">
 		</div>
 		<div class="radio">
 			<div class="radio radio-inline radio-info">
 				<input id="sex_1" type="radio" name="sex" value="1" checked>
-				<label for="sex_1">男 </label>
+				<label for="sex_1">Male </label>
 			</div>
 			<div class="radio radio-inline radio-danger">
 				<input id="sex_0" type="radio" name="sex" value="0">
-				<label for="sex_0">女 </label>
+				<label for="sex_0">Female </label>
 			</div>
 			<div class="radio radio-inline radio-success">
 				<input id="locked_0" type="radio" name="locked" value="0" checked>
-				<label for="locked_0">正常 </label>
+				<label for="locked_0">Normal </label>
 			</div>
 			<div class="radio radio-inline">
 				<input id="locked_1" type="radio" name="locked" value="1">
-				<label for="locked_1">锁定 </label>
+				<label for="locked_1">Locked </label>
 			</div>
 		</div>
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">Save</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">Cancel</a>
 		</div>
 	</form>
 </div>
@@ -59,8 +59,8 @@ function createSubmit() {
         url: '${basePath}/manage/user/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
-            if ($('#username').val() == '') {
-                $('#username').focus();
+            if ($('#loginname').val() == '') {
+                $('#loginname').focus();
                 return false;
             }
             if ($('#password').val() == '' || $('#password').val().length < 5) {

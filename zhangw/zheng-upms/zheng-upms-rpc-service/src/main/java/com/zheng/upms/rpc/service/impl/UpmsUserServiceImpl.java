@@ -43,7 +43,7 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
     public UpmsUser createUser(UpmsUser upmsUser, Boolean createTable) {
         DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria().andUsernameEqualTo(upmsUser.getUsername());
+        upmsUserExample.createCriteria().andLoginnameEqualTo(upmsUser.getLoginname());
         long count = upmsUserMapper.countByExample(upmsUserExample);
         if (count > 0) {
             return null;

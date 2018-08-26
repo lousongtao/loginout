@@ -15,13 +15,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.zheng.common.util.DateUtils;
-import com.zheng.ucenter.dao.model.McSchedulePlan;
-import com.zheng.ucenter.dao.model.McSchedulePlanExample;
-import com.zheng.ucenter.dao.model.McUserSign;
-import com.zheng.ucenter.dao.model.McUserSignExample;
-import com.zheng.ucenter.dao.vo.McSchedulingCell;
-import com.zheng.ucenter.rpc.api.McSchedulePlanService;
-import com.zheng.ucenter.rpc.api.McUserSignService;
+import com.zheng.upms.dao.model.McSchedulePlan;
+import com.zheng.upms.dao.model.McSchedulePlanExample;
+import com.zheng.upms.dao.model.McUserSign;
+import com.zheng.upms.dao.model.McUserSignExample;
+import com.zheng.upms.dao.vo.McSchedulingCell;
+import com.zheng.upms.rpc.api.McSchedulePlanService;
+import com.zheng.upms.rpc.api.McUserSignService;
 import com.zheng.upms.common.constant.UpmsUserTypeConstant;
 import com.zheng.upms.dao.model.UpmsUser;
 import com.zheng.upms.dao.model.UpmsUserExample;
@@ -59,7 +59,7 @@ public class SchedulingJob {
             List<UpmsUser> upmsUsers = upmsUserService.selectByExample(userExample);
             if (!CollectionUtils.isEmpty(upmsUsers)) {
                 upmsUsers.parallelStream().forEach((UpmsUser staff) -> {
-                    LOGGER.info("Deal Staff Schedule ->" + staff.getUsername());
+                    LOGGER.info("Deal Staff Schedule ->" + staff.getLoginname());
                     McSchedulePlanExample mcSchedulePlanExample = new McSchedulePlanExample();
                     mcSchedulePlanExample.createCriteria().andUIdEqualTo(staff.getUserId())
                         .andSchedulingDateEqualTo(yesterday);
@@ -107,7 +107,7 @@ public class SchedulingJob {
                                     staff.getParentId());
                             } catch (Exception e) {
                                 LOGGER.error(
-                                    staff.getUsername() + "Deal Schedule Error" + e.getMessage());
+                                    staff.getLoginname() + "Deal Schedule Error" + e.getMessage());
                                 e.printStackTrace();
                             }
 

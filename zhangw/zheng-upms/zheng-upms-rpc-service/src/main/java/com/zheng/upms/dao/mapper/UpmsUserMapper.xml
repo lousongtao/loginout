@@ -3,7 +3,7 @@
 <mapper namespace="com.zheng.upms.dao.mapper.UpmsUserMapper">
   <resultMap id="BaseResultMap" type="com.zheng.upms.dao.model.UpmsUser">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="loginname" jdbcType="VARCHAR" property="loginname" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -12,12 +12,17 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="sex" jdbcType="TINYINT" property="sex" />
     <result column="locked" jdbcType="TINYINT" property="locked" />
-    <result column="ctime" jdbcType="BIGINT" property="ctime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="base_salary" jdbcType="BIGINT" property="baseSalary" />
     <result column="per_salary" jdbcType="BIGINT" property="perSalary" />
     <result column="scheduleStatus" jdbcType="TINYINT" property="schedulestatus" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="work_type" jdbcType="TINYINT" property="workType" />
+    <result column="birth" jdbcType="BIGINT" property="birth" />
+    <result column="start_workday" jdbcType="BIGINT" property="startWorkday" />
+    <result column="visa_type" jdbcType="VARCHAR" property="visaType" />
+    <result column="visa_expire" jdbcType="BIGINT" property="visaExpire" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,8 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, username, password, salt, realname, avatar, phone, email, sex, locked, ctime, 
-    parent_id, base_salary, per_salary, scheduleStatus, type
+    user_id, loginname, password, salt, realname, avatar, phone, email, sex, locked, 
+    create_time, parent_id, base_salary, per_salary, scheduleStatus, type, work_type, 
+    birth, start_workday, visa_type, visa_expire
   </sql>
   <select id="selectByExample" parameterType="com.zheng.upms.dao.model.UpmsUserExample" resultMap="BaseResultMap">
     select
@@ -115,18 +121,20 @@
     <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into upms_user (username, password, salt, 
+    insert into upms_user (loginname, password, salt, 
       realname, avatar, phone, 
       email, sex, locked, 
-      ctime, parent_id, base_salary, 
-      per_salary, scheduleStatus, type
-      )
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+      create_time, parent_id, base_salary, 
+      per_salary, scheduleStatus, type, 
+      work_type, birth, start_workday, 
+      visa_type, visa_expire)
+    values (#{loginname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{locked,jdbcType=TINYINT}, 
-      #{ctime,jdbcType=BIGINT}, #{parentId,jdbcType=INTEGER}, #{baseSalary,jdbcType=BIGINT}, 
-      #{perSalary,jdbcType=BIGINT}, #{schedulestatus,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=BIGINT}, #{parentId,jdbcType=INTEGER}, #{baseSalary,jdbcType=BIGINT}, 
+      #{perSalary,jdbcType=BIGINT}, #{schedulestatus,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}, 
+      #{workType,jdbcType=TINYINT}, #{birth,jdbcType=BIGINT}, #{startWorkday,jdbcType=BIGINT}, 
+      #{visaType,jdbcType=VARCHAR}, #{visaExpire,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.zheng.upms.dao.model.UpmsUser">
     <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
@@ -134,8 +142,8 @@
     </selectKey>
     insert into upms_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        username,
+      <if test="loginname != null">
+        loginname,
       </if>
       <if test="password != null">
         password,
@@ -161,8 +169,8 @@
       <if test="locked != null">
         locked,
       </if>
-      <if test="ctime != null">
-        ctime,
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -179,10 +187,25 @@
       <if test="type != null">
         type,
       </if>
+      <if test="workType != null">
+        work_type,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="startWorkday != null">
+        start_workday,
+      </if>
+      <if test="visaType != null">
+        visa_type,
+      </if>
+      <if test="visaExpire != null">
+        visa_expire,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="loginname != null">
+        #{loginname,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -208,8 +231,8 @@
       <if test="locked != null">
         #{locked,jdbcType=TINYINT},
       </if>
-      <if test="ctime != null">
-        #{ctime,jdbcType=BIGINT},
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
@@ -226,6 +249,21 @@
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
+      <if test="workType != null">
+        #{workType,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=BIGINT},
+      </if>
+      <if test="startWorkday != null">
+        #{startWorkday,jdbcType=BIGINT},
+      </if>
+      <if test="visaType != null">
+        #{visaType,jdbcType=VARCHAR},
+      </if>
+      <if test="visaExpire != null">
+        #{visaExpire,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.zheng.upms.dao.model.UpmsUserExample" resultType="java.lang.Long">
@@ -240,8 +278,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.loginname != null">
+        loginname = #{record.loginname,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
@@ -267,8 +305,8 @@
       <if test="record.locked != null">
         locked = #{record.locked,jdbcType=TINYINT},
       </if>
-      <if test="record.ctime != null">
-        ctime = #{record.ctime,jdbcType=BIGINT},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
       </if>
       <if test="record.parentId != null">
         parent_id = #{record.parentId,jdbcType=INTEGER},
@@ -285,6 +323,21 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
       </if>
+      <if test="record.workType != null">
+        work_type = #{record.workType,jdbcType=TINYINT},
+      </if>
+      <if test="record.birth != null">
+        birth = #{record.birth,jdbcType=BIGINT},
+      </if>
+      <if test="record.startWorkday != null">
+        start_workday = #{record.startWorkday,jdbcType=BIGINT},
+      </if>
+      <if test="record.visaType != null">
+        visa_type = #{record.visaType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visaExpire != null">
+        visa_expire = #{record.visaExpire,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -293,7 +346,7 @@
   <update id="updateByExample" parameterType="map">
     update upms_user
     set user_id = #{record.userId,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
+      loginname = #{record.loginname,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       salt = #{record.salt,jdbcType=VARCHAR},
       realname = #{record.realname,jdbcType=VARCHAR},
@@ -302,12 +355,17 @@
       email = #{record.email,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=TINYINT},
       locked = #{record.locked,jdbcType=TINYINT},
-      ctime = #{record.ctime,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=BIGINT},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       base_salary = #{record.baseSalary,jdbcType=BIGINT},
       per_salary = #{record.perSalary,jdbcType=BIGINT},
       scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT},
-      type = #{record.type,jdbcType=VARCHAR}
+      type = #{record.type,jdbcType=VARCHAR},
+      work_type = #{record.workType,jdbcType=TINYINT},
+      birth = #{record.birth,jdbcType=BIGINT},
+      start_workday = #{record.startWorkday,jdbcType=BIGINT},
+      visa_type = #{record.visaType,jdbcType=VARCHAR},
+      visa_expire = #{record.visaExpire,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -315,8 +373,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zheng.upms.dao.model.UpmsUser">
     update upms_user
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="loginname != null">
+        loginname = #{loginname,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -342,8 +400,8 @@
       <if test="locked != null">
         locked = #{locked,jdbcType=TINYINT},
       </if>
-      <if test="ctime != null">
-        ctime = #{ctime,jdbcType=BIGINT},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
       </if>
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -360,12 +418,27 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="workType != null">
+        work_type = #{workType,jdbcType=TINYINT},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=BIGINT},
+      </if>
+      <if test="startWorkday != null">
+        start_workday = #{startWorkday,jdbcType=BIGINT},
+      </if>
+      <if test="visaType != null">
+        visa_type = #{visaType,jdbcType=VARCHAR},
+      </if>
+      <if test="visaExpire != null">
+        visa_expire = #{visaExpire,jdbcType=BIGINT},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zheng.upms.dao.model.UpmsUser">
     update upms_user
-    set username = #{username,jdbcType=VARCHAR},
+    set loginname = #{loginname,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
@@ -374,12 +447,17 @@
       email = #{email,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},
       locked = #{locked,jdbcType=TINYINT},
-      ctime = #{ctime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
       parent_id = #{parentId,jdbcType=INTEGER},
       base_salary = #{baseSalary,jdbcType=BIGINT},
       per_salary = #{perSalary,jdbcType=BIGINT},
       scheduleStatus = #{schedulestatus,jdbcType=TINYINT},
-      type = #{type,jdbcType=VARCHAR}
+      type = #{type,jdbcType=VARCHAR},
+      work_type = #{workType,jdbcType=TINYINT},
+      birth = #{birth,jdbcType=BIGINT},
+      start_workday = #{startWorkday,jdbcType=BIGINT},
+      visa_type = #{visaType,jdbcType=VARCHAR},
+      visa_expire = #{visaExpire,jdbcType=BIGINT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

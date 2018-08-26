@@ -167,73 +167,73 @@ public class UpmsUserExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andUsernameIsNull() {
-            addCriterion("username is null");
+        public Criteria andLoginnameIsNull() {
+            addCriterion("loginname is null");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameIsNotNull() {
-            addCriterion("username is not null");
+        public Criteria andLoginnameIsNotNull() {
+            addCriterion("loginname is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameEqualTo(String value) {
-            addCriterion("username =", value, "username");
+        public Criteria andLoginnameEqualTo(String value) {
+            addCriterion("loginname =", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameNotEqualTo(String value) {
-            addCriterion("username <>", value, "username");
+        public Criteria andLoginnameNotEqualTo(String value) {
+            addCriterion("loginname <>", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameGreaterThan(String value) {
-            addCriterion("username >", value, "username");
+        public Criteria andLoginnameGreaterThan(String value) {
+            addCriterion("loginname >", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameGreaterThanOrEqualTo(String value) {
-            addCriterion("username >=", value, "username");
+        public Criteria andLoginnameGreaterThanOrEqualTo(String value) {
+            addCriterion("loginname >=", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameLessThan(String value) {
-            addCriterion("username <", value, "username");
+        public Criteria andLoginnameLessThan(String value) {
+            addCriterion("loginname <", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameLessThanOrEqualTo(String value) {
-            addCriterion("username <=", value, "username");
+        public Criteria andLoginnameLessThanOrEqualTo(String value) {
+            addCriterion("loginname <=", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameLike(String value) {
-            addCriterion("username like", value, "username");
+        public Criteria andLoginnameLike(String value) {
+            addCriterion("loginname like", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameNotLike(String value) {
-            addCriterion("username not like", value, "username");
+        public Criteria andLoginnameNotLike(String value) {
+            addCriterion("loginname not like", value, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameIn(List<String> values) {
-            addCriterion("username in", values, "username");
+        public Criteria andLoginnameIn(List<String> values) {
+            addCriterion("loginname in", values, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameNotIn(List<String> values) {
-            addCriterion("username not in", values, "username");
+        public Criteria andLoginnameNotIn(List<String> values) {
+            addCriterion("loginname not in", values, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameBetween(String value1, String value2) {
-            addCriterion("username between", value1, value2, "username");
+        public Criteria andLoginnameBetween(String value1, String value2) {
+            addCriterion("loginname between", value1, value2, "loginname");
             return (Criteria) this;
         }
 
-        public Criteria andUsernameNotBetween(String value1, String value2) {
-            addCriterion("username not between", value1, value2, "username");
+        public Criteria andLoginnameNotBetween(String value1, String value2) {
+            addCriterion("loginname not between", value1, value2, "loginname");
             return (Criteria) this;
         }
 
@@ -777,63 +777,63 @@ public class UpmsUserExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andCtimeIsNull() {
-            addCriterion("ctime is null");
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeIsNotNull() {
-            addCriterion("ctime is not null");
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeEqualTo(Long value) {
-            addCriterion("ctime =", value, "ctime");
+        public Criteria andCreateTimeEqualTo(Long value) {
+            addCriterion("create_time =", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeNotEqualTo(Long value) {
-            addCriterion("ctime <>", value, "ctime");
+        public Criteria andCreateTimeNotEqualTo(Long value) {
+            addCriterion("create_time <>", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeGreaterThan(Long value) {
-            addCriterion("ctime >", value, "ctime");
+        public Criteria andCreateTimeGreaterThan(Long value) {
+            addCriterion("create_time >", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeGreaterThanOrEqualTo(Long value) {
-            addCriterion("ctime >=", value, "ctime");
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("create_time >=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeLessThan(Long value) {
-            addCriterion("ctime <", value, "ctime");
+        public Criteria andCreateTimeLessThan(Long value) {
+            addCriterion("create_time <", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeLessThanOrEqualTo(Long value) {
-            addCriterion("ctime <=", value, "ctime");
+        public Criteria andCreateTimeLessThanOrEqualTo(Long value) {
+            addCriterion("create_time <=", value, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeIn(List<Long> values) {
-            addCriterion("ctime in", values, "ctime");
+        public Criteria andCreateTimeIn(List<Long> values) {
+            addCriterion("create_time in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeNotIn(List<Long> values) {
-            addCriterion("ctime not in", values, "ctime");
+        public Criteria andCreateTimeNotIn(List<Long> values) {
+            addCriterion("create_time not in", values, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeBetween(Long value1, Long value2) {
-            addCriterion("ctime between", value1, value2, "ctime");
+        public Criteria andCreateTimeBetween(Long value1, Long value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
-        public Criteria andCtimeNotBetween(Long value1, Long value2) {
-            addCriterion("ctime not between", value1, value2, "ctime");
+        public Criteria andCreateTimeNotBetween(Long value1, Long value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
@@ -1144,6 +1144,316 @@ public class UpmsUserExample implements Serializable {
 
         public Criteria andTypeNotBetween(String value1, String value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeIsNull() {
+            addCriterion("work_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeIsNotNull() {
+            addCriterion("work_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeEqualTo(Byte value) {
+            addCriterion("work_type =", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeNotEqualTo(Byte value) {
+            addCriterion("work_type <>", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeGreaterThan(Byte value) {
+            addCriterion("work_type >", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("work_type >=", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeLessThan(Byte value) {
+            addCriterion("work_type <", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("work_type <=", value, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeIn(List<Byte> values) {
+            addCriterion("work_type in", values, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeNotIn(List<Byte> values) {
+            addCriterion("work_type not in", values, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeBetween(Byte value1, Byte value2) {
+            addCriterion("work_type between", value1, value2, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("work_type not between", value1, value2, "workType");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNull() {
+            addCriterion("birth is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIsNotNull() {
+            addCriterion("birth is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthEqualTo(Long value) {
+            addCriterion("birth =", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotEqualTo(Long value) {
+            addCriterion("birth <>", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThan(Long value) {
+            addCriterion("birth >", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthGreaterThanOrEqualTo(Long value) {
+            addCriterion("birth >=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThan(Long value) {
+            addCriterion("birth <", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthLessThanOrEqualTo(Long value) {
+            addCriterion("birth <=", value, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthIn(List<Long> values) {
+            addCriterion("birth in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotIn(List<Long> values) {
+            addCriterion("birth not in", values, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthBetween(Long value1, Long value2) {
+            addCriterion("birth between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthNotBetween(Long value1, Long value2) {
+            addCriterion("birth not between", value1, value2, "birth");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayIsNull() {
+            addCriterion("start_workday is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayIsNotNull() {
+            addCriterion("start_workday is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayEqualTo(Long value) {
+            addCriterion("start_workday =", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayNotEqualTo(Long value) {
+            addCriterion("start_workday <>", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayGreaterThan(Long value) {
+            addCriterion("start_workday >", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayGreaterThanOrEqualTo(Long value) {
+            addCriterion("start_workday >=", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayLessThan(Long value) {
+            addCriterion("start_workday <", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayLessThanOrEqualTo(Long value) {
+            addCriterion("start_workday <=", value, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayIn(List<Long> values) {
+            addCriterion("start_workday in", values, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayNotIn(List<Long> values) {
+            addCriterion("start_workday not in", values, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayBetween(Long value1, Long value2) {
+            addCriterion("start_workday between", value1, value2, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartWorkdayNotBetween(Long value1, Long value2) {
+            addCriterion("start_workday not between", value1, value2, "startWorkday");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeIsNull() {
+            addCriterion("visa_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeIsNotNull() {
+            addCriterion("visa_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeEqualTo(String value) {
+            addCriterion("visa_type =", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeNotEqualTo(String value) {
+            addCriterion("visa_type <>", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeGreaterThan(String value) {
+            addCriterion("visa_type >", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("visa_type >=", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeLessThan(String value) {
+            addCriterion("visa_type <", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeLessThanOrEqualTo(String value) {
+            addCriterion("visa_type <=", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeLike(String value) {
+            addCriterion("visa_type like", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeNotLike(String value) {
+            addCriterion("visa_type not like", value, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeIn(List<String> values) {
+            addCriterion("visa_type in", values, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeNotIn(List<String> values) {
+            addCriterion("visa_type not in", values, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeBetween(String value1, String value2) {
+            addCriterion("visa_type between", value1, value2, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaTypeNotBetween(String value1, String value2) {
+            addCriterion("visa_type not between", value1, value2, "visaType");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireIsNull() {
+            addCriterion("visa_expire is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireIsNotNull() {
+            addCriterion("visa_expire is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireEqualTo(Long value) {
+            addCriterion("visa_expire =", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireNotEqualTo(Long value) {
+            addCriterion("visa_expire <>", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireGreaterThan(Long value) {
+            addCriterion("visa_expire >", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireGreaterThanOrEqualTo(Long value) {
+            addCriterion("visa_expire >=", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireLessThan(Long value) {
+            addCriterion("visa_expire <", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireLessThanOrEqualTo(Long value) {
+            addCriterion("visa_expire <=", value, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireIn(List<Long> values) {
+            addCriterion("visa_expire in", values, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireNotIn(List<Long> values) {
+            addCriterion("visa_expire not in", values, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireBetween(Long value1, Long value2) {
+            addCriterion("visa_expire between", value1, value2, "visaExpire");
+            return (Criteria) this;
+        }
+
+        public Criteria andVisaExpireNotBetween(Long value1, Long value2) {
+            addCriterion("visa_expire not between", value1, value2, "visaExpire");
             return (Criteria) this;
         }
     }

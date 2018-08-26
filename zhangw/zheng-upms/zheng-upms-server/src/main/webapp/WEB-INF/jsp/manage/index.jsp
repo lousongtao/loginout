@@ -30,81 +30,7 @@
 	</style>
 </head>
 <body>
-<header id="header">
-	<ul id="menu">
-		<li id="guide" class="line-trigger">
-			<div class="line-wrap">
-				<div class="line top"></div>
-				<div class="line center"></div>
-				<div class="line bottom"></div>
-			</div>
-		</li>
-		<li id="logo" class="hidden-xs">
-			<a href="${basePath}/manage/index">
-				<img src="${basePath}/resources/zheng-admin/images/logo.png"/>
-			</a>
-			<span id="system_title">Log System</span>
-		</li>
-		<li class="pull-right">
-			<ul class="hi-menu">
-				<!-- 搜索 -->
-				<li class="dropdown">
-					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
-						<i class="him-icon zmdi zmdi-search"></i>
-					</a>
-					<ul class="dropdown-menu dm-icon pull-right">
-						<form id="search-form" class="form-inline">
-							<div class="input-group">
-								<input id="keywords" type="text" name="keywords" class="form-control" placeholder="Search"/>
-								<div class="input-group-btn">
-									<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-								</div>
-							</div>
-						</form>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
-						<i class="him-icon zmdi zmdi-dropbox"></i>
-					</a>
-					<ul class="dropdown-menu dm-icon pull-right">
-						<li class="skin-switch hidden-xs">
-							Exchange system
-						</li>
-						<li class="divider hidden-xs"></li>
-						<c:forEach var="upmsSystem" items="${upmsSystems}">
-						<li>
-							<a class="waves-effect switch-systems" href="javascript:;" systemid="${upmsSystem.systemId}" systemname="${upmsSystem.name}" systemtitle="${upmsSystem.title}"><i class="${upmsSystem.icon}"></i> ${upmsSystem.title}</a>
-						</li>
-						</c:forEach>
-					</ul>
-				</li>
-				<li class="dropdown">
-					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
-						<i class="him-icon zmdi zmdi-more-vert"></i>
-					</a>
-					<ul class="dropdown-menu dm-icon pull-right">
-						<li class="hidden-xs">
-							<a class="waves-effect" data-ma-action="fullscreen" href="javascript:fullPage();"><i class="zmdi zmdi-fullscreen"></i> Full-screen</a>
-						</li>
-						<li>
-							<a class="waves-effect" data-ma-action="clear-localstorage" href="javascript:;"><i class="zmdi zmdi-delete"></i> Clear cache</a>
-						</li>
-						<%--<li>--%>
-							<%--<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-face"></i> Privacy</a>--%>
-						<%--</li>--%>
-						<%--<li>--%>
-							<%--<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-settings"></i> Setting</a>--%>
-						<%--</li>--%>
-						<li>
-							<a class="waves-effect" href="${basePath}/sso/logout"><i class="zmdi zmdi-run"></i> Logout</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul>
-</header>
+
 <section id="main">
 	<!-- 左侧导航区 -->
 	<aside id="sidebar">
@@ -116,23 +42,14 @@
 				</div>
 				<div class="sp-info">
 					Hi, ${upmsUser.realname}！
-					<i class="zmdi zmdi-caret-down"></i>
+                    <i class="zmdi zmdi-caret-down"></i>
 				</div>
 			</a>
-			<ul class="main-menu">
-				<li>
-					<a class="waves-effect" href="javascript:;" onclick="changePwd()"><i class="zmdi zmdi-account"></i>Change Password</a>
-				</li>
-				<%--<li>--%>
-					<%--<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-face"></i> 隐私管理</a>--%>
-				<%--</li>--%>
-				<%--<li>--%>
-					<%--<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-settings"></i> 系统设置</a>--%>
-				<%--</li>--%>
-				<li>
-					<a class="waves-effect" href="${basePath}/sso/logout"><i class="zmdi zmdi-run"></i> Logout</a>
-				</li>
-			</ul>
+            <ul class="main-menu">
+                <li>
+                    <a class="waves-effect" href="javascript:;" onclick="changePwd()"><i class="zmdi zmdi-account"></i>Change Password</a>
+                </li>
+            </ul>
 		</div>
 		<!-- /个人资料区 -->
 		<!-- 菜单区 -->
@@ -159,14 +76,19 @@
 				</c:if>
 			</c:forEach>
 			<li>
-				<div class="upms-version">&copy; Author By zw</div>
+				<a class="waves-effect" href="${basePath}/sso/logout"><i class="zmdi zmdi-run"></i> Logout</a>
+			</li>
+
+			<li>
+				<div class="upms-version">&copy; Author By JS-Link</div>
+				<div class="upms-version"> Support : +61 426 282 952</div>
 			</li>
 		</ul>
 		<!-- /菜单区 -->
 	</aside>
-	<!-- /左侧导航区 -->
+	<!-- /右侧导航区 -->
 	<section id="content">
-		<div class="content_tab">
+		<div id="content_tab" class="content_tab">
 			<div class="tab_left">
 				<a class="waves-effect waves-light" href="javascript:;"><i class="zmdi zmdi-chevron-left"></i></a>
 			</div>
@@ -179,7 +101,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="content_main">
+		<div class="content_main" id="content_main">
 			<div id="iframe_home" class="iframe cur">
 				<p><h4>Schedule System</h4></p>
 			</div>

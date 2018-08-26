@@ -43,7 +43,7 @@ public class UpmsServiceTest {
     public void index() {
         UpmsUser upmsUser = new UpmsUser();
         upmsUser.setAvatar("");
-        upmsUser.setCtime(System.currentTimeMillis());
+        upmsUser.setCreateTime(System.currentTimeMillis());
         upmsUser.setEmail("");
         upmsUser.setLocked((byte) 0);
         upmsUser.setPassword("xxx");
@@ -51,7 +51,7 @@ public class UpmsServiceTest {
         upmsUser.setRealname("zsz");
         upmsUser.setSex((byte) 1);
         upmsUser.setSalt("");
-        upmsUser.setUsername("zsz");
+        upmsUser.setLoginname("zsz");
         upmsUserService.insertSelective(upmsUser);
         System.out.println(upmsUser.getUserId());
     }

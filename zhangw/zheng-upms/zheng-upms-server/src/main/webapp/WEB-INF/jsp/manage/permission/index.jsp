@@ -12,15 +12,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>权限管理</title>
+	<title>Permission Management</title>
 	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="upms:permission:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增权限</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:permission:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑权限</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:permission:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除权限</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:permission:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> New</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:permission:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> Update</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:permission:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> Delete</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -52,16 +52,16 @@ $(function() {
 		toolbar: '#toolbar',
 		columns: [
 			{field: 'ck', checkbox: true},
-			{field: 'permissionId', title: '编号', sortable: true, align: 'center'},
-            {field: 'systemId', title: '所属系统'},
-			{field: 'pid', title: '所属上级'},
-			{field: 'name', title: '权限名称 *'},
-			{field: 'type', title: '类型', formatter: 'typeFormatter'},
-			{field: 'permissionValue', title: '权限值'},
-			{field: 'uri', title: '路径'},
-			{field: 'icon', title: '图标', align: 'center', formatter: 'iconFormatter'},
-			{field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+			{field: 'permissionId', title: 'ID', sortable: true, align: 'center'},
+            {field: 'systemId', title: 'System'},
+			{field: 'pid', title: 'Parent ID'},
+			{field: 'name', title: 'Name *'},
+			{field: 'type', title: 'Type', formatter: 'typeFormatter'},
+			{field: 'permissionValue', title: 'Value'},
+			{field: 'uri', title: 'Path'},
+			{field: 'icon', title: 'Icon', align: 'center', formatter: 'iconFormatter'},
+			{field: 'status', title: 'Status', sortable: true, align: 'center', formatter: 'statusFormatter'},
+			{field: 'action', title: 'Operation', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
 });
@@ -79,22 +79,22 @@ function iconFormatter(value, row, index) {
 // 格式化类型
 function typeFormatter(value, row, index) {
 	if (value == 1) {
-		return '目录';
+		return 'Catalog';
 	}
 	if (value == 2) {
-		return '菜单';
+		return 'Menu';
 	}
 	if (value == 3) {
-		return '按钮';
+		return 'Button';
 	}
 	return '-';
 }
 // 格式化状态
 function statusFormatter(value, row, index) {
 	if (value == 1) {
-		return '<span class="label label-success">正常</span>';
+		return '<span class="label label-success">Normal</span>';
 	} else {
-		return '<span class="label label-default">锁定</span>';
+		return '<span class="label label-default">Locked</span>';
 	}
 }
 // 新增
@@ -102,7 +102,7 @@ var createDialog;
 function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
-		title: '新增权限',
+		title: 'New',
 		content: 'url:${basePath}/manage/permission/create',
 		onContentReady: function () {
 			initMaterialInput();
@@ -117,12 +117,12 @@ function updateAction() {
 	if (rows.length != 1) {
 		$.confirm({
 			title: false,
-			content: '请选择一条记录！',
+			content: 'Please choose one record!',
 			autoClose: 'cancel|3000',
 			backgroundDismiss: true,
 			buttons: {
 				cancel: {
-					text: '取消',
+					text: 'Cancel',
 					btnClass: 'waves-effect waves-button'
 				}
 			}
@@ -130,7 +130,7 @@ function updateAction() {
 	} else {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
-			title: '编辑权限',
+			title: 'Update',
 			content: 'url:${basePath}/manage/permission/update/' + rows[0].permissionId,
 			onContentReady: function () {
 				initMaterialInput();
@@ -148,12 +148,12 @@ function deleteAction() {
 	if (rows.length == 0) {
 		$.confirm({
 			title: false,
-			content: '请至少选择一条记录！',
+			content: 'Please choose one record!',
 			autoClose: 'cancel|3000',
 			backgroundDismiss: true,
 			buttons: {
 				cancel: {
-					text: '取消',
+					text: 'Cancel',
 					btnClass: 'waves-effect waves-button'
 				}
 			}
@@ -163,10 +163,10 @@ function deleteAction() {
 			type: 'red',
 			animationSpeed: 300,
 			title: false,
-			content: '确认删除该权限吗？',
+			content: 'Confirm to delete this permission?',
 			buttons: {
 				confirm: {
-					text: '确认',
+					text: 'Yes',
 					btnClass: 'waves-effect waves-button',
 					action: function () {
 						var ids = new Array();
@@ -188,7 +188,7 @@ function deleteAction() {
 												content: value.errorMsg,
 												buttons: {
 													confirm: {
-														text: '确认',
+														text: 'Yes',
 														btnClass: 'waves-effect waves-button waves-light'
 													}
 												}
@@ -203,7 +203,7 @@ function deleteAction() {
 											content: result.data.errorMsg,
 											buttons: {
 												confirm: {
-													text: '确认',
+													text: 'Yes',
 													btnClass: 'waves-effect waves-button waves-light'
 												}
 											}
@@ -223,7 +223,7 @@ function deleteAction() {
 									content: textStatus,
 									buttons: {
 										confirm: {
-											text: '确认',
+											text: 'Yes',
 											btnClass: 'waves-effect waves-button waves-light'
 										}
 									}
@@ -233,7 +233,7 @@ function deleteAction() {
 					}
 				},
 				cancel: {
-					text: '取消',
+					text: 'Cancel',
 					btnClass: 'waves-effect waves-button'
 				}
 			}

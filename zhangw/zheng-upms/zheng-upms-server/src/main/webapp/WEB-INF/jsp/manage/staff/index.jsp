@@ -12,42 +12,39 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>员工管理</title>
+    <title>Staff Management</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
     <div id="toolbar">
-        <shiro:hasPermission name="upms:user:create"><a class="waves-effect waves-button" href="javascript:;"
-                                                        onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-            新增员工</a></shiro:hasPermission>
-        <%--<shiro:hasPermission name="upms:user:update"><a class="waves-effect waves-button" href="javascript:;"--%>
-        <%--onclick="updateAction()"><i class="zmdi zmdi-edit"></i>--%>
-        <%--编辑用户</a></shiro:hasPermission>--%>
-        <shiro:hasPermission name="upms:user:delete"><a class="waves-effect waves-button" href="javascript:;"
-                                                        onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
-            删除员工</a></shiro:hasPermission>
-        <shiro:hasPermission name="upms:user:organization"><a class="waves-effect waves-button" href="javascript:;"
-                                                              onclick="organizationAction()"><i
-                class="zmdi zmdi-accounts-list"></i> 用户组织</a></shiro:hasPermission>
-        <shiro:hasPermission name="upms:user:role"><a class="waves-effect waves-button" href="javascript:;"
-                                                      onclick="roleAction()"><i class="zmdi zmdi-accounts"></i>
-            用户角色</a></shiro:hasPermission>
-        <shiro:hasPermission name="upms:user:permission"><a class="waves-effect waves-button" href="javascript:;"
-                                                            onclick="permissionAction()"><i class="zmdi zmdi-key"></i>
-            用户权限</a></shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:staff:write">
+            <a class="waves-effect waves-button" href="javascript:;"
+               onclick="createAction()"><i class="zmdi zmdi-plus"></i>
+                New</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:staff:delete">
+            <a class="waves-effect waves-button" href="javascript:;"
+               onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
+                Delete</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:staff:group">
+            <a class="waves-effect waves-button" href="javascript:;"
+               onclick="groupAction()"><i class="zmdi zmdi-accounts-list"></i>
+                Group</a>
+        </shiro:hasPermission>
     </div>
-    <%--<div class="row">--%>
-    <%--<div class="fixed-table-toolbar">--%>
-    <%--<div class="columns pull-left col-md-2 nopadding">--%>
-    <%--<input id="searchName" type="text" class="form-control"--%>
-    <%--placeholder="账号">--%>
-    <%--</div>--%>
-    <%--<div class="columns pull-left">--%>
-    <%--<button class="btn btn-success" onclick="reLoad()">查询</button>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="accountSearch">Account</label>
+            <input type="text" class="form-control" id="accountSearch">
+        </div>
+        <div class="form-group">
+            <label for="nameSearch">Name</label>
+            <input type="text" class="form-control" id="nameSearch">
+        </div>
+        <button id="searchButton" type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
+    </form>
     <table id="table"></table>
 </div>
 <div>
@@ -56,12 +53,12 @@
         var s_delete_h = 'hidden';
     </script>
 </div>
-<shiro:hasPermission name="upms:user:update">
+<shiro:hasPermission name="ucenter:staff:write">
     <script type="text/javascript">
         s_edit_h = '';
     </script>
 </shiro:hasPermission>
-<shiro:hasPermission name="upms:user:delete">
+<shiro:hasPermission name="ucenter:staff:delete">
     <script type="text/javascript">
         s_delete_h = '';
     </script>
@@ -72,10 +69,9 @@
     $(function () {
         // bootstrap table初始化
         $table.bootstrapTable({
-            url: '${basePath}/manage/user/list',
+            url: '${basePath}/manage/staff/list',
             height: getHeight(),
             striped: true,
-            search: true,
             showRefresh: true,
             showColumns: true,
             minimumCountColumns: 2,
@@ -92,26 +88,37 @@
             idField: 'userId',
             maintainSelected: true,
             toolbar: '#toolbar',
+            queryParams: function (params) {
+                return {
+                    // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+                    limit: params.limit,
+                    offset: params.offset,
+                    order: params.order,
+                    accountSearch: $('#accountSearch').val(),
+                    nameSearch: $('#nameSearch').val()
+                };
+            },
             columns: [
-                {field: 'ck', checkbox: true},
-                {field: 'userId', title: '编号', sortable: true, align: 'center'},
-                {field: 'username', title: '帐号 *'},
-                {field: 'realname', title: '姓名 *'},
-//                {field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
-                {field: 'phone', title: '电话'},
-                {field: 'email', title: '邮箱'},
-                {field: 'sex', title: '性别', formatter: 'sexFormatter'},
-                {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
-//                {
-//                    field: 'action',
-//                    title: '操作',
-//                    align: 'center',
-//                    formatter: 'actionFormatter',
-//                    events: 'actionEvents',
-//                    clickToSelect: false
-//                },
+                {field: 'ck', radio: true},
+                {field: 'userId', title: 'ID', align: 'center'},
+                {field: 'loginname', title: 'Login Name *'},
+                {field: 'realname', title: 'Name*'},
+                {field: 'phone', title: 'Telephone'},
+                {field: 'email', title: 'Mail', visible: false},
+                {field: 'sex', title: 'Sex', formatter: 'sexFormatter'},
+                {field: 'createTime', title: 'Create Time', sortable: true, formatter: 'timeStampToDateTime'},
+                {field: 'baseSalary', title: 'Base Salary', formatter: 'salaryFormatter'},
+                {field: 'perSalary', title: 'Hour Salary', formatter: 'salaryFormatter'},
                 {
-                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+                    field: 'schedulestatus',
+                    title: 'Schedule Permission',
+                    align: 'center',
+                    formatter: 'schedulestatusFormatter'
+                },
+                {field: 'groupList', title: 'Group', align: 'center', formatter: 'groupFormatter'},
+                {field: 'locked', title: 'Status', sortable: true, align: 'center', formatter: 'lockedFormatter'},
+                {
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
                         var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
@@ -120,43 +127,70 @@
                 }
             ]
         });
+
+        $("#searchButton").click(function () {
+            $table.bootstrapTable('refresh');
+        })
     });
-
-    // 格式化操作按钮
-    //    function actionFormatter(value, row, index) {
-    //        return [
-    //            '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-    //            '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
-    //        ].join('');
-    //    }
-
-    //    function reLoad() {
-    //        $('#table').bootstrapTable('refreshOptions', {pageNumber: 1});
-    ////        $('#table').bootstrapTable('refresh');
-    //    }
-
-    // 格式化图标
-    function avatarFormatter(value, row, index) {
-        return '<img src="${basePath}' + value + '" style="width:20px;height:20px;"/>';
-    }
 
     // 格式化性别
     function sexFormatter(value, row, index) {
         if (value == 1) {
-            return '男';
+            return 'Male';
         }
-        if (value == 2) {
-            return '女';
+        if (value == 0) {
+            return 'Female';
         }
         return '-';
+    }
+
+    //格式化是否排班
+    function schedulestatusFormatter(value, row, index) {
+        if (value == 1) {
+            return '<span class="label label-success">Yes</span>';
+        }
+        if (value == 0) {
+            return '<span class="label label-default">No</span>';
+        }
+        return '-';
+    }
+
+    //显示人员所在组情况
+    function groupFormatter(value, row, index) {
+        if (value) {
+            var ab = '';
+            for (var i = 0; i < value.length; i++) {
+                ab += '<span class="label label-primary">' + value[i].name + '</span>';
+            }
+            return ab;
+        } else {
+            return '<span class="label label-danger">N/A</span>';
+        }
     }
 
     // 格式化状态
     function lockedFormatter(value, row, index) {
         if (value == 1) {
-            return '<span class="label label-default">锁定</span>';
+            return '<span class="label label-default">Unavailable</span>';
         } else {
-            return '<span class="label label-success">正常</span>';
+            return '<span class="label label-success">Available</span>';
+        }
+    }
+
+    //格式化薪资显示
+    function salaryFormatter(value, row, index) {
+        if (!value) {
+            return '-';
+        } else {
+            var str = (value / 100).toFixed(2) + '';
+            var intSum = str.substring(0, str.indexOf(".")).replace(/\B(?=(?:\d{3})+$)/g, ',');//取到整数部分
+            var dot = str.substring(str.length, str.indexOf("."))//取到小数部分
+            var salary = intSum + dot;
+
+//            var salary = value*0.01; //分到元
+//            var reg=  salary.indexOf('.') >-1 ? /(\d{1,3})(?=(?:\d{3})+\.)/g : /(\d{1,3})(?=(?:\d{3})+$)/g;//千分符的正则
+//            salary=salary.replace(reg, '$1,');//千分位格式化
+            return salary;
         }
     }
 
@@ -166,11 +200,11 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增用户',
-            content: 'url:${basePath}/manage/user/create',
+            title: 'New User',
+            content: 'url:${basePath}/manage/staff/create',
             onContentReady: function () {
                 initMaterialInput();
-                initUploader();
+//                initUploader();
             }
         });
     }
@@ -178,43 +212,14 @@
     // 编辑
     var updateDialog;
 
-    <%--function updateAction(userId) {--%>
-    <%--var rows = $table.bootstrapTable('getSelections');--%>
-    <%--if (rows.length != 1) {--%>
-    <%--$.confirm({--%>
-    <%--title: false,--%>
-    <%--content: '请选择一条记录！',--%>
-    <%--autoClose: 'cancel|3000',--%>
-    <%--backgroundDismiss: true,--%>
-    <%--buttons: {--%>
-    <%--cancel: {--%>
-    <%--text: '取消',--%>
-    <%--btnClass: 'waves-effect waves-button'--%>
-    <%--}--%>
-    <%--}--%>
-    <%--});--%>
-    <%--} else {--%>
-    <%--updateDialog = $.dialog({--%>
-    <%--animationSpeed: 300,--%>
-    <%--title: '编辑用户',--%>
-    <%--content: 'url:${basePath}/manage/user/update/' + rows[0].userId,--%>
-    <%--onContentReady: function () {--%>
-    <%--initMaterialInput();--%>
-    <%--initUploader();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--}--%>
-    <%--}--%>
-
     function updateAction(userId) {
         if (userId) {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑用户',
-                content: 'url:${basePath}/manage/user/update/' + userId,
+                title: 'Edit User',
+                content: 'url:${basePath}/manage/staff/update/' + userId,
                 onContentReady: function () {
                     initMaterialInput();
-                    initUploader();
                 }
             });
         }
@@ -233,12 +238,12 @@
             if (rows.length == 0) {
                 $.confirm({
                     title: false,
-                    content: '请至少选择一条记录！',
+                    content: 'Must choose one record！',
                     autoClose: 'cancel|3000',
                     backgroundDismiss: true,
                     buttons: {
                         cancel: {
-                            text: '取消',
+                            text: 'Cancel',
                             btnClass: 'waves-effect waves-button'
                         }
                     }
@@ -258,15 +263,15 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除该用户吗？',
+            content: 'Do you confirm to delete it？',
             buttons: {
                 confirm: {
-                    text: '确认',
+                    text: 'Confirm',
                     btnClass: 'waves-effect waves-button',
                     action: function () {
                         $.ajax({
                             type: 'get',
-                            url: '${basePath}/manage/user/delete/' + ids.join("-"),
+                            url: '${basePath}/manage/staff/delete/' + ids.join("-"),
                             success: function (result) {
                                 if (result.code != 1) {
                                     if (result.data instanceof Array) {
@@ -279,7 +284,7 @@
                                                 content: value.errorMsg,
                                                 buttons: {
                                                     confirm: {
-                                                        text: '确认',
+                                                        text: 'Yes',
                                                         btnClass: 'waves-effect waves-button waves-light'
                                                     }
                                                 }
@@ -294,7 +299,7 @@
                                             content: result.data.errorMsg,
                                             buttons: {
                                                 confirm: {
-                                                    text: '确认',
+                                                    text: 'Yes',
                                                     btnClass: 'waves-effect waves-button waves-light'
                                                 }
                                             }
@@ -314,7 +319,7 @@
                                     content: textStatus,
                                     buttons: {
                                         confirm: {
-                                            text: '确认',
+                                            text: 'Yes',
                                             btnClass: 'waves-effect waves-button waves-light'
                                         }
                                     }
@@ -324,18 +329,18 @@
                     }
                 },
                 cancel: {
-                    text: '取消',
+                    text: 'Cancel',
                     btnClass: 'waves-effect waves-button'
                 }
             }
         });
     }
 
-    // 用户组织
-    var organizationDialog;
-    var organizationUserId;
+    // 用户分组
+    var groupDialog;
+    var userId;
 
-    function organizationAction() {
+    function groupAction() {
         var rows = $table.bootstrapTable('getSelections');
         if (rows.length != 1) {
             $.confirm({
@@ -351,87 +356,17 @@
                 }
             });
         } else {
-            organizationUserId = rows[0].userId;
-            organizationDialog = $.dialog({
+            userId = rows[0].userId;
+            groupDialog = $.dialog({
                 animationSpeed: 300,
-                title: '用户组织',
-                content: 'url:${basePath}/manage/user/organization/' + organizationUserId,
+                title: '用户分组',
+                content: 'url:${basePath}/manage/staff/group/' + userId,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2({
-                        placeholder: '请选择用户组织',
+                        placeholder: '请选择组',
                         allowClear: true
                     });
-                }
-            });
-        }
-    }
-
-    // 用户角色
-    var roleDialog;
-    var roleUserId;
-
-    function roleAction() {
-        var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
-        } else {
-            roleUserId = rows[0].userId;
-            roleDialog = $.dialog({
-                animationSpeed: 300,
-                title: '用户角色',
-                content: 'url:${basePath}/manage/user/role/' + roleUserId,
-                onContentReady: function () {
-                    initMaterialInput();
-                    $('select').select2({
-                        placeholder: '请选择用户角色',
-                        allowClear: true
-                    });
-                }
-            });
-        }
-    }
-
-    // 用户权限
-    var permissionDialog;
-    var permissionUserId;
-
-    function permissionAction() {
-        var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
-        } else {
-            permissionUserId = rows[0].userId;
-            permissionDialog = $.dialog({
-                animationSpeed: 300,
-                title: '用户授权',
-                columnClass: 'large',
-                content: 'url:${basePath}/manage/user/permission/' + permissionUserId,
-                onContentReady: function () {
-                    initMaterialInput();
-                    initTree();
                 }
             });
         }

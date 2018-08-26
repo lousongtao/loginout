@@ -1,7 +1,5 @@
 package com.zheng.upms.dao.model;
 
-import com.zheng.upms.common.constant.UpmsUserTypeConstant;
-
 import java.io.Serializable;
 
 public class UpmsUser implements Serializable {
@@ -17,7 +15,7 @@ public class UpmsUser implements Serializable {
      *
      * @mbg.generated
      */
-    private String username;
+    private String loginname;
 
     /**
      * 密码MD5(密码+盐)
@@ -80,7 +78,7 @@ public class UpmsUser implements Serializable {
      *
      * @mbg.generated
      */
-    private Long ctime;
+    private Long createTime;
 
     /**
      * 父id
@@ -111,11 +109,26 @@ public class UpmsUser implements Serializable {
     private Byte schedulestatus;
 
     /**
-     * 用户类型
-     * @see UpmsUserTypeConstant
+     * type, emulate
+     *
      * @mbg.generated
      */
     private String type;
+
+    /**
+     * work type(0=full time; 1=parttime; 2=Casual)
+     *
+     * @mbg.generated
+     */
+    private Byte workType;
+
+    private Long birth;
+
+    private Long startWorkday;
+
+    private String visaType;
+
+    private Long visaExpire;
 
     private static final long serialVersionUID = 1L;
 
@@ -127,12 +140,12 @@ public class UpmsUser implements Serializable {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLoginname() {
+        return loginname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
     }
 
     public String getPassword() {
@@ -199,12 +212,12 @@ public class UpmsUser implements Serializable {
         this.locked = locked;
     }
 
-    public Long getCtime() {
-        return ctime;
+    public Long getCreateTime() {
+        return createTime;
     }
 
-    public void setCtime(Long ctime) {
-        this.ctime = ctime;
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 
     public Integer getParentId() {
@@ -247,6 +260,46 @@ public class UpmsUser implements Serializable {
         this.type = type;
     }
 
+    public Byte getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(Byte workType) {
+        this.workType = workType;
+    }
+
+    public Long getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Long birth) {
+        this.birth = birth;
+    }
+
+    public Long getStartWorkday() {
+        return startWorkday;
+    }
+
+    public void setStartWorkday(Long startWorkday) {
+        this.startWorkday = startWorkday;
+    }
+
+    public String getVisaType() {
+        return visaType;
+    }
+
+    public void setVisaType(String visaType) {
+        this.visaType = visaType;
+    }
+
+    public Long getVisaExpire() {
+        return visaExpire;
+    }
+
+    public void setVisaExpire(Long visaExpire) {
+        this.visaExpire = visaExpire;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -254,7 +307,7 @@ public class UpmsUser implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
-        sb.append(", username=").append(username);
+        sb.append(", loginname=").append(loginname);
         sb.append(", password=").append(password);
         sb.append(", salt=").append(salt);
         sb.append(", realname=").append(realname);
@@ -263,12 +316,17 @@ public class UpmsUser implements Serializable {
         sb.append(", email=").append(email);
         sb.append(", sex=").append(sex);
         sb.append(", locked=").append(locked);
-        sb.append(", ctime=").append(ctime);
+        sb.append(", createTime=").append(createTime);
         sb.append(", parentId=").append(parentId);
         sb.append(", baseSalary=").append(baseSalary);
         sb.append(", perSalary=").append(perSalary);
         sb.append(", schedulestatus=").append(schedulestatus);
         sb.append(", type=").append(type);
+        sb.append(", workType=").append(workType);
+        sb.append(", birth=").append(birth);
+        sb.append(", startWorkday=").append(startWorkday);
+        sb.append(", visaType=").append(visaType);
+        sb.append(", visaExpire=").append(visaExpire);
         sb.append("]");
         return sb.toString();
     }
@@ -286,7 +344,7 @@ public class UpmsUser implements Serializable {
         }
         UpmsUser other = (UpmsUser) that;
         return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+            && (this.getLoginname() == null ? other.getLoginname() == null : this.getLoginname().equals(other.getLoginname()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getSalt() == null ? other.getSalt() == null : this.getSalt().equals(other.getSalt()))
             && (this.getRealname() == null ? other.getRealname() == null : this.getRealname().equals(other.getRealname()))
@@ -295,12 +353,17 @@ public class UpmsUser implements Serializable {
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getSex() == null ? other.getSex() == null : this.getSex().equals(other.getSex()))
             && (this.getLocked() == null ? other.getLocked() == null : this.getLocked().equals(other.getLocked()))
-            && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
             && (this.getBaseSalary() == null ? other.getBaseSalary() == null : this.getBaseSalary().equals(other.getBaseSalary()))
             && (this.getPerSalary() == null ? other.getPerSalary() == null : this.getPerSalary().equals(other.getPerSalary()))
             && (this.getSchedulestatus() == null ? other.getSchedulestatus() == null : this.getSchedulestatus().equals(other.getSchedulestatus()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()));
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getWorkType() == null ? other.getWorkType() == null : this.getWorkType().equals(other.getWorkType()))
+            && (this.getBirth() == null ? other.getBirth() == null : this.getBirth().equals(other.getBirth()))
+            && (this.getStartWorkday() == null ? other.getStartWorkday() == null : this.getStartWorkday().equals(other.getStartWorkday()))
+            && (this.getVisaType() == null ? other.getVisaType() == null : this.getVisaType().equals(other.getVisaType()))
+            && (this.getVisaExpire() == null ? other.getVisaExpire() == null : this.getVisaExpire().equals(other.getVisaExpire()));
     }
 
     @Override
@@ -308,7 +371,7 @@ public class UpmsUser implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
+        result = prime * result + ((getLoginname() == null) ? 0 : getLoginname().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getSalt() == null) ? 0 : getSalt().hashCode());
         result = prime * result + ((getRealname() == null) ? 0 : getRealname().hashCode());
@@ -317,12 +380,17 @@ public class UpmsUser implements Serializable {
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getSex() == null) ? 0 : getSex().hashCode());
         result = prime * result + ((getLocked() == null) ? 0 : getLocked().hashCode());
-        result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
         result = prime * result + ((getBaseSalary() == null) ? 0 : getBaseSalary().hashCode());
         result = prime * result + ((getPerSalary() == null) ? 0 : getPerSalary().hashCode());
         result = prime * result + ((getSchedulestatus() == null) ? 0 : getSchedulestatus().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getWorkType() == null) ? 0 : getWorkType().hashCode());
+        result = prime * result + ((getBirth() == null) ? 0 : getBirth().hashCode());
+        result = prime * result + ((getStartWorkday() == null) ? 0 : getStartWorkday().hashCode());
+        result = prime * result + ((getVisaType() == null) ? 0 : getVisaType().hashCode());
+        result = prime * result + ((getVisaExpire() == null) ? 0 : getVisaExpire().hashCode());
         return result;
     }
 }

@@ -8,6 +8,8 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <script>var BASE_PATH = '${basePath}';</script>
 <script src="${basePath}/resources/zheng-admin/plugins/jquery.1.12.4.min.js"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script src="${basePath}/resources/zheng-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/bootstrap-table.min.js"></script>
 <script src="${basePath}/resources/zheng-admin/plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>

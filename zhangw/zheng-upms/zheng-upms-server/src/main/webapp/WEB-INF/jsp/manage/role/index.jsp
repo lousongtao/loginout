@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>角色管理</title>
+    <title>Role Management</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
@@ -20,16 +20,16 @@
     <div id="toolbar">
         <shiro:hasPermission name="upms:role:create"><a class="waves-effect waves-button" href="javascript:;"
                                                         onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-            新增角色</a></shiro:hasPermission>
+            New</a></shiro:hasPermission>
         <%--<shiro:hasPermission name="upms:role:update"><a class="waves-effect waves-button" href="javascript:;"--%>
                                                         <%--onclick="updateAction()"><i class="zmdi zmdi-edit"></i>--%>
             <%--编辑角色</a></shiro:hasPermission>--%>
         <shiro:hasPermission name="upms:role:delete"><a class="waves-effect waves-button" href="javascript:;"
                                                         onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
-            删除角色</a></shiro:hasPermission>
+            Delete</a></shiro:hasPermission>
         <shiro:hasPermission name="upms:role:permission"><a class="waves-effect waves-button" href="javascript:;"
                                                             onclick="permissionAction()"><i class="zmdi zmdi-key"></i>
-            角色权限</a></shiro:hasPermission>
+            Permission</a></shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>
@@ -77,12 +77,12 @@
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'roleId', title: '编号', sortable: true, align: 'center'},
-                {field: 'name', title: '角色名称'},
-                {field: 'title', title: '角色标题 *'},
-                {field: 'description', title: '角色描述'},
+                {field: 'roleId', title: 'ID', sortable: true, align: 'center'},
+                {field: 'name', title: 'Name'},
+                {field: 'title', title: 'Title *'},
+                {field: 'description', title: 'Description'},
                 {
-                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.roleId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
                         var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.roleId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
@@ -99,7 +99,7 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增角色',
+            title: 'New Role',
             content: 'url:${basePath}/manage/role/create',
             onContentReady: function () {
                 initMaterialInput();
@@ -114,7 +114,7 @@
         if(roleId){
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑角色',
+                title: 'Update Role',
                 content: 'url:${basePath}/manage/role/update/' + roleId,
                 onContentReady: function () {
                     initMaterialInput();
@@ -136,12 +136,12 @@
             if (rows.length == 0) {
                 $.confirm({
                     title: false,
-                    content: '请至少选择一条记录！',
+                    content: 'Please choose one record!',
                     autoClose: 'cancel|3000',
                     backgroundDismiss: true,
                     buttons: {
                         cancel: {
-                            text: '取消',
+                            text: 'Cancel',
                             btnClass: 'waves-effect waves-button'
                         }
                     }
@@ -159,10 +159,10 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除该角色吗？',
+            content: 'Confirm to delete this record?',
             buttons: {
                 confirm: {
-                    text: '确认',
+                    text: 'Yes',
                     btnClass: 'waves-effect waves-button',
                     action: function () {
                         var ids = new Array();
@@ -184,7 +184,7 @@
                                                 content: value.errorMsg,
                                                 buttons: {
                                                     confirm: {
-                                                        text: '确认',
+                                                        text: 'Yes',
                                                         btnClass: 'waves-effect waves-button waves-light'
                                                     }
                                                 }
@@ -199,7 +199,7 @@
                                             content: result.data.errorMsg,
                                             buttons: {
                                                 confirm: {
-                                                    text: '确认',
+                                                    text: 'Yes',
                                                     btnClass: 'waves-effect waves-button waves-light'
                                                 }
                                             }
@@ -219,7 +219,7 @@
                                     content: textStatus,
                                     buttons: {
                                         confirm: {
-                                            text: '确认',
+                                            text: 'Yes',
                                             btnClass: 'waves-effect waves-button waves-light'
                                         }
                                     }
@@ -229,7 +229,7 @@
                     }
                 },
                 cancel: {
-                    text: '取消',
+                    text: 'Cancel',
                     btnClass: 'waves-effect waves-button'
                 }
             }
@@ -246,12 +246,12 @@
         if (rows.length != 1) {
             $.confirm({
                 title: false,
-                content: '请选择一条记录！',
+                content: 'Please choose one record!',
                 autoClose: 'cancel|3000',
                 backgroundDismiss: true,
                 buttons: {
                     cancel: {
-                        text: '取消',
+                        text: 'Cancel',
                         btnClass: 'waves-effect waves-button'
                     }
                 }
@@ -260,7 +260,7 @@
             roleId = rows[0].roleId;
             permissionDialog = $.dialog({
                 animationSpeed: 300,
-                title: '角色权限',
+                title: 'Permission',
                 content: 'url:${basePath}/manage/role/permission/' + roleId,
                 onContentReady: function () {
                     initMaterialInput();

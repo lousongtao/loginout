@@ -37,4 +37,20 @@
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.zheng.upms.rpc.api.UpmsApiService" mock="true"/>
 
+    <!-- 日志 -->
+    <dubbo:reference id="mcLogService" interface="com.zheng.upms.rpc.api.McLogService" mock="true"/>
+    <!-- 职位 -->
+    <dubbo:reference id="mcGroupService" interface="com.zheng.upms.rpc.api.McGroupService" mock="true"/>
+    <!-- 排班 -->
+    <dubbo:reference id="mcSchedulePlanService" interface="com.zheng.upms.rpc.api.McSchedulePlanService" mock="true"/>
+    <!-- 用户组关联 -->
+    <dubbo:reference id="mcUserGroupService" interface="com.zheng.upms.rpc.api.McUserGroupService" mock="true"/>
+    <!-- 签到 -->
+    <dubbo:reference id="mcUserSignService" interface="com.zheng.upms.rpc.api.McUserSignService" mock="true"/>
+    <!-- 日统计 -->
+    <dubbo:reference id="mcCountDayService" interface="com.zheng.upms.rpc.api.McCountDayService" mock="true"/>
+    <!-- 周统计 -->
+    <dubbo:reference id="mcCountWeekService" interface="com.zheng.upms.rpc.api.McCountWeekService" mock="true"/>
+    <!-- branch -->
+    <dubbo:reference id="mcBranchService" interface="com.zheng.upms.rpc.api.McBranchService" mock="true"/>
 </beans>

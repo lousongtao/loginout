@@ -16,8 +16,8 @@
 			</select>
 		</div>
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="roleSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="roleDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="roleSubmit();">Save</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="roleDialog.close();">Cancel</a>
 		</div>
 	</form>
 </div>
@@ -42,7 +42,7 @@ function roleSubmit() {
 							content: value.errorMsg,
 							buttons: {
 								confirm: {
-									text: '确认',
+									text: 'Yes',
 									btnClass: 'waves-effect waves-button waves-light'
 								}
 							}
@@ -57,7 +57,7 @@ function roleSubmit() {
 							content: result.data.errorMsg,
 							buttons: {
 								confirm: {
-									text: '确认',
+									text: 'Yes',
 									btnClass: 'waves-effect waves-button waves-light'
 								}
 							}
@@ -77,7 +77,7 @@ function roleSubmit() {
 				content: textStatus,
 				buttons: {
 					confirm: {
-						text: '确认',
+						text: 'Yes',
 						btnClass: 'waves-effect waves-button waves-light'
 					}
 				}

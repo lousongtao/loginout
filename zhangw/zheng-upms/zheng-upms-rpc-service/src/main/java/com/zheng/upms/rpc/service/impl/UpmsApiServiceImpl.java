@@ -188,7 +188,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     public UpmsUser selectUpmsUserByUsername(String username) {
         DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria().andUsernameEqualTo(username);
+        upmsUserExample.createCriteria().andLoginnameEqualTo(username);
         List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
         DynamicDataSource.clearDataSource();
         if (null != upmsUsers && upmsUsers.size() > 0) {
@@ -214,7 +214,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     public UpmsUser insertStaffInfo(UpmsUser upmsUser) {
         DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria().andUsernameEqualTo(upmsUser.getUsername());
+        upmsUserExample.createCriteria().andLoginnameEqualTo(upmsUser.getLoginname());
         long count = upmsUserMapper.countByExample(upmsUserExample);
         if (count > 0) {
             return null;

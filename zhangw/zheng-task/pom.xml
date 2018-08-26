@@ -24,12 +24,6 @@
 
         <dependency>
             <groupId>com.zheng</groupId>
-            <artifactId>zheng-ucenter-rpc-api</artifactId>
-            <version>1.0.0</version>
-
-        </dependency>
-        <dependency>
-            <groupId>com.zheng</groupId>
             <artifactId>zheng-upms-rpc-api</artifactId>
             <version>1.0.0</version>
         </dependency>

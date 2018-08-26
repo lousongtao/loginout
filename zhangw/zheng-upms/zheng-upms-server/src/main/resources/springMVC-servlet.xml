@@ -28,4 +28,7 @@
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     </bean>
 
+    <!-- snowFlow-->
+    <bean id="seqKit" class="com.zheng.upms.server.conf.SeqKit" init-method="init"></bean>
+
 </beans>

@@ -59,4 +59,35 @@
     <bean id="upmsApiService" class="com.zheng.upms.rpc.service.impl.UpmsApiServiceImpl"/>
     <dubbo:service interface="com.zheng.upms.rpc.api.UpmsApiService" ref="upmsApiService" timeout="10000"/>
 
+    <!-- 商户日志 -->
+    <bean id="mcLogService" class="com.zheng.upms.rpc.service.impl.McLogServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McLogService" ref="mcLogService" timeout="10000"/>
+
+    <!-- 分组 -->
+    <bean id="mcGroupService" class="com.zheng.upms.rpc.service.impl.McGroupServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McGroupService" ref="mcGroupService" timeout="10000"/>
+
+    <!-- 排班计划 -->
+    <bean id="mcSchedulePlanService" class="com.zheng.upms.rpc.service.impl.McSchedulePlanServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McSchedulePlanService" ref="mcSchedulePlanService" timeout="10000"/>
+
+
+    <!-- 用户职位关联-->
+    <bean id="mcUserGroupService" class="com.zheng.upms.rpc.service.impl.McUserGroupServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McUserGroupService" ref="mcUserGroupService" timeout="10000"/>
+
+    <!-- 用户签到 -->
+    <bean id="mcUserSignService" class="com.zheng.upms.rpc.service.impl.McUserSignServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McUserSignService" ref="mcUserSignService" timeout="10000"/>
+
+    <!-- 日统计 -->
+    <bean id="mcCountDayService" class="com.zheng.upms.rpc.service.impl.McCountDayServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McCountDayService" ref="mcCountDayService" timeout="10000"/>
+    <!-- 周统计 -->
+    <bean id="mcCountWeekService" class="com.zheng.upms.rpc.service.impl.McCountWeekServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McCountWeekService" ref="mcCountWeekService" timeout="10000"/>
+
+    <!-- branch -->
+    <bean id="mcBranchService" class="com.zheng.upms.rpc.service.impl.McBranchServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McBranchService" ref="mcBranchService" timeout="10000"/>
 </beans>

@@ -20,22 +20,22 @@
     <div id="toolbar">
         <shiro:hasPermission name="upms:user:create"><a class="waves-effect waves-button" href="javascript:;"
                                                         onclick="createAction()"><i class="zmdi zmdi-plus"></i>
-            新增用户</a></shiro:hasPermission>
+            New</a></shiro:hasPermission>
         <%--<shiro:hasPermission name="upms:user:update"><a class="waves-effect waves-button" href="javascript:;"--%>
         <%--onclick="updateAction()"><i class="zmdi zmdi-edit"></i>--%>
         <%--编辑用户</a></shiro:hasPermission>--%>
         <shiro:hasPermission name="upms:user:delete"><a class="waves-effect waves-button" href="javascript:;"
                                                         onclick="deleteAction()"><i class="zmdi zmdi-close"></i>
-            删除用户</a></shiro:hasPermission>
-        <shiro:hasPermission name="upms:user:organization"><a class="waves-effect waves-button" href="javascript:;"
-                                                              onclick="organizationAction()"><i
-                class="zmdi zmdi-accounts-list"></i> 用户组织</a></shiro:hasPermission>
+            Delete</a></shiro:hasPermission>
+        <!--<shiro:hasPermission name="upms:user:organization"><a class="waves-effect waves-button" href="javascript:;"
+                                                              onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 用户组织</a></shiro:hasPermission>
+                -->
         <shiro:hasPermission name="upms:user:role"><a class="waves-effect waves-button" href="javascript:;"
                                                       onclick="roleAction()"><i class="zmdi zmdi-accounts"></i>
-            用户角色</a></shiro:hasPermission>
+            Role</a></shiro:hasPermission>
         <shiro:hasPermission name="upms:user:permission"><a class="waves-effect waves-button" href="javascript:;"
                                                             onclick="permissionAction()"><i class="zmdi zmdi-key"></i>
-            用户权限</a></shiro:hasPermission>
+            Permission</a></shiro:hasPermission>
     </div>
     <%--<div class="row">--%>
     <%--<div class="fixed-table-toolbar">--%>
@@ -94,14 +94,14 @@
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'userId', title: '编号', align: 'center'},
-                {field: 'username', title: '帐号 *'},
-                {field: 'realname', title: '姓名 *'},
+                {field: 'userId', title: 'ID', align: 'center'},
+                {field: 'loginname', title: 'Login Name *'},
+                {field: 'realname', title: 'Name *'},
 //                {field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
-                {field: 'phone', title: '电话'},
-                {field: 'email', title: '邮箱'},
-                {field: 'sex', title: '性别', formatter: 'sexFormatter'},
-                {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
+                {field: 'phone', title: 'Telephone'},
+                {field: 'email', title: 'Email'},
+                {field: 'sex', title: 'Sex', formatter: 'sexFormatter'},
+                {field: 'locked', title: 'Status', sortable: true, align: 'center', formatter: 'lockedFormatter'},
 //                {
 //                    field: 'action',
 //                    title: '操作',
@@ -111,7 +111,7 @@
 //                    clickToSelect: false
 //                },
                 {
-                    title: '操作', field: 'idd', align: 'center', clickToSelect: false,
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
                         var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.userId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
@@ -143,10 +143,10 @@
     // 格式化性别
     function sexFormatter(value, row, index) {
         if (value == 1) {
-            return '男';
+            return 'Male';
         }
         if (value == 0) {
-            return '女';
+            return 'Female';
         }
         return '-';
     }
@@ -154,9 +154,9 @@
     // 格式化状态
     function lockedFormatter(value, row, index) {
         if (value == 1) {
-            return '<span class="label label-default">锁定</span>';
+            return '<span class="label label-default">Locked</span>';
         } else {
-            return '<span class="label label-success">正常</span>';
+            return '<span class="label label-success">Normal</span>';
         }
     }
 
@@ -166,7 +166,7 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: '新增用户',
+            title: 'New Member',
             content: 'url:${basePath}/manage/user/create',
             onContentReady: function () {
                 initMaterialInput();
@@ -210,7 +210,7 @@
         if (userId) {
             updateDialog = $.dialog({
                 animationSpeed: 300,
-                title: '编辑用户',
+                title: 'Update Member',
                 content: 'url:${basePath}/manage/user/update/' + userId,
                 onContentReady: function () {
                     initMaterialInput();
@@ -233,12 +233,12 @@
             if (rows.length == 0) {
                 $.confirm({
                     title: false,
-                    content: '请至少选择一条记录！',
+                    content: 'Please choose one record!',
                     autoClose: 'cancel|3000',
                     backgroundDismiss: true,
                     buttons: {
                         cancel: {
-                            text: '取消',
+                            text: 'Cancel',
                             btnClass: 'waves-effect waves-button'
                         }
                     }
@@ -258,10 +258,10 @@
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除该用户吗？',
+            content: 'Confirm to delete this record?',
             buttons: {
                 confirm: {
-                    text: '确认',
+                    text: 'Yes',
                     btnClass: 'waves-effect waves-button',
                     action: function () {
                         $.ajax({
@@ -279,7 +279,7 @@
                                                 content: value.errorMsg,
                                                 buttons: {
                                                     confirm: {
-                                                        text: '确认',
+                                                        text: 'Yes',
                                                         btnClass: 'waves-effect waves-button waves-light'
                                                     }
                                                 }
@@ -294,7 +294,7 @@
                                             content: result.data.errorMsg,
                                             buttons: {
                                                 confirm: {
-                                                    text: '确认',
+                                                    text: 'Yes',
                                                     btnClass: 'waves-effect waves-button waves-light'
                                                 }
                                             }
@@ -314,7 +314,7 @@
                                     content: textStatus,
                                     buttons: {
                                         confirm: {
-                                            text: '确认',
+                                            text: 'Yes',
                                             btnClass: 'waves-effect waves-button waves-light'
                                         }
                                     }
@@ -324,7 +324,7 @@
                     }
                 },
                 cancel: {
-                    text: '取消',
+                    text: 'Cancel',
                     btnClass: 'waves-effect waves-button'
                 }
             }
@@ -340,12 +340,12 @@
         if (rows.length != 1) {
             $.confirm({
                 title: false,
-                content: '请选择一条记录！',
+                content: 'Please choose one record!',
                 autoClose: 'cancel|3000',
                 backgroundDismiss: true,
                 buttons: {
                     cancel: {
-                        text: '取消',
+                        text: 'Cancel',
                         btnClass: 'waves-effect waves-button'
                     }
                 }
@@ -354,12 +354,12 @@
             organizationUserId = rows[0].userId;
             organizationDialog = $.dialog({
                 animationSpeed: 300,
-                title: '用户组织',
+                title: 'Organizer',
                 content: 'url:${basePath}/manage/user/organization/' + organizationUserId,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2({
-                        placeholder: '请选择用户组织',
+                        placeholder: 'Please choose the organizer!',
                         allowClear: true
                     });
                 }
@@ -376,12 +376,12 @@
         if (rows.length != 1) {
             $.confirm({
                 title: false,
-                content: '请选择一条记录！',
+                content: 'Please choose one record',
                 autoClose: 'cancel|3000',
                 backgroundDismiss: true,
                 buttons: {
                     cancel: {
-                        text: '取消',
+                        text: 'Cancel',
                         btnClass: 'waves-effect waves-button'
                     }
                 }
@@ -390,12 +390,12 @@
             roleUserId = rows[0].userId;
             roleDialog = $.dialog({
                 animationSpeed: 300,
-                title: '用户角色',
+                title: 'Role',
                 content: 'url:${basePath}/manage/user/role/' + roleUserId,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2({
-                        placeholder: '请选择用户角色',
+                        placeholder: 'Please choose role!',
                         allowClear: true
                     });
                 }
@@ -412,12 +412,12 @@
         if (rows.length != 1) {
             $.confirm({
                 title: false,
-                content: '请选择一条记录！',
+                content: 'Pleaes choose one record!',
                 autoClose: 'cancel|3000',
                 backgroundDismiss: true,
                 buttons: {
                     cancel: {
-                        text: '取消',
+                        text: 'Cancel',
                         btnClass: 'waves-effect waves-button'
                     }
                 }
@@ -426,7 +426,7 @@
             permissionUserId = rows[0].userId;
             permissionDialog = $.dialog({
                 animationSpeed: 300,
-                title: '用户授权',
+                title: 'Grant',
                 columnClass: 'large',
                 content: 'url:${basePath}/manage/user/permission/' + permissionUserId,
                 onContentReady: function () {

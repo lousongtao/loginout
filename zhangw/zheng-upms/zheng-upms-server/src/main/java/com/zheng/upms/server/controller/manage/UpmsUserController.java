@@ -155,7 +155,7 @@ public class UpmsUserController extends BaseController {
         }
         if (StringUtils.isNotBlank(search)) {
             upmsUserExample.or().andRealnameLike("%" + search + "%");
-            upmsUserExample.or().andUsernameLike("%" + search + "%");
+            upmsUserExample.or().andLoginnameLike("%" + search + "%");
         }
         List<UpmsUser> rows = upmsUserService.selectByExampleForOffsetPage(upmsUserExample, offset,
             limit);
@@ -179,7 +179,7 @@ public class UpmsUserController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsUser upmsUser) {
         ComplexResult result = FluentValidator.checkAll()
-            .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
+            .on(upmsUser.getLoginname(), new LengthValidator(1, 20, "帐号"))
             .on(upmsUser.getPassword(), new LengthValidator(5, 32, "密码"))
             .on(upmsUser.getRealname(), new NotNullValidator("姓名")).doValidate()
             .result(ResultCollectors.toComplex());
@@ -191,7 +191,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setSalt(salt);
         upmsUser.setParentId(UserUtils.getCurrentUserId());
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
-        upmsUser.setCtime(time);
+        upmsUser.setCreateTime(time);
         upmsUser.setType(UpmsUserTypeConstant.customer.getCode());
         upmsUser = upmsUserService.createUser(upmsUser, true);
         if (null == upmsUser) {
@@ -237,7 +237,7 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsUser upmsUser) {
         ComplexResult result = FluentValidator.checkAll()
-            .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
+            .on(upmsUser.getLoginname(), new LengthValidator(1, 20, "帐号"))
             .on(upmsUser.getRealname(), new NotNullValidator("姓名")).doValidate()
             .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
