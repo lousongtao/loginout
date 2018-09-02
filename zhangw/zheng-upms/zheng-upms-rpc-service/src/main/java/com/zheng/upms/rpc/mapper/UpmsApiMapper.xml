@@ -78,6 +78,7 @@
           `result` int(255) NOT NULL DEFAULT '0' COMMENT '结果记录(0未知,1已完成,2未完成)',
           `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
           `update_time` timestamp NULL DEFAULT NULL COMMENT '排班最后一次更新时间',
+          `branch_id` INT(11) NOT NULL,
           PRIMARY KEY (`id`),
           KEY `用户id` (`u_id`),
           KEY `结果` (`result`)
@@ -94,9 +95,9 @@
 		`lon` decimal(11,7) DEFAULT NULL COMMENT '经度',
 		`lat` decimal(11,7) DEFAULT NULL COMMENT '纬度',
 		`sign_address` varchar(255) DEFAULT NULL,
-		`extend1` varchar(32) DEFAULT NULL COMMENT '预留字段',
-		`extend2` varchar(32) DEFAULT NULL COMMENT '预留字段2',
-		`extend3` varchar(255) DEFAULT NULL COMMENT '预留字段3',
+		`sign_gpsx` FLOAT DEFAULT NULL,
+		`sign_gpsy` FLOAT DEFAULT NULL,
+		`sign_via` INT(4) DEFAULT NULL,
 		PRIMARY KEY (`sign_id`),
 		KEY `用户id` (`u_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -134,9 +135,9 @@
         <result column="lon" jdbcType="DECIMAL" property="lon"/>
         <result column="lat" jdbcType="DECIMAL" property="lat"/>
         <result column="sign_address" jdbcType="VARCHAR" property="signAddress"/>
-        <result column="extend1" jdbcType="VARCHAR" property="extend1"/>
-        <result column="extend2" jdbcType="VARCHAR" property="extend2"/>
-        <result column="extend3" jdbcType="VARCHAR" property="extend3"/>
+        <result column="sign_gpsx" jdbcType="DECIMAL" property="signGpsx"/>
+        <result column="sign_gpsy" jdbcType="DECIMAL" property="signGpsy"/>
+        <result column="sign_via" jdbcType="VARCHAR" property="signVia"/>
     </resultMap>
     <!-- 插入排班数据到指定表 -->
     <insert id="insertScheduleData">
@@ -146,12 +147,12 @@
         insert into mc_schedule_plan_${mcId}_copy (u_id, u_name, group_id,
         per_salary, scheduling_date, period_time,
         total_time, estimate_pay, result,
-        create_time, update_time)
+        create_time, update_time, branch_id)
         values (#{record.uId,jdbcType=INTEGER}, #{record.uName,jdbcType=VARCHAR}, #{record.groupId,jdbcType=INTEGER},
         #{record.perSalary,jdbcType=BIGINT}, #{record.schedulingDate,jdbcType=DATE},
         #{record.periodTime,jdbcType=VARCHAR},
         #{record.totalTime,jdbcType=DECIMAL}, #{record.estimatePay,jdbcType=BIGINT}, #{record.result,jdbcType=INTEGER},
-        #{record.createTime,jdbcType=TIMESTAMP}, #{record.updateTime,jdbcType=TIMESTAMP})
+        #{record.createTime,jdbcType=TIMESTAMP}, #{record.updateTime,jdbcType=TIMESTAMP}, #{record.branchId, jdbcType=INTEGER})
     </insert>
     <!-- 修改排班数据-->
     <update id="updateScheduleDataSelective">
@@ -220,15 +221,16 @@
     <!-- 时间条件查询-->
     <select id="selectSchedulingDataByDate" resultMap="schedulingCell">
         select p.id,p.u_id,p.u_name,p.group_id,p.per_salary,p.scheduling_date,p.period_time,p.total_time,
-              p.estimate_pay,p.result,p.create_time,p.update_time,g.name,g.color
+              p.estimate_pay,p.result,p.create_time,p.update_time, p.branch_id, g.name,g.color
          from mc_schedule_plan_${mcId}_copy AS p LEFT JOIN mc_group g ON p.group_id=g.id
         where scheduling_date &gt;= #{startDate,jdbcType=DATE} AND scheduling_date &lt;= #{endDate,jdbcType=DATE}
+              and branch_id = #{branchId}
     </select>
 
     <!--条件查询 -->
     <select id="selectDataByExample" resultMap="schedulingCell">
         select p.id,p.u_id,p.u_name,p.group_id,p.per_salary,p.scheduling_date,p.period_time,p.total_time,
-        p.estimate_pay,p.result,p.create_time,p.update_time,g.name,g.color
+        p.estimate_pay,p.result,p.create_time,p.update_time,p.branch_id, g.name,g.color
         from mc_schedule_plan_${mcId}_copy AS p LEFT JOIN mc_group g ON p.group_id=g.id
         <if test="_parameter != null">
             <where>
@@ -269,29 +271,26 @@
     <!-- 员工查看自己的排班数据 -->
     <select id="selectStaffData" resultMap="schedulingCell">
         select p.id,p.u_id,p.u_name,p.group_id,p.per_salary,p.scheduling_date,p.period_time,p.total_time,
-              p.estimate_pay,p.result,p.create_time,p.update_time,g.name,g.color
-          from mc_schedule_plan_${parentId}_copy AS p LEFT JOIN mc_group g ON p.group_id=g.id
+              p.estimate_pay,p.result,p.create_time,p.update_time, b.branch_name as branchName,g.name,g.color
+          from mc_schedule_plan_${parentId}_copy AS p LEFT JOIN mc_group g ON p.group_id=g.id, mc_branch b
       WHERE u_id=#{uId,jdbcType=INTEGER} AND
        scheduling_date &gt;= #{startDate,jdbcType=DATE} AND
-        scheduling_date &lt;= #{endDate,jdbcType=DATE}
-        ORDER BY scheduling_date DESC ;
+        scheduling_date &lt;= #{endDate,jdbcType=DATE} AND
+        p.branch_id = b.id
+        ORDER BY scheduling_date ;
     </select>
 
     <!-- 员工签到 -->
     <insert id="insertSignRecord">
-        insert into mc_user_sign_${parentId}_copy (sign_id,u_id, u_name, sign_time,
-      sign_type, lon, lat,
-      sign_address, extend1, extend2,
-      extend3)
+        insert into mc_user_sign_${parentId}_copy (sign_id, u_id, u_name, sign_time, sign_type, lon, lat, sign_address, sign_gpsx, sign_gpsy, sign_via)
     values (#{record.signId,jdbcType=BIGINT},#{record.uId,jdbcType=INTEGER}, #{record.uName,jdbcType=VARCHAR}, #{record.signTime,jdbcType=TIMESTAMP},
-      #{record.signType,jdbcType=INTEGER}, #{record.lon,jdbcType=DECIMAL}, #{record.lat,jdbcType=DECIMAL},
-      #{record.signAddress,jdbcType=VARCHAR}, #{record.extend1,jdbcType=VARCHAR}, #{record.extend2,jdbcType=VARCHAR},
-      #{record.extend3,jdbcType=VARCHAR})
+      #{record.signType,jdbcType=INTEGER}, #{record.lon,jdbcType=DECIMAL}, #{record.lat,jdbcType=DECIMAL}, #{record.signAddress,jdbcType=VARCHAR},
+      #{record.signGpsx, jdbcType=FLOAT}, #{record.signGpsy, jdbcType=FLOAT}, #{record.signVia, jdbcType=VARCHAR})
     </insert>
 
     <!-- 查询签到数据 -->
     <select id="selectSignRecordByExample" resultMap="signResultMap">
-        select sign_id, u_id, u_name, sign_time, sign_type, lon, lat, sign_address, extend1, extend2,extend3
+        select sign_id, u_id, u_name, sign_time, sign_type, lon, lat, sign_address, sign_gpsx, sign_gpsy, sign_via
         FROM mc_user_sign_${parentId}_copy
         <if test="_parameter != null">
             <where>
@@ -362,4 +361,7 @@
         </if>
     </select>
 
+    <delete id="deleteSignRecord">
+        delete from mc_user_sign_${parentId}_copy where sign_id = #{signId, jdbcType=BIGINT}
+    </delete>
 </mapper>

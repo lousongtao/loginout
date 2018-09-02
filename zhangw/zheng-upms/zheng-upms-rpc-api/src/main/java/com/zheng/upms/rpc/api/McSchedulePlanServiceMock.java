@@ -31,7 +31,7 @@ public class McSchedulePlanServiceMock extends BaseServiceMock<McSchedulePlanMap
     }
 
     @Override
-    public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId) {
+    public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId, int branchId) {
         return null;
     }
 

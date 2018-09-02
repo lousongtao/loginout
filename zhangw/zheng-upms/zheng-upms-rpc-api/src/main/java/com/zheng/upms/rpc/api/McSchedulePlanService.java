@@ -44,7 +44,7 @@ public interface McSchedulePlanService {
      * @param mcId
      * @return
      */
-    List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId);
+    List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId, int branchId);
 
     /**
      * 条件查询

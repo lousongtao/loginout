@@ -31,4 +31,6 @@ public interface McUserSignService {
      * @return
      */
     long countByExample(McUserSignExample example, Integer parentId);
+
+    int deleteSignRecord(long signId, int parentId);
 }

@@ -17,7 +17,7 @@
                 <c:forEach var="groupUser" items="${groupUsers}">
                     <option value="${groupUser.userId}"
                             <c:if test="${groupUser.userId==cellData.uId}">selected="selected"</c:if>
-                    >${groupUser.username}
+                    >${groupUser.realname}
                     </option>
                 </c:forEach>
             </select>
@@ -40,6 +40,9 @@
             <label for="totalTime">Total Time(hour)</label>
             <input id="totalTime" type="text" class="form-control" name="totalTime"
                    value="${cellData.totalTime}" readonly>
+        </div>
+        <div class="form-group">
+            <input id="branchId" type="hidden" class="form-control" name="branchId" value="${branchId}" >
         </div>
         <div class="form-group text-right dialog-buttons">
             <a class="waves-effect waves-button" style="color: red" href="javascript:;"

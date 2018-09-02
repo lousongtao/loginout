@@ -48,6 +48,7 @@ public class McGroupServiceImpl extends BaseServiceImpl<McGroupMapper, McGroup, 
                 return mcGroupMapper.deleteByPrimaryKey(groupId);
             }
         } catch (Exception e) {
+			LOGGER.error("", e);
         }
         return 0;
     }

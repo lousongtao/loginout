@@ -42,6 +42,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
         try {
             return upmsApiMapper.selectScheduleDataByPrimaryKey(cellId, currentUserId);
         } catch (Exception e) {
+            LOGGER.error("", e);
         }
         return null;
     }
@@ -66,7 +67,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
                 result = upmsApiMapper.updateScheduleDataSelective(cell, currentUserId);
             }
         } catch (Exception e) {
-
+LOGGER.error("", e);
         }
         return result;
     }
@@ -77,17 +78,17 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
         try {
             result = upmsApiMapper.deleteScheduleDataByPrimaryKey(cellId, currentUserId);
         } catch (Exception e) {
-
+LOGGER.error("", e);
         }
         return result;
     }
 
     @Override
-    public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId) {
+    public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId, int branchId) {
         try {
             int size = 0;
             List<McSchedulingCell> mcSchedulePlans = upmsApiMapper
-                    .selectSchedulingDataByDate(startDate, endDate, mcId);
+                    .selectSchedulingDataByDate(startDate, endDate, mcId, branchId);
             if (!CollectionUtils.isEmpty(mcSchedulePlans)) {
                 size = mcSchedulePlans.size();
             }
@@ -95,7 +96,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
                     + "->" + size + " 条记录");
             return mcSchedulePlans;
         } catch (Exception e) {
-
+LOGGER.error("", e);
         }
         return null;
     }
@@ -107,7 +108,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
                     mcId);
             return mcSchedulePlans;
         } catch (Exception e) {
-
+LOGGER.error("", e);
         }
         return null;
     }
@@ -123,6 +124,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
             return result;
         } catch (Exception e) {
             e.printStackTrace();
+			LOGGER.error("", e);
         }
         return 0;
     }
@@ -136,6 +138,7 @@ public class McSchedulePlanServiceImpl extends BaseServiceImpl<McSchedulePlanMap
             return mcSchedulePlans;
         } catch (Exception e) {
             e.printStackTrace();
+			LOGGER.error("", e);
         }
         return null;
     }

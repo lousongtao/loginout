@@ -55,9 +55,10 @@
                 {field: 'uName', title: 'Name', align: 'center'},
                 {field: 'name', title: 'Group', align: 'center'},
                 {field: 'periodTime', title: 'Period Time', align: 'center'},
-                {field: 'totalTime', title: 'Total Time', align: 'center'},
-                {field: 'result', title: 'Result', align: 'center',formatter: 'resultFormatter'},
-                {field: 'schedulingDate', title: 'Scheduling Date', align: 'center',formatter: 'formatEsDate'}
+                {field: 'schedulingDate', title: 'Scheduling Date', align: 'center',formatter: 'formatEsDate'},
+                {field: 'branchName', title: 'Branch', align: 'center'},
+                {field: 'totalTime', title: 'Total Time(hour)', align: 'center'},
+                {field: 'result', title: 'Result', align: 'center',formatter: 'resultFormatter'}
             ]
         });
 
@@ -169,6 +170,7 @@
         var date = new Date($date);
         var monthArr = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Spt", "Oct", "Nov", "Dec");
         var suffix = new Array("st", "nd", "rd", "th");
+        var week = new Array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 
         var year = date.getFullYear(); //年
         var month = monthArr[date.getMonth()]; //月
@@ -183,7 +185,7 @@
         } else {
             ddate = ddate + suffix[2];
         }
-        return ddate + " " + month + " " + year;
+        return week[date.getDay() - 1] + " " + ddate + " " + month + " " + year;
     }
 </script>
 </body>

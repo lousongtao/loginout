@@ -12,13 +12,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Group Management</title>
+    <title>Sign Management</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
     <div id="toolbar">
-        <shiro:hasPermission name="ucenter:sign:write">
+        <shiro:hasPermission name="ucenter:sign:signinout">
             <button type="button" class="btn btn-success signInButton">Sign In</button>
             <button type="button" class="btn btn-success signOutButton">Sign Out</button>
         </shiro:hasPermission>
@@ -28,6 +28,23 @@
 <div>
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
+<div>
+    <script type="text/javascript">
+        var s_edit_h = 'hidden';
+        var s_delete_h = 'hidden';
+    </script>
+</div>
+<shiro:hasPermission name="ucenter:signrecord:update">
+    <script type="text/javascript">
+        s_edit_h = '';
+    </script>
+</shiro:hasPermission>
+<shiro:hasPermission name="ucenter:signrecord:delete">
+    <script type="text/javascript">
+        s_delete_h = '';
+    </script>
+</shiro:hasPermission>
+
 <script>
     var $table = $('#table');
     $(function () {
@@ -55,11 +72,19 @@
             toolbar: '#toolbar',
             columns: [
 //                {field: 'ck', radio: true},
-                {field: 'signId', title: 'ID', align: 'center'},
+                {field: 'signId', title: 'Sign ID', align: 'center'},
                 {field: 'uName', title: 'Name', align: 'center'},
                 {field: 'signTime', title: 'Sign Time', formatter: 'timeStampToDateTime', align: 'center'},
                 {field: 'signType', title: 'Sign Type', formatter: 'signTypeFormatter', align: 'center'},
-                {field: 'signVia', title: 'Sign Via', formatter: 'signViaFormatter', align: 'center'}
+                {field: 'signVia', title: 'Sign Via', formatter: 'signViaFormatter', align: 'center'},
+                {
+                    title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
+                    formatter: function (value, row, index) {
+                        var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.signId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
+                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.signId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
+                        return u + d;
+                    }
+                }
             ]
         });
 
@@ -110,6 +135,114 @@
             }
         });
     });
+
+    function deleteAction(signId) {
+        var ids = new Array();
+        if (signId) {
+            ids.push(signId);
+            deleteMethod(ids);
+        } else {
+            var rows = $table.bootstrapTable('getSelections');
+            if (rows.length == 0) {
+                $.confirm({
+                    title: false,
+                    content: 'Must choose one record！',
+                    autoClose: 'cancel|3000',
+                    backgroundDismiss: true,
+                    buttons: {
+                        cancel: {
+                            text: 'Cancel',
+                            btnClass: 'waves-effect waves-button'
+                        }
+                    }
+                });
+            } else {
+                for (var i in rows) {
+                    ids.push(rows[i].id);
+                }
+                deleteMethod(ids);
+            }
+
+        }
+    }
+
+    function deleteMethod(ids) {
+        deleteDialog = $.confirm({
+            type: 'red',
+            animationSpeed: 300,
+            title: false,
+            content: 'Do you confirm to delete it？',
+            buttons: {
+                confirm: {
+                    text: 'Confirm',
+                    btnClass: 'waves-effect waves-button',
+                    action: function () {
+                        $.ajax({
+                            type: 'get',
+                            url: '${basePath}/manage/sign/delete/' + ids.join("-"),
+                            success: function (result) {
+                                if (result.code != 1) {
+                                    if (result.data instanceof Array) {
+                                        $.each(result.data, function (index, value) {
+                                            $.confirm({
+                                                theme: 'dark',
+                                                animation: 'rotateX',
+                                                closeAnimation: 'rotateX',
+                                                title: false,
+                                                content: value.errorMsg,
+                                                buttons: {
+                                                    confirm: {
+                                                        text: '确认',
+                                                        btnClass: 'waves-effect waves-button waves-light'
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    } else {
+                                        $.confirm({
+                                            theme: 'dark',
+                                            animation: 'rotateX',
+                                            closeAnimation: 'rotateX',
+                                            title: false,
+                                            content: result.data,
+                                            buttons: {
+                                                confirm: {
+                                                    text: 'Yes',
+                                                    btnClass: 'waves-effect waves-button waves-light'
+                                                }
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    deleteDialog.close();
+                                    $table.bootstrapTable('refresh');
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.confirm({
+                                    theme: 'dark',
+                                    animation: 'rotateX',
+                                    closeAnimation: 'rotateX',
+                                    title: false,
+                                    content: textStatus,
+                                    buttons: {
+                                        confirm: {
+                                            text: 'Yes',
+                                            btnClass: 'waves-effect waves-button waves-light'
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancel',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    }
 
     //staff sign in
     function signIn(url) {

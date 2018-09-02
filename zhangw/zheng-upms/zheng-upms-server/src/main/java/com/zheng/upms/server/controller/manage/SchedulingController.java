@@ -18,6 +18,7 @@ import com.zheng.upms.client.util.UserUtils;
 import com.zheng.upms.dao.model.UpmsUser;
 import com.zheng.upms.dao.model.UpmsUserExample;
 import com.zheng.upms.rpc.api.UpmsUserService;
+import com.zheng.upms.server.DateValidator;
 import com.zheng.upms.server.dto.SchedulingRow;
 import com.zheng.upms.server.form.SchedulingForm;
 import io.swagger.annotations.Api;
@@ -26,14 +27,17 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -60,20 +64,22 @@ public class SchedulingController extends BaseController {
 
     @ApiOperation(value = "员工排班首页")
     @RequiresPermissions("ucenter:scheduling:read")
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index(Model model) {
+    @RequestMapping(value = "/index/{branchId}", method = RequestMethod.GET)
+    public String index(Model model,
+                        @PathVariable("branchId") int branchId) {
         // 所有组
         McGroupExample mcGroupExample = new McGroupExample();
         mcGroupExample.createCriteria().andMcIdEqualTo(UserUtils.getCurrentUserId());
         List<McGroup> mcGroups = mcGroupService.selectByExample(mcGroupExample);
         model.addAttribute("mcGroups", mcGroups);
+        model.addAttribute("branchId", branchId);
         return "/manage/scheduling/index.jsp";
     }
 
     @ApiOperation(value = "跳转更新单元格页面")
     @RequestMapping(value = "/updateCell/{groupId}", method = RequestMethod.GET)
     @RequiresPermissions("ucenter:scheduling:write")
-    public String updateCell(@PathVariable("groupId") Integer groupId, Integer cellId,
+    public String updateCell(@PathVariable("groupId") Integer groupId, Integer cellId, int branchId,
                              HttpServletRequest request, Model model) {
         //组内参与排班的用户
         String schedulingDate = request.getParameter("schedulingDate");
@@ -92,6 +98,7 @@ public class SchedulingController extends BaseController {
         model.addAttribute("groupId", groupId);
         model.addAttribute("schedulingDate", schedulingDate);
         model.addAttribute("groupUsers", groupUsers);
+        model.addAttribute("branchId", branchId);
         return "/manage/scheduling/updateCell.jsp";
     }
 
@@ -121,6 +128,14 @@ public class SchedulingController extends BaseController {
         return new UpmsResult(UpmsResultConstant.FAILED, "operation failed");
     }
 
+    @InitBinder
+    public void dataBinding(WebDataBinder binder){
+//        binder.addValidators(new DateValidator());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, "schedulingDate", new CustomDateEditor(dateFormat, true));
+    }
+
     @ApiOperation(value = "删除单元格数据")
     @RequestMapping(value = "/deleteCell/{cellId}", method = RequestMethod.GET)
     @RequiresPermissions("ucenter:scheduling:write")
@@ -147,11 +162,12 @@ public class SchedulingController extends BaseController {
         Integer currentUserId = UserUtils.getCurrentUserId();
         Timestamp dayStartTime = DateUtils.getDayStartTime(form.getPageMonday());
         Timestamp dayEndTime = DateUtils.getDayEndTime(form.getPageSunday());
+        int branchId = form.getBranchId();
         System.out.println(dayStartTime.toString());
         System.out.println(dayEndTime.toString());
 
         List<McSchedulingCell> mcSchedulePlans = mcSchedulePlanService
-            .selectDataByDate(dayStartTime, dayEndTime, currentUserId);
+            .selectDataByDate(dayStartTime, dayEndTime, currentUserId, branchId);
         //处理数据,并排序
         List<SchedulingRow> rows = formatterScheduleData(mcSchedulePlans, dayStartTime, dayEndTime);
         Map<String, Object> result = new HashMap<>();
@@ -251,6 +267,7 @@ public class SchedulingController extends BaseController {
                 return linkedList.removeFirst();
             }
         } catch (Exception e) {
+			LOGGER.error("", e);
         }
         return null;
     }

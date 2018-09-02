@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>排班</title>
+    <title>Schedule</title>
     <jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
@@ -236,6 +236,7 @@
                 var cellIndex = $element[0].cellIndex;
                 var editDate = addDay(pageMonday, cellIndex - 2);
                 var paramEditDate = "?schedulingDate=" + transferDate(editDate);
+                var branchId = "&branchId=${branchId}";
                 var paramCellId = "";
                 console.log(value);
                 if (value && value.id) {
@@ -253,7 +254,7 @@
                 updateCellDialog = $.dialog({
                     animationSpeed: 300,
                     title: 'Edit Cell Data',
-                    content: 'url:${basePath}/manage/scheduling/updateCell/' + row.mcGroup.id + paramEditDate + paramCellId,
+                    content: 'url:${basePath}/manage/scheduling/updateCell/' + row.mcGroup.id + paramEditDate + paramCellId + branchId,
                     onContentReady: function () {
                         initMaterialInput();
                     }
@@ -280,7 +281,8 @@
         var param = {
             pageToday: transferDate(pageToday),
             pageMonday: transferDate(pageMonday),
-            pageSunday: transferDate(pageSunday)
+            pageSunday: transferDate(pageSunday),
+            branchId: ${branchId}
         }
         return param;
     }

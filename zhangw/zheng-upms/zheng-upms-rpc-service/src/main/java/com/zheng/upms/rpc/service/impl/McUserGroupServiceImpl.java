@@ -55,6 +55,7 @@ public class McUserGroupServiceImpl extends
                 return userList;
             }
         } catch (Exception e) {
+			LOGGER.error("", e);
         }
         return null;
     }
@@ -75,7 +76,7 @@ public class McUserGroupServiceImpl extends
                 return list;
             }
         } catch (Exception e) {
-
+LOGGER.error("", e);
         }
         return null;
     }
@@ -101,6 +102,7 @@ public class McUserGroupServiceImpl extends
                 }
             }
         } catch (Exception e) {
+			LOGGER.error("", e);
         }
         return result;
     }

@@ -27,3 +27,7 @@ ALTER TABLE `zheng`.`mc_user_sign`
 CHANGE COLUMN `extend1` `sign_gpsx` FLOAT NULL DEFAULT NULL COMMENT 'GPS X' ,
 CHANGE COLUMN `extend2` `sign_gpsy` FLOAT NULL DEFAULT NULL COMMENT 'GPS Y' ,
 CHANGE COLUMN `extend3` `sign_via` VARCHAR(30) NULL DEFAULT NULL COMMENT 'sign tool, 0=browser; 1=phone app;' ;
+
+alter table `zheng`.`mc_schedule_plan`
+add column `branch_id` INT(11) NOT NULL after `update_time`;
+

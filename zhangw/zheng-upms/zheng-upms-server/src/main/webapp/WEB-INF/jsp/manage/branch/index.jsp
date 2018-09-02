@@ -283,7 +283,7 @@
         } else {
             branchId = rows[0].id;
 
-            parent.Tab.addTab('Schedule - ' + rows[0].branchName, '${basePath}/manage/scheduling/index');
+            parent.Tab.addTab('Schedule - ' + rows[0].branchName, '${basePath}/manage/scheduling/index/'+branchId);
         }
     }
 

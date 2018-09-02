@@ -77,7 +77,8 @@ public interface UpmsApiMapper {
 	 */
 	List<McSchedulingCell> selectSchedulingDataByDate(@Param("startDate") Date startDate,
 													  @Param("endDate") Date endDate,
-													  @Param("mcId") Integer mcId);
+													  @Param("mcId") Integer mcId,
+													  @Param("branchId") int branchId);
 
 	/**
 	 * 条件查询,补充 selectSchedulingDataByDate 方法
@@ -127,4 +128,5 @@ public interface UpmsApiMapper {
 	long countSignRecordByExample(@Param("example") McUserSignExample example,
 								  @Param("parentId") Integer parentId);
 
+	int deleteSignRecord(@Param("signId") long signId, @Param("parentId") int parentId);
 }

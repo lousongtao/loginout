@@ -19,10 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -99,7 +96,7 @@ public class SignController extends BaseController {
     }
 
     @ApiOperation(value = "网页端员工签到")
-    @RequiresPermissions("ucenter:sign:write")
+    @RequiresPermissions("ucenter:sign:signinout")
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
     @ResponseBody
     public Object signIn() {
@@ -107,7 +104,7 @@ public class SignController extends BaseController {
     }
 
     @ApiOperation(value = "网页端员工签到")
-    @RequiresPermissions("ucenter:sign:write")
+    @RequiresPermissions("ucenter:sign:signinout")
     @RequestMapping(value = "/signOut", method = RequestMethod.POST)
     @ResponseBody
     public Object signOut() {
@@ -133,4 +130,16 @@ public class SignController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "delete sign record")
+    @RequiresPermissions("ucenter:signrecord:delete")
+    @RequestMapping(value = "/delete/{signId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object deleteSignRecord(@PathVariable long signId){
+        int count = mcUserSignService.deleteSignRecord(signId);
+        if (count == 0) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "Failed to delete this record, please contact administrator!");
+        } else {
+            return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+        }
+    }
 }

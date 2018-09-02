@@ -79,6 +79,10 @@ public class McSchedulePlan implements Serializable {
      */
     private Date updateTime;
 
+    private Integer branchId;
+
+    private String branchName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -177,6 +181,22 @@ public class McSchedulePlan implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -195,6 +215,7 @@ public class McSchedulePlan implements Serializable {
         sb.append(", result=").append(result);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", branchId=").append(branchId);
         sb.append("]");
         return sb.toString();
     }
@@ -222,7 +243,8 @@ public class McSchedulePlan implements Serializable {
             && (this.getEstimatePay() == null ? other.getEstimatePay() == null : this.getEstimatePay().equals(other.getEstimatePay()))
             && (this.getResult() == null ? other.getResult() == null : this.getResult().equals(other.getResult()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getBranchId() == null ? other.getBranchId() == null : this.getBranchId().equals(other.getBranchId()));
     }
 
     @Override
@@ -241,6 +263,7 @@ public class McSchedulePlan implements Serializable {
         result = prime * result + ((getResult() == null) ? 0 : getResult().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getBranchId() == null) ? 0 : getBranchId().hashCode());
         return result;
     }
 }

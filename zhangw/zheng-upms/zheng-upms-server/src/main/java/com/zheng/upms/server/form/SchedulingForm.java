@@ -11,6 +11,7 @@ public class SchedulingForm implements Serializable {
     private Date pageToday;
     private Date pageMonday;
     private Date pageSunday;
+    private int branchId;
 
     public Date getPageToday() {
         return pageToday;
@@ -36,9 +37,21 @@ public class SchedulingForm implements Serializable {
         this.pageSunday = pageSunday;
     }
 
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
+    }
+
     @Override
     public String toString() {
-        return "SchedulingForm{" + "pageToday=" + pageToday + ", pageMonday=" + pageMonday
-               + ", pageSunday=" + pageSunday + '}';
+        return "SchedulingForm{" +
+                "pageToday=" + pageToday +
+                ", pageMonday=" + pageMonday +
+                ", pageSunday=" + pageSunday +
+                ", branchId=" + branchId +
+                '}';
     }
 }

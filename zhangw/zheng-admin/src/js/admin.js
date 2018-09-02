@@ -43,7 +43,7 @@ $(function() {
 		$.cookie('zheng-upms-systemtitle', systemtitle);
 	});
 	// 显示cookie菜单
-	var systemid = $.cookie('zheng-upms-systemid') || 4;
+	var systemid = $.cookie('zheng-upms-systemid') || 1;
 	var systemname = $.cookie('zheng-upms-systemname') || 'zheng-upms-server';
 	var systemtitle = $.cookie('zheng-upms-systemtitle') || '权限管理系统';
 	$('.system_menus').hide(0, function () {

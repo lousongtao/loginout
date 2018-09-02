@@ -34,7 +34,7 @@ public class McUserSignServiceImpl implements McUserSignService {
             return upmsApiMapper.insertSignRecord(mcUserSign, parentId);
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.error("insertSignRecord error");
+            LOGGER.error("insertSignRecord error", e);
         }
         return 0;
     }
@@ -51,7 +51,7 @@ public class McUserSignServiceImpl implements McUserSignService {
             return mcUserSigns;
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.error("selectSignRecordByExample error");
+            LOGGER.error("selectSignRecordByExample error", e);
         }
         return null;
     }
@@ -63,8 +63,21 @@ public class McUserSignServiceImpl implements McUserSignService {
             return count;
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.error("selectSignRecordByExample error");
+            LOGGER.error("selectSignRecordByExample error", e);
         }
         return 0;
     }
+
+    @Override
+    public int deleteSignRecord(long signId, int parentId) {
+        try{
+            return upmsApiMapper.deleteSignRecord(signId, parentId);
+        } catch(Exception e){
+            e.printStackTrace();
+            LOGGER.error("deleteSignRecord", e);
+        }
+        return 0;
+    }
+
+
 }

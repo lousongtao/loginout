@@ -25,4 +25,9 @@ public class McUserSignServiceMock implements McUserSignService {
     public long countByExample(McUserSignExample example, Integer parentId) {
         return 0;
     }
+
+    @Override
+    public int deleteSignRecord(long signId) {
+        return 0;
+    }
 }
