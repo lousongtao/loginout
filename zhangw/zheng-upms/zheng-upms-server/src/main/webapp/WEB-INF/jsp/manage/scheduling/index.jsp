@@ -17,34 +17,32 @@
 </head>
 <body>
 <div id="main">
-    <div id="toolbar">
-        <div class="btn-group" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Add Row
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <c:forEach var="mcGroup" items="${mcGroups}">
-                        <li><a href="javascript:void(0)" id="groupId${mcGroup.id}"
-                               onclick="addRowAction(${mcGroup.id})">${mcGroup.name}</a></li>
-                    </c:forEach>
-                </ul>
-            </div>
-            <button id="deleteRow" type="button" class="btn btn-danger">Delete Choose Row</button>
-        </div>
-    </div>
+
     <h3 id="headTitle" align="center">scheduling Table</h3>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Row
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <c:forEach var="mcGroup" items="${mcGroups}">
+                    <li><a href="javascript:void(0)" id="groupId${mcGroup.id}"
+                           onclick="addRowAction(${mcGroup.id})">${mcGroup.name}</a></li>
+                </c:forEach>
+            </ul>
+        </div>
+        <button id="deleteRow" type="button" class="btn btn-danger">Delete Choose Row</button>
+    </div>
     <div class="btn-group" role="group" aria-label="...">
         <button id="lastWeek" type="button" class="btn btn-default">Last Week</button>
         <button id="thisWeek" type="button" class="btn btn-primary">This Week</button>
         <button id="nextWeek" type="button" class="btn btn-default">Next Week</button>
     </div>
-    <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-info" style="float: right">Save Template</a>
-    <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-success" style="float: right">Choose My
-        Template</a>
+    <div class="btn-group" role="group" aria-label="...">
+        <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-info" style="float: right">Save Template</a>
+        <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-success" style="float: right">Choose My Template</a>
+    </div>
     <table id="table"></table>
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
@@ -220,15 +218,16 @@
     var updateCellDialog;
 
     function initData() {
+        var height = $(window).height() - 125;//TODO:第一次取值, window.height只有25, 不知道原因, 导致下面的footer显示在了窗口外. 但是在tab上点击刷新, 就能把footer刷到窗口内
         $table.bootstrapTable({
             url: '${basePath}/manage/scheduling/getData',
             method: 'post',
-            height: getHeight(),
+            height: height,
             striped: true,
             sidePagination: 'server',
             escape: true,
-            toolbar: '#toolbar',
-            showFooter: true,
+            // toolbar: '#toolbar',
+            showFooter: true ,
             queryParams: queryParams,
             columns: myColumns,
             rowStyle: myRowStyle,
@@ -262,6 +261,7 @@
             }
 
         });
+
 
     }
 
@@ -327,36 +327,65 @@
     //获取本周起始日期和结束日期
     function initWeekStartAndEnd() {
         pageToday = new Date();
-//        console.log("初始化今天" + transferDate(pageToday));
-        var $date = pageToday;
-        //今天是这周的第几天
-        var today = $date.getDay();
-        //上周日距离今天的天数（负数表示）
-        var stepSunDay = -today + 1;
-
-        // 如果今天是周日
-        if (today == 0) {
-            stepSunDay = -7;
-        }
-        // 周一距离今天的天数（负数表示）
-        var stepMonday = 7 - today;
-        var time = $date.getTime();
-        var monday = new Date(time + stepSunDay * 24 * 3600 * 1000);
-        pageMonday = monday;
-//        console.log("初始化本周一" + transferDate(pageMonday));
-        var sunday = new Date(time + stepMonday * 24 * 3600 * 1000);
-        pageSunday = sunday;
-//        console.log("初始化本周天" + transferDate(pageSunday));
+        pageMonday = getMonday(pageToday);
+        pageSunday = getSunday(pageToday);
+//         var $date = pageToday;
+//         //今天是这周的第几天
+//         var today = $date.getDay();
+//         //上周日距离今天的天数（负数表示）
+//         var stepSunDay = -today + 1;
+//
+//         // 如果今天是周日
+//         if (today == 0) {
+//             stepSunDay = -7;
+//         }
+//         // 周一距离今天的天数（负数表示）
+//         var stepMonday = 7 - today;
+//         var time = $date.getTime();
+//         var monday = new Date(time + stepSunDay * 24 * 3600 * 1000);
+//         pageMonday = monday;
+// //        console.log("初始化本周一" + transferDate(pageMonday));
+//         var sunday = new Date(time + stepMonday * 24 * 3600 * 1000);
+//         pageSunday = sunday;
+// //        console.log("初始化本周天" + transferDate(pageSunday));
         //标题也要跟着初始化
         var weekStartDateAndEndDate = new Array();
-        weekStartDateAndEndDate.push(monday, sunday);
+        weekStartDateAndEndDate.push(pageMonday, pageSunday);
         return weekStartDateAndEndDate;
+    }
+
+    function getMonday(d1){
+        var day = d1.getDay();
+        var oneday = 24 * 60 * 60 *1000;
+        switch (day) {
+            case 0: return new Date(d1.getTime() - 6 * oneday) ; //按照周日为本周第一天算, 周一则向前推6天
+            case 1: return d1;
+            case 2: return new Date(d1.getTime() - 1 * oneday) ;
+            case 3: return new Date(d1.getTime() - 2 * oneday) ;
+            case 4: return new Date(d1.getTime() - 3 * oneday) ;
+            case 5: return new Date(d1.getTime() - 4 * oneday) ;
+            case 6: return new Date(d1.getTime() - 5 * oneday) ;
+        }
+    }
+
+    function getSunday(d1){
+        var day = d1.getDay();
+        var oneday = 24 * 60 * 60 * 1000;
+        switch (day) {
+            case 0: return d1;
+            case 1: return new Date(d1.getTime() + 6 * oneday);
+            case 2: return new Date(d1.getTime() + 5 * oneday);
+            case 3: return new Date(d1.getTime() + 4 * oneday);
+            case 4: return new Date(d1.getTime() + 3 * oneday);
+            case 5: return new Date(d1.getTime() + 2 * oneday);
+            case 6: return new Date(d1.getTime() + 1 * oneday);
+        }
     }
 
     //将时间转换成美式英语的时间格式,eg:3rd May 2018
     function formatEsDate($date) {
         var date = new Date($date);
-        var monthArr = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Spt", "Oct", "Nov", "Dec");
+        var monthArr = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
         var suffix = new Array("st", "nd", "rd", "th");
 
         var year = date.getFullYear(); //年
@@ -389,7 +418,7 @@
         }
         var column0 = {
             field: 'mcGroup',
-            title: 'Group/Date',
+            title: 'Group',
             align: 'center',
             valign: 'middle',
             formatter: groupFormat,

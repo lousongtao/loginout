@@ -27,7 +27,12 @@ public class McUserSignServiceMock implements McUserSignService {
     }
 
     @Override
-    public int deleteSignRecord(long signId) {
+    public int deleteSignRecord(long signId, int parentId) {
+        return 0;
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(int parentId, McUserSign mcUserSign) {
         return 0;
     }
 }

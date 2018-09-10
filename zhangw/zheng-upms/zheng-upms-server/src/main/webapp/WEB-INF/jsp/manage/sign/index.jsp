@@ -22,6 +22,9 @@
             <button type="button" class="btn btn-success signInButton">Sign In</button>
             <button type="button" class="btn btn-success signOutButton">Sign Out</button>
         </shiro:hasPermission>
+        <shiro:hasPermission name="ucenter:sign:supplysign">
+            <button type="button" class="btn btn-success supplySignButton">Supply Sign</button>
+        </shiro:hasPermission>
     </div>
     <table id="table"></table>
 </div>
@@ -134,7 +137,39 @@
                 });
             }
         });
+
+        $('.supplySignButton').click(createAction);
     });
+
+    // 新增
+    var createDialog;
+
+    function createAction() {
+        createDialog = $.dialog({
+            animationSpeed: 300,
+            title: 'Supply Sign',
+            content: 'url:${basePath}/manage/sign/supplySign',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
+
+    // 编辑
+    var updateDialog;
+
+    function updateAction(id) {
+        if (id) {
+            updateDialog = $.dialog({
+                animationSpeed: 300,
+                title: 'Update Sign Record',
+                content: 'url:${basePath}/manage/sign/update/' + id,
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
+    }
 
     function deleteAction(signId) {
         var ids = new Array();
@@ -323,10 +358,10 @@
     }
 
     function signTypeFormatter(value, row, index) {
-        if (value == 0) {
-            return "In";
+        if (value == 0 ) {
+            return '<span class="label label-success">In</span>';
         } else {
-            return "Out";
+            return '<span class="label label-danger">Out</span>';
         }
     }
 

@@ -54,10 +54,12 @@ $(function() {
 });
 // iframe高度自适应
 function changeFrameHeight(ifm) {
-	ifm.height = document.documentElement.clientHeight - 118;
+	// ifm.height = document.documentElement.clientHeight - 118;
+    ifm.height = '100%';
 }
 function resizeFrameHeight() {
-	$('.tab_iframe').css('height', document.documentElement.clientHeight - 118);
+	// $('.tab_iframe').css('height', document.documentElement.clientHeight - 118);
+    $('.tab_iframe').css('height', '100%');
 	$('md-tab-content').css('left', '0');
 }
 window.onresize = function() {

@@ -22,13 +22,13 @@
             <label for="phone">Telephone</label>
             <input id="phone" type="text" class="form-control" name="phone" maxlength="20" value="${user.phone}">
         </div>
-        <div class="form-group">
-            <label for="baseSalaryMoney">Base salary($)</label>
-            <input id="baseSalaryMoney" type="text" class="form-control" name="baseSalaryMoney" value="${(user.baseSalary)/100}">
-        </div>
+        <%--<div class="form-group">--%>
+            <%--<label for="baseSalaryMoney">Base salary($)</label>--%>
+            <%--<input id="baseSalaryMoney" type="text" class="form-control" name="baseSalaryMoney" value="${(user.baseSalary)/100}">--%>
+        <%--</div>--%>
         <div class="form-group">
             <label for="perSalaryMoney">Hour salary($)</label>
-            <input id="perSalaryMoney" type="text" class="form-control" name="perSalaryMoney" value="${(user.perSalary)/100}">
+            <input id="perSalaryMoney" type="text" class="form-control" name="perSalaryMoney" value="${user.perSalary}">
         </div>
         <div class="form-group">
             <label for="email">Mail</label>
@@ -76,12 +76,12 @@
     function createSubmit() {
         //先做重要参数校验
         var isMoney = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
-        var baseSalary = $("#baseSalaryMoney").val();
+        // var baseSalary = $("#baseSalaryMoney").val();
         var perSalary = $("#perSalaryMoney").val();
-        if (baseSalary != "0" && !isMoney.test(baseSalary)) {
-        	showTips("Base salary is not right format");
-            return;
-        }
+        // if (baseSalary != "0" && !isMoney.test(baseSalary)) {
+        // 	showTips("Base salary is not right format");
+        //     return;
+        // }
         if (perSalary != "0" && !isMoney.test(perSalary)) {
         	showTips("Hour salary is not right format");
             return;

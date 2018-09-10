@@ -129,4 +129,6 @@ public interface UpmsApiMapper {
 								  @Param("parentId") Integer parentId);
 
 	int deleteSignRecord(@Param("signId") long signId, @Param("parentId") int parentId);
+
+    int updateSignRecord(@Param("parentId") int parentId, @Param("record") McUserSign mcUserSign);
 }

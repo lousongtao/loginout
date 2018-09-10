@@ -107,14 +107,9 @@
                 {field: 'email', title: 'Mail', visible: false},
                 {field: 'sex', title: 'Sex', formatter: 'sexFormatter'},
                 {field: 'createTime', title: 'Create Time', sortable: true, formatter: 'timeStampToDateTime'},
-                {field: 'baseSalary', title: 'Base Salary', formatter: 'salaryFormatter'},
-                {field: 'perSalary', title: 'Hour Salary', formatter: 'salaryFormatter'},
-                {
-                    field: 'schedulestatus',
-                    title: 'Schedule Permission',
-                    align: 'center',
-                    formatter: 'schedulestatusFormatter'
-                },
+                // {field: 'baseSalary', title: 'Base Salary', formatter: 'salaryFormatter'},
+                {field: 'perSalary', title: 'Hour Salary($)'},
+                {field: 'schedulestatus', title: 'In Schedule', align: 'center', formatter: 'schedulestatusFormatter'},
                 {field: 'groupList', title: 'Group', align: 'center', formatter: 'groupFormatter'},
                 {field: 'locked', title: 'Status', sortable: true, align: 'center', formatter: 'lockedFormatter'},
                 {
@@ -182,14 +177,11 @@
         if (!value) {
             return '-';
         } else {
-            var str = (value / 100).toFixed(2) + '';
-            var intSum = str.substring(0, str.indexOf(".")).replace(/\B(?=(?:\d{3})+$)/g, ',');//取到整数部分
-            var dot = str.substring(str.length, str.indexOf("."))//取到小数部分
-            var salary = intSum + dot;
+            // var str = (value / 100).toFixed(2) + '';
+            // var intSum = str.substring(0, str.indexOf(".")).replace(/\B(?=(?:\d{3})+$)/g, ',');//取到整数部分
+            // var dot = str.substring(str.length, str.indexOf("."))//取到小数部分
+            // var salary = intSum + dot;
 
-//            var salary = value*0.01; //分到元
-//            var reg=  salary.indexOf('.') >-1 ? /(\d{1,3})(?=(?:\d{3})+\.)/g : /(\d{1,3})(?=(?:\d{3})+$)/g;//千分符的正则
-//            salary=salary.replace(reg, '$1,');//千分位格式化
             return salary;
         }
     }
@@ -200,7 +192,7 @@
     function createAction() {
         createDialog = $.dialog({
             animationSpeed: 300,
-            title: 'New User',
+            title: 'New Staff',
             content: 'url:${basePath}/manage/staff/create',
             onContentReady: function () {
                 initMaterialInput();

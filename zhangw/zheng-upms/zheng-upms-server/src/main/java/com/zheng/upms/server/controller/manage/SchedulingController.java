@@ -7,17 +7,10 @@ import com.zheng.common.util.DateUtils;
 import com.zheng.common.util.Money;
 import com.zheng.upms.common.constant.UpmsResult;
 import com.zheng.upms.common.constant.UpmsResultConstant;
-import com.zheng.upms.dao.model.McGroup;
-import com.zheng.upms.dao.model.McGroupExample;
-import com.zheng.upms.dao.model.McSchedulePlan;
+import com.zheng.upms.dao.model.*;
 import com.zheng.upms.dao.vo.McSchedulingCell;
-import com.zheng.upms.rpc.api.McGroupService;
-import com.zheng.upms.rpc.api.McSchedulePlanService;
-import com.zheng.upms.rpc.api.McUserGroupService;
+import com.zheng.upms.rpc.api.*;
 import com.zheng.upms.client.util.UserUtils;
-import com.zheng.upms.dao.model.UpmsUser;
-import com.zheng.upms.dao.model.UpmsUserExample;
-import com.zheng.upms.rpc.api.UpmsUserService;
 import com.zheng.upms.server.DateValidator;
 import com.zheng.upms.server.dto.SchedulingRow;
 import com.zheng.upms.server.form.SchedulingForm;
@@ -62,6 +55,9 @@ public class SchedulingController extends BaseController {
     @Autowired
     private UpmsUserService       upmsUserService;
 
+    @Autowired
+    private McBranchService mcBranchService;
+
     @ApiOperation(value = "员工排班首页")
     @RequiresPermissions("ucenter:scheduling:read")
     @RequestMapping(value = "/index/{branchId}", method = RequestMethod.GET)
@@ -74,6 +70,25 @@ public class SchedulingController extends BaseController {
         model.addAttribute("mcGroups", mcGroups);
         model.addAttribute("branchId", branchId);
         return "/manage/scheduling/index.jsp";
+    }
+
+    @ApiOperation(value = "员工排班, 选择分店")
+    @RequiresPermissions("ucenter:scheduling:read")
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public Object index(Model model) {
+        int currentUserId = UserUtils.getCurrentUserId();
+        McBranchExample mcBranchExample = new McBranchExample();
+        mcBranchExample.createCriteria().andUserIdEqualTo(currentUserId);
+        List<McBranch> branches = mcBranchService.selectByExample(mcBranchExample);
+        if (branches == null || branches.isEmpty()){
+            return new UpmsResult(UpmsResultConstant.FAILED, "Please input branch data.");
+        } else if (branches.size() == 1){
+            model.addAttribute("branchId", branches.get(0).getId());
+            return "/manage/scheduling/index.jsp";
+        } else {
+//            model.addAttribute("branches", branches);
+            return "/manage/branch/index.jsp";
+        }
     }
 
     @ApiOperation(value = "跳转更新单元格页面")

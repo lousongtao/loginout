@@ -364,4 +364,10 @@
     <delete id="deleteSignRecord">
         delete from mc_user_sign_${parentId}_copy where sign_id = #{signId, jdbcType=BIGINT}
     </delete>
+
+    <update id="updateSignRecord">
+        update mc_user_sign_${parentId}_copy
+        set sign_type = #{record.signType,jdbcType=INTEGER}, sign_time = #{record.signTime,jdbcType=TIMESTAMP}
+        where sign_id = #{record.signId,jdbcType=BIGINT}
+    </update>
 </mapper>

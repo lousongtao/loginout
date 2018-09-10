@@ -33,4 +33,6 @@ public interface McUserSignService {
     long countByExample(McUserSignExample example, Integer parentId);
 
     int deleteSignRecord(long signId, int parentId);
+
+    int updateByPrimaryKeySelective(int parentId, McUserSign mcUserSign);
 }

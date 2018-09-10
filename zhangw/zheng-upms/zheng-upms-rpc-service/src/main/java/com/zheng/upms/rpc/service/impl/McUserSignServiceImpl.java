@@ -79,5 +79,16 @@ public class McUserSignServiceImpl implements McUserSignService {
         return 0;
     }
 
+    @Override
+    public int updateByPrimaryKeySelective(int parentId, McUserSign mcUserSign) {
+        try{
+            return upmsApiMapper.updateSignRecord(parentId, mcUserSign);
+        } catch(Exception e){
+            e.printStackTrace();
+            LOGGER.error("deleteSignRecord", e);
+        }
+        return 0;
+    }
+
 
 }

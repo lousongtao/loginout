@@ -70,7 +70,6 @@
         planTimeChange();
         //格式化时间控件
         $('#startTime').datetimepicker({
-            language: 'zh-CN',
             weekStart: 1,
             todayBtn: 1,
             autoclose: 1,
@@ -84,7 +83,6 @@
             planTimeChange(ev);
         });
         $('#endTime').datetimepicker({
-            language: 'zh-CN',
             weekStart: 1,
             todayBtn: 1,
             autoclose: 1,
