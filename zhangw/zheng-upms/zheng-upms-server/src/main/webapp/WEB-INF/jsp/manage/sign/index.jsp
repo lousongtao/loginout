@@ -84,7 +84,7 @@
                     title: 'Operation', field: 'idd', align: 'center', clickToSelect: false,
                     formatter: function (value, row, index) {
                         var u = '<a  class="update ' + s_edit_h + '" href="#" mce_href="#" title="Edit" onclick="updateAction(\'' + row.signId + '\')"><i class="glyphicon glyphicon-edit "></i></a>&nbsp&nbsp&nbsp ';
-                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.signId + '\')"><i class="glyphicon glyphicon-remove "></i></a> ';
+                        var d = '<a  class="delete ' + s_delete_h + '" href="#" mce_href="#" title="Remove" onclick="deleteAction(\'' + row.signId + '\', \'' + row.uName+'\', \'' + row.signTime+'\', \''+row.signType+'\')"><i class="glyphicon glyphicon-remove "></i></a> ';
                         return u + d;
                     }
                 }
@@ -171,34 +171,98 @@
         }
     }
 
-    function deleteAction(signId) {
+    function deleteAction(signId, uName, signTime, signType) {
         var ids = new Array();
-        if (signId) {
-            ids.push(signId);
-            deleteMethod(ids);
-        } else {
-            var rows = $table.bootstrapTable('getSelections');
-            if (rows.length == 0) {
-                $.confirm({
-                    title: false,
-                    content: 'Must choose one record！',
-                    autoClose: 'cancel|3000',
-                    backgroundDismiss: true,
-                    buttons: {
-                        cancel: {
-                            text: 'Cancel',
-                            btnClass: 'waves-effect waves-button'
-                        }
+        ids.push(signId);
+        deleteDialog = $.confirm({
+            type: 'red',
+            animationSpeed: 300,
+            title: false,
+            content: 'Do you confirm to delete the record of ' + uName + ' on ' + timeStampToDateTime(signTime) + ' for ' + signTypeFormatter(signType) +'？',
+            buttons: {
+                confirm: {
+                    text: 'Confirm',
+                    btnClass: 'waves-effect waves-button',
+                    action: function () {
+                        $.ajax({
+                            type: 'get',
+                            url: '${basePath}/manage/sign/delete/' + ids.join("-"),
+                            success: function (result) {
+                                if (result.code != 1) {
+                                    $.confirm({
+                                        theme: 'dark',
+                                        animation: 'rotateX',
+                                        closeAnimation: 'rotateX',
+                                        title: false,
+                                        content: result.data,
+                                        buttons: {
+                                            confirm: {
+                                                text: 'Yes',
+                                                btnClass: 'waves-effect waves-button waves-light'
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    deleteDialog.close();
+                                    $table.bootstrapTable('refresh');
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.confirm({
+                                    theme: 'dark',
+                                    animation: 'rotateX',
+                                    closeAnimation: 'rotateX',
+                                    title: false,
+                                    content: textStatus,
+                                    buttons: {
+                                        confirm: {
+                                            text: 'Yes',
+                                            btnClass: 'waves-effect waves-button waves-light'
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
-                });
-            } else {
-                for (var i in rows) {
-                    ids.push(rows[i].id);
+                },
+                cancel: {
+                    text: 'Cancel',
+                    btnClass: 'waves-effect waves-button'
                 }
-                deleteMethod(ids);
             }
+        });
 
-        }
+
+
+
+
+        // var ids = new Array();
+        // if (signId) {
+        //     ids.push(signId);
+        //     deleteMethod(ids);
+        // } else {
+        //     var rows = $table.bootstrapTable('getSelections');
+        //     if (rows.length == 0) {
+        //         $.confirm({
+        //             title: false,
+        //             content: 'Must choose one record！',
+        //             autoClose: 'cancel|3000',
+        //             backgroundDismiss: true,
+        //             buttons: {
+        //                 cancel: {
+        //                     text: 'Cancel',
+        //                     btnClass: 'waves-effect waves-button'
+        //                 }
+        //             }
+        //         });
+        //     } else {
+        //         for (var i in rows) {
+        //             ids.push(rows[i].id);
+        //         }
+        //         deleteMethod(ids);
+        //     }
+        //
+        // }
     }
 
     function deleteMethod(ids) {
@@ -328,7 +392,7 @@
                         animation: 'rotateX',
                         closeAnimation: 'rotateX',
                         title: false,
-                        content: "Signed In Success",
+                        content: "Signed Success",
                         buttons: {
                             confirm: {
                                 text: 'Okay',

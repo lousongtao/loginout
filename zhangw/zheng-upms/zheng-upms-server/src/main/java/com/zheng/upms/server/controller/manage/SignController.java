@@ -1,11 +1,7 @@
 package com.zheng.upms.server.controller.manage;
 
-import com.baidu.unbiz.fluentvalidator.ComplexResult;
-import com.baidu.unbiz.fluentvalidator.FluentValidator;
-import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.zheng.common.base.BaseController;
 import com.zheng.common.util.DateUtils;
-import com.zheng.common.validator.NotNullValidator;
 import com.zheng.upms.common.constant.UpmsResult;
 import com.zheng.upms.common.constant.UpmsResultConstant;
 import com.zheng.upms.rpc.api.McUserSignService;
@@ -14,12 +10,10 @@ import com.zheng.upms.dao.model.*;
 import com.zheng.upms.rpc.api.UpmsRoleService;
 import com.zheng.upms.rpc.api.UpmsUserRoleService;
 import com.zheng.upms.rpc.api.UpmsUserService;
-import com.zheng.upms.server.ConstantValue;
+import com.zheng.upms.common.constant.ConstantValue;
 import com.zheng.upms.server.conf.SeqKit;
 import com.zheng.upms.server.dto.SignReportRow;
-import com.zheng.upms.server.form.SchedulingForm;
 import com.zheng.upms.server.form.SignReportForm;
-import com.zheng.upms.server.form.SupplySignForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

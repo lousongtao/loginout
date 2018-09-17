@@ -88,18 +88,18 @@ public class UpmsUser implements Serializable {
     private Integer parentId;
 
     /**
-     * 底薪 单位(分)
+     * 底薪 单位($)
      *
      * @mbg.generated
      */
-    private Long baseSalary;
+    private Double baseSalary;
 
     /**
-     * 每小时薪酬,单位(分)
+     * 每小时薪酬,单位($)
      *
      * @mbg.generated
      */
-    private Long perSalary;
+    private Double perSalary;
 
     /**
      * 是否参与排班(0=不参与，1=参与)
@@ -228,19 +228,19 @@ public class UpmsUser implements Serializable {
         this.parentId = parentId;
     }
 
-    public Long getBaseSalary() {
+    public Double getBaseSalary() {
         return baseSalary;
     }
 
-    public void setBaseSalary(Long baseSalary) {
+    public void setBaseSalary(Double baseSalary) {
         this.baseSalary = baseSalary;
     }
 
-    public Long getPerSalary() {
+    public Double getPerSalary() {
         return perSalary;
     }
 
-    public void setPerSalary(Long perSalary) {
+    public void setPerSalary(Double perSalary) {
         this.perSalary = perSalary;
     }
 

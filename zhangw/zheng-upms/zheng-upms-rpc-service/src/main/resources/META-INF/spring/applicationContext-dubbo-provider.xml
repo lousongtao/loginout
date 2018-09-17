@@ -71,6 +71,13 @@
     <bean id="mcSchedulePlanService" class="com.zheng.upms.rpc.service.impl.McSchedulePlanServiceImpl"/>
     <dubbo:service interface="com.zheng.upms.rpc.api.McSchedulePlanService" ref="mcSchedulePlanService" timeout="10000"/>
 
+    <!--Schedule Template-->
+    <bean id="mcScheduleplanTemplateService" class="com.zheng.upms.rpc.service.impl.McScheduleplanTemplateServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McScheduleplanTemplateService" ref="mcScheduleplanTemplateService" timeout="10000"/>
+
+    <!--Schedule Template Detail-->
+    <bean id="mcScheduleplanTemplatedetailService" class="com.zheng.upms.rpc.service.impl.McScheduleplanTemplatedetailServiceImpl"/>
+    <dubbo:service interface="com.zheng.upms.rpc.api.McScheduleplanTemplatedetailService" ref="mcScheduleplanTemplatedetailService" timeout="10000"/>
 
     <!-- 用户职位关联-->
     <bean id="mcUserGroupService" class="com.zheng.upms.rpc.service.impl.McUserGroupServiceImpl"/>

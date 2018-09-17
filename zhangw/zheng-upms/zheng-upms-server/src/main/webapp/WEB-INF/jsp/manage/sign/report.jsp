@@ -55,6 +55,15 @@
             escape: true,
             queryParams: queryParams,
             columns: myColumns,
+            onLoadSuccess : function(data){
+                if (data.code == 0){
+                    alert(data.data);
+                }
+            },
+            onLoadError: function(result){
+                console.log('failed');
+                console.log(result);
+            }
         });
         //点击事件
         $("#lastWeek").click(function () {
@@ -161,7 +170,7 @@
     function editHeadTitle() {
         var pageMondayStr = formatEsDate(pageMonday);
         var pageSundayStr = formatEsDate(pageSunday);
-        $("#headTitle").html(pageMondayStr + " To " + pageSundayStr + " Scheduling");
+        $("#headTitle").html(pageMondayStr + " To " + pageSundayStr + " Sign Report");
     }
 
     //将时间转换成美式英语的时间格式,eg:3rd May 2018

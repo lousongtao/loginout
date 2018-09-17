@@ -1,4 +1,4 @@
-package com.zheng.upms.server;
+package com.zheng.upms.common.constant;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,4 +21,7 @@ public class ConstantValue {
     public static final int SIGNTYPE_OUT = 1;
     public static final int SIGNVIA_BROWSER = 0;
     public static final int SIGNVIA_APP = 1;
+
+    public static final int UPMS_USER_SCHEDULESTATUS_AVAILABLE = 1;
+    public static final int UPMS_USER_SCHEDULESTATUS_UNAVAILABLE = 0;
 }

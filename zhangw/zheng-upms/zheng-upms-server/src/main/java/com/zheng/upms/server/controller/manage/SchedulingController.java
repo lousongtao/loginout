@@ -11,8 +11,9 @@ import com.zheng.upms.dao.model.*;
 import com.zheng.upms.dao.vo.McSchedulingCell;
 import com.zheng.upms.rpc.api.*;
 import com.zheng.upms.client.util.UserUtils;
-import com.zheng.upms.server.DateValidator;
+import com.zheng.upms.common.constant.ConstantValue;
 import com.zheng.upms.server.dto.SchedulingRow;
+import com.zheng.upms.server.form.ScheduleTemplateForm;
 import com.zheng.upms.server.form.SchedulingForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +29,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -47,6 +48,9 @@ public class SchedulingController extends BaseController {
     private McSchedulePlanService mcSchedulePlanService;
 
     @Autowired
+    private McScheduleplanTemplateService mcScheduleplanTemplateService;
+
+    @Autowired
     private McGroupService        mcGroupService;
 
     @Autowired
@@ -61,14 +65,18 @@ public class SchedulingController extends BaseController {
     @ApiOperation(value = "员工排班首页")
     @RequiresPermissions("ucenter:scheduling:read")
     @RequestMapping(value = "/index/{branchId}", method = RequestMethod.GET)
-    public String index(Model model,
-                        @PathVariable("branchId") int branchId) {
+    public String index(Model model, @PathVariable("branchId") int branchId) {
         // 所有组
         McGroupExample mcGroupExample = new McGroupExample();
         mcGroupExample.createCriteria().andMcIdEqualTo(UserUtils.getCurrentUserId());
         List<McGroup> mcGroups = mcGroupService.selectByExample(mcGroupExample);
+        int userId = UserUtils.getCurrentUserId();
+        McScheduleplanTemplateExample templateExample = new McScheduleplanTemplateExample();
+        templateExample.createCriteria().andUserIdEqualTo(userId);
+        List<McScheduleplanTemplate> templates = mcScheduleplanTemplateService.selectByExample(templateExample);
         model.addAttribute("mcGroups", mcGroups);
         model.addAttribute("branchId", branchId);
+        model.addAttribute("templates", templates);
         return "/manage/scheduling/index.jsp";
     }
 
@@ -126,11 +134,11 @@ public class SchedulingController extends BaseController {
         Integer getuId = cell.getuId();
         UpmsUser upmsUser = upmsUserService.selectByPrimaryKey(getuId);
         if (upmsUser != null) {
-            BigDecimal totalTime = cell.getTotalTime();
-            Long perSalary = upmsUser.getPerSalary();
-            if (perSalary != null && totalTime != null) {
+            double totalTime = cell.getTotalTime();
+            Double perSalary = upmsUser.getPerSalary();
+            if (perSalary != null) {
                 Money money = new Money(perSalary);
-                cell.setEstimatePay(money.multiply(totalTime).getCent());
+                cell.setEstimatePay((double)(perSalary * totalTime));
             }
             cell.setuName(upmsUser.getRealname());
             cell.setPerSalary(perSalary);
@@ -306,8 +314,8 @@ public class SchedulingController extends BaseController {
             data1.setId(10 * i + 1);
             data1.setuId(100 * i + 1);
             data1.setuName("person" + (100 * i + 1));
-            Long perSalary1 = Long.valueOf((100 * i + 1) * 100);
-            data1.setPerSalary((long) ((100 * i) * 100));
+            Double perSalary1 = Double.valueOf((100 * i + 1) * 100);
+            data1.setPerSalary((double) ((100 * i) * 100));
             Date beginDayOfWeek = DateUtils.getBeginDayOfWeek();
             Date schedulingDate1 = DateUtils.addDate(beginDayOfWeek, i);
             data1.setSchedulingDate(schedulingDate1);
@@ -322,72 +330,7 @@ public class SchedulingController extends BaseController {
             data1.setResult(0);
             data1.setCreateTime(beginDayOfWeek);
             data1.setUpdateTime(beginDayOfWeek);
-            data1.setTotalTime(new BigDecimal(4));
-            //            data1.setTotalPay(220l);
-            //data2
-            //            McSchedulingCell data2 = new McSchedulingCell();
-            //            data2.setId(10 * i + 2);
-            //            data2.setuId(100 * i + 2);
-            //            data2.setuName("person" + (100 * i  + 2));
-            //            Long perSalary2 = Long.valueOf((100 * i  + 2) * 100);
-            //            data2.setPerSalary((long) ((100 * i ) * 100));
-            //            Date schedulingDate2 = DateUtils.addDate(beginDayOfWeek, i);
-            //            data2.setSchedulingDate(schedulingDate2);
-            //            schedulingDate2.setHours(new Random().nextInt(10) + 10);
-            //            schedulingDate2.setMinutes(new Random().nextInt(10) + 20);
-            //            schedulingDate2.setSeconds(new Random().nextInt(10) + 30);
-            //            data2.setStartTime(schedulingDate2);
-            //            int hours2 = schedulingDate2.getHours();
-            //            schedulingDate2.setHours(hours2 + 4);
-            //            data2.setEndTime(schedulingDate2);
-            //            data2.setEstimatePay(perSalary2 * 4);
-            //            data2.setResult(0);
-            //            data2.setCreateTime(beginDayOfWeek);
-            //            data2.setUpdateTime(beginDayOfWeek);
-            //data3
-            //            McSchedulingCell data3 = new McSchedulingCell();
-            //            data3.setId(10 * i + 3);
-            //            data3.setuId(100 * i + 3);
-            //            data3.setuName("person" + (100 * i  + 3));
-            //            Long perSalary3 = Long.valueOf((100 * i  + 3) * 100);
-            //            data3.setPerSalary((long) ((100 * i ) * 100));
-            //            Date schedulingDate3 = DateUtils.addDate(beginDayOfWeek, i);
-            //            data3.setSchedulingDate(schedulingDate3);
-            //            schedulingDate3.setHours(new Random().nextInt(10) + 10);
-            //            schedulingDate3.setMinutes(new Random().nextInt(10) + 20);
-            //            schedulingDate3.setSeconds(new Random().nextInt(10) + 30);
-            //            data3.setStartTime(schedulingDate3);
-            //            int hours3 = schedulingDate3.getHours();
-            //            schedulingDate3.setHours(hours3 + 4);
-            //            data3.setEndTime(schedulingDate3);
-            //            data3.setEstimatePay(perSalary3 * 4);
-            //            data3.setResult(0);
-            //            data3.setCreateTime(beginDayOfWeek);
-            //            data3.setUpdateTime(beginDayOfWeek);
-            //data4
-            //            McSchedulingCell data4 = new McSchedulingCell();
-            //            data4.setId(10 * i + 4);
-            //            data4.setuId(100 * i + 4);
-            //            data4.setuName("person" + (100 * i  + 4));
-            //            Long perSalary4 = Long.valueOf((100 * i  + 4) * 100);
-            //            data4.setPerSalary((long) ((100 * i ) * 100));
-            //            Date schedulingDate4 = DateUtils.addDate(beginDayOfWeek, i);
-            //            data3.setSchedulingDate(schedulingDate4);
-            //            schedulingDate4.setHours(new Random().nextInt(10) + 10);
-            //            schedulingDate4.setMinutes(new Random().nextInt(10) + 20);
-            //            schedulingDate4.setSeconds(new Random().nextInt(10) + 30);
-            //            data3.setStartTime(schedulingDate4);
-            //            int hours4 = schedulingDate2.getHours();
-            //            schedulingDate4.setHours(hours4 + 4);
-            //            data4.setEndTime(schedulingDate4);
-            //            data4.setEstimatePay(perSalary4 * 4);
-            //            data4.setResult(0);
-            //            data4.setCreateTime(beginDayOfWeek);
-            //            data3.setUpdateTime(beginDayOfWeek);
-            //            McSchedulingCell data5 = new McSchedulingCell();
-            //            McSchedulingCell data6 = new McSchedulingCell();
-            //            McSchedulingCell data7 = new McSchedulingCell();
-            //            settlement.setTotalPay(1000l + i);
+            data1.setTotalTime(new Double(4));
             row.setData1(data1);
             row.setData2(data1);
             row.setData3(data1);
@@ -399,5 +342,79 @@ public class SchedulingController extends BaseController {
             rows.add(row);
         }
         return rows;
+    }
+
+    @ApiOperation(value = "保存排班模板")
+    @RequiresPermissions("ucenter:scheduling:write")
+    @RequestMapping(value = "/createTemplate", method = RequestMethod.GET)
+    public String createTemplate(@RequestParam Map<String, Object> paramMap, Model model) {
+        model.addAttribute("startDate", paramMap.get("startDate"));
+        model.addAttribute("branchId", paramMap.get("branchId"));
+        return "/manage/scheduling/createTemplate.jsp";
+    }
+
+    @ApiOperation(value = "保存排班模板")
+    @RequiresPermissions("ucenter:scheduling:write")
+    @RequestMapping(value = "/createScheduleTemplate", method = RequestMethod.POST)
+    @ResponseBody
+    public Object createTemplate(ScheduleTemplateForm form) {
+        int userId = UserUtils.getCurrentUserId();
+//        McScheduleplanTemplateExample example = new McScheduleplanTemplateExample();
+//        example.createCriteria().andUserIdEqualTo(userId);
+//        List<McScheduleplanTemplate> temps = mcScheduleplanTemplateService.selectByExample(example);
+//        if (temps != null && temps.size() >= 10){
+//            return new UpmsResult(UpmsResultConstant.FAILED, "You already have saved over 10 templates. If you want to save more, please delete some old.");
+//        }
+
+        int branchId = form.getBranchId();
+        String startDate = form.getStartDate();
+        Date sDate = null;
+        try {
+            sDate = ConstantValue.DFYMDHMS.parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            LOGGER.error("", e);
+            return new UpmsResult(UpmsResultConstant.FAILED, "The start date format is wrong.");
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(sDate);
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 7);
+        c.set(Calendar.HOUR, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        Date eDate = c.getTime();
+        int result = mcScheduleplanTemplateService.createScheduleTemplate(form.getName(), sDate, eDate, userId, branchId);
+        if (result == 0)
+            return new UpmsResult(UpmsResultConstant.FAILED, "Faild to create schedule template.");
+        return new UpmsResult(UpmsResultConstant.SUCCESS, "Build schedule template successfully.");
+    }
+
+    @ApiOperation(value = "加载排班模板数据, 根据当前日期生成该周的排班表")
+    @RequiresPermissions("ucenter:scheduling:write")
+    @RequestMapping(value = "/loadTemplateToSchedule", method = RequestMethod.POST)
+    @ResponseBody
+    public Object loadTemplateToSchedule(ScheduleTemplateForm form) {
+        Date startDate = null;
+        try {
+            startDate = ConstantValue.DFYMDHMS.parse(form.getStartDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            LOGGER.error("", e);
+            return new UpmsResult(UpmsResultConstant.FAILED, "The start date format is wrong.");
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(startDate);
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 6);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        Date endDate = c.getTime();
+        int userId = UserUtils.getCurrentUserId();
+        int deletei = mcSchedulePlanService.deleteScheduleDataByDate(startDate, endDate, userId, form.getBranchId());
+
+        int result = mcSchedulePlanService.loadScheduleFromTemplate(startDate, endDate, userId, form.getBranchId(), form.getTemplateId());
+        if (result == 0)
+            return new UpmsResult(UpmsResultConstant.FAILED, "Faild to load schedule template.");
+        return new UpmsResult(UpmsResultConstant.SUCCESS, "Load schedule template successfully.");
     }
 }

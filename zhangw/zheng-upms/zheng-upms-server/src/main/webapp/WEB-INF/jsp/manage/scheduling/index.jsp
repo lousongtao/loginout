@@ -27,8 +27,7 @@
             </button>
             <ul class="dropdown-menu">
                 <c:forEach var="mcGroup" items="${mcGroups}">
-                    <li><a href="javascript:void(0)" id="groupId${mcGroup.id}"
-                           onclick="addRowAction(${mcGroup.id})">${mcGroup.name}</a></li>
+                    <li><a href="javascript:void(0)" id="groupId${mcGroup.id}" onclick="addRowAction(${mcGroup.id})">${mcGroup.name}</a></li>
                 </c:forEach>
             </ul>
         </div>
@@ -40,8 +39,17 @@
         <button id="nextWeek" type="button" class="btn btn-default">Next Week</button>
     </div>
     <div class="btn-group" role="group" aria-label="...">
-        <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-info" style="float: right">Save Template</a>
-        <a href="javascript:void(0)" onclick="alert('待实现')" class="btn btn-success" style="float: right">Choose My Template</a>
+        <button id="btnSaveTemplate" type="button" class="btn btn-info">Save Template</button>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Load from Template
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <c:forEach var="mcTemplate" items="${templates}">
+                    <li><a href="javascript:void(0)" id="templateId${mcTemplate.id}" onclick="loadTemplateAction(${mcTemplate.id}, '${mcTemplate.name}')">${mcTemplate.name}</a></li>
+                </c:forEach>
+            </ul>
+        </div>
     </div>
     <table id="table"></table>
 </div>
@@ -76,61 +84,80 @@
             getData();
         });
         $("#nextWeek").click(function () {
+            console.log("next week");
             pageMonday = addDay(pageMonday, 7);
             pageSunday = addDay(pageSunday, 7);
             editHeadTitle();
             getData();
         });
-        $("#deleteRow").dblclick(function () {
-            //该行数据先确定是否可以删除
-            if (pageToday > pageSunday) {
-                showTips("Be overdue");
-                return;
+        $("#deleteRow").click(deleteRow);
+
+        $('#btnSaveTemplate').click(saveTemplate);
+    });
+
+    // 新增Template
+    var createDialog;
+
+    function saveTemplate(){
+        var params = "?branchId=" + ${branchId} +  '&startDate='+ transferDate(pageMonday) + ' 00:00:00';
+        createDialog = $.dialog({
+            animationSpeed: 300,
+            title: 'Save New Template',
+            content: 'url:${basePath}/manage/scheduling/createTemplate' + params,
+            onContentReady: function () {
+                initMaterialInput();
             }
-            var rows = $table.bootstrapTable('getSelections');
-            if (rows.length == 0) {
-                $.confirm({
-                    title: false,
-                    content: 'Please choose at least one record！',
-                    autoClose: 'cancel|3000',
-                    backgroundDismiss: true,
-                    buttons: {
-                        cancel: {
-                            text: '取消',
-                            btnClass: 'waves-effect waves-button'
-                        }
-                    }
-                });
-            } else {
-                var ids = new Array();
-                for (var i in rows) {
-                    if (rows[i].data1) {
-                        ids.push(rows[i].data1.id);
-                    }
-                    if (rows[i].data2) {
-                        ids.push(rows[i].data2.id);
-                    }
-                    if (rows[i].data3) {
-                        ids.push(rows[i].data3.id);
-                    }
-                    if (rows[i].data4) {
-                        ids.push(rows[i].data4.id);
-                    }
-                    if (rows[i].data5) {
-                        ids.push(rows[i].data5.id);
-                    }
-                    if (rows[i].data6) {
-                        ids.push(rows[i].data6.id);
-                    }
-                    if (rows[i].data7) {
-                        ids.push(rows[i].data7.id);
+        })
+    }
+
+    function deleteRow(){
+        //该行数据先确定是否可以删除
+        if (pageToday > pageSunday) {
+            showTips("Be overdue");
+            return;
+        }
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length == 0) {
+            $.confirm({
+                title: false,
+                content: 'Please choose at least one record！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
                     }
                 }
-                deleteMethod(ids);
+            });
+        } else {
+            var ids = new Array();
+            for (var i in rows) {
+                if (rows[i].data1) {
+                    ids.push(rows[i].data1.id);
+                }
+                if (rows[i].data2) {
+                    ids.push(rows[i].data2.id);
+                }
+                if (rows[i].data3) {
+                    ids.push(rows[i].data3.id);
+                }
+                if (rows[i].data4) {
+                    ids.push(rows[i].data4.id);
+                }
+                if (rows[i].data5) {
+                    ids.push(rows[i].data5.id);
+                }
+                if (rows[i].data6) {
+                    ids.push(rows[i].data6.id);
+                }
+                if (rows[i].data7) {
+                    ids.push(rows[i].data7.id);
+                }
             }
-        });
-
-    });
+            deleteMethod(ids);
+        }
+    }
 
     //批量删除单元格数据数据
     function deleteMethod(ids) {
@@ -311,6 +338,58 @@
                 mcGroup: {
                     id: groupId,
                     name: groupName,
+                }
+            }
+        });
+    }
+
+    var loadTemplateDialog;
+    function loadTemplateAction(templateId, templateName){
+        console.log("loadTemplateAction");
+        loadTemplateDialog = $.confirm({
+            type: 'red',
+            animationSpeed: 300,
+            title: false,
+            content: 'Do you confirm to load Template [' + templateName + '] to replace the week ' + formatEsDate(pageMonday) + ' - ' +  formatEsDate(pageSunday) +'？',
+            buttons: {
+                confirm: {
+                    text: 'Confirm',
+                    btnClass: 'waves-effect waves-button',
+                    action: function () {
+                        $.ajax({
+                            type: 'post',
+                            url: '${basePath}/manage/scheduling/loadTemplateToSchedule',
+                            data: {
+                                templateId : templateId,
+                                startDate: transferDate(pageMonday) + ' 00:00:00',
+
+                                branchId: ${branchId}
+                            },
+                            success: function (result) {
+                                loadTemplateDialog.close();
+                                $table.bootstrapTable('refresh');
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.confirm({
+                                    theme: 'dark',
+                                    animation: 'rotateX',
+                                    closeAnimation: 'rotateX',
+                                    title: false,
+                                    content: textStatus,
+                                    buttons: {
+                                        confirm: {
+                                            text: 'Yes',
+                                            btnClass: 'waves-effect waves-button waves-light'
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    text: 'Cancel',
+                    btnClass: 'waves-effect waves-button'
                 }
             }
         });
@@ -566,7 +645,7 @@
             if (row.data7 && row.data7.estimatePay) {
                 totalPay += row.data7.estimatePay;
             }
-            return totalPay / 100;
+            return totalPay;
         } else {
             return 0;
         }
@@ -595,7 +674,7 @@
                 }
             }
 
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -613,7 +692,7 @@
                     countPay += rows[i].data2.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -631,7 +710,7 @@
                     countPay += rows[i].data3.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -649,7 +728,7 @@
                     countPay += rows[i].data4.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -667,7 +746,7 @@
                     countPay += rows[i].data5.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -685,7 +764,7 @@
                     countPay += rows[i].data6.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }
@@ -703,7 +782,7 @@
                     countPay += rows[i].data7.estimatePay;
                 }
             }
-            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay / 100;
+            return person + " people" + "<br>" + hourDeal(countHour) + " hours" + "<br>$" + countPay;
         } else {
             return '-';
         }

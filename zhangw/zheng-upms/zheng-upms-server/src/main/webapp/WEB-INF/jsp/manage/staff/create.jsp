@@ -49,7 +49,7 @@
         <div class="radio">
             <div class="radio radio-inline radio-success">
                 <input id="schedulestatus_0" type="radio" name="schedulestatus" value="1" checked>
-                <label for="schedulestatus_0">Do schedule </label>
+                <label for="schedulestatus_0">In schedule </label>
             </div>
             <div class="radio radio-inline">
                 <input id="schedulestatus_1" type="radio" name="schedulestatus" value="0">

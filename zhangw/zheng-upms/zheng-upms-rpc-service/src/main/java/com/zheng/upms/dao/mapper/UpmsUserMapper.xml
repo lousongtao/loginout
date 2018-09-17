@@ -14,8 +14,8 @@
     <result column="locked" jdbcType="TINYINT" property="locked" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="base_salary" jdbcType="BIGINT" property="baseSalary" />
-    <result column="per_salary" jdbcType="BIGINT" property="perSalary" />
+    <result column="base_salary" jdbcType="DOUBLE" property="baseSalary" />
+    <result column="per_salary" jdbcType="DOUBLE" property="perSalary" />
     <result column="scheduleStatus" jdbcType="TINYINT" property="schedulestatus" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="work_type" jdbcType="TINYINT" property="workType" />
@@ -131,8 +131,8 @@
     values (#{loginname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{locked,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=BIGINT}, #{parentId,jdbcType=INTEGER}, #{baseSalary,jdbcType=BIGINT}, 
-      #{perSalary,jdbcType=BIGINT}, #{schedulestatus,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{parentId,jdbcType=INTEGER}, #{baseSalary,jdbcType=DOUBLE}, 
+      #{perSalary,jdbcType=DOUBLE}, #{schedulestatus,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}, 
       #{workType,jdbcType=TINYINT}, #{birth,jdbcType=BIGINT}, #{startWorkday,jdbcType=BIGINT}, 
       #{visaType,jdbcType=VARCHAR}, #{visaExpire,jdbcType=BIGINT})
   </insert>
@@ -238,10 +238,10 @@
         #{parentId,jdbcType=INTEGER},
       </if>
       <if test="baseSalary != null">
-        #{baseSalary,jdbcType=BIGINT},
+        #{baseSalary,jdbcType=DOUBLE},
       </if>
       <if test="perSalary != null">
-        #{perSalary,jdbcType=BIGINT},
+        #{perSalary,jdbcType=DOUBLE},
       </if>
       <if test="schedulestatus != null">
         #{schedulestatus,jdbcType=TINYINT},
@@ -312,10 +312,10 @@
         parent_id = #{record.parentId,jdbcType=INTEGER},
       </if>
       <if test="record.baseSalary != null">
-        base_salary = #{record.baseSalary,jdbcType=BIGINT},
+        base_salary = #{record.baseSalary,jdbcType=DOUBLE},
       </if>
       <if test="record.perSalary != null">
-        per_salary = #{record.perSalary,jdbcType=BIGINT},
+        per_salary = #{record.perSalary,jdbcType=DOUBLE},
       </if>
       <if test="record.schedulestatus != null">
         scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT},
@@ -357,8 +357,8 @@
       locked = #{record.locked,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=BIGINT},
       parent_id = #{record.parentId,jdbcType=INTEGER},
-      base_salary = #{record.baseSalary,jdbcType=BIGINT},
-      per_salary = #{record.perSalary,jdbcType=BIGINT},
+      base_salary = #{record.baseSalary,jdbcType=DOUBLE},
+      per_salary = #{record.perSalary,jdbcType=DOUBLE},
       scheduleStatus = #{record.schedulestatus,jdbcType=TINYINT},
       type = #{record.type,jdbcType=VARCHAR},
       work_type = #{record.workType,jdbcType=TINYINT},
@@ -407,10 +407,10 @@
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="baseSalary != null">
-        base_salary = #{baseSalary,jdbcType=BIGINT},
+        base_salary = #{baseSalary,jdbcType=DOUBLE},
       </if>
       <if test="perSalary != null">
-        per_salary = #{perSalary,jdbcType=BIGINT},
+        per_salary = #{perSalary,jdbcType=DOUBLE},
       </if>
       <if test="schedulestatus != null">
         scheduleStatus = #{schedulestatus,jdbcType=TINYINT},
@@ -449,8 +449,8 @@
       locked = #{locked,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=BIGINT},
       parent_id = #{parentId,jdbcType=INTEGER},
-      base_salary = #{baseSalary,jdbcType=BIGINT},
-      per_salary = #{perSalary,jdbcType=BIGINT},
+      base_salary = #{baseSalary,jdbcType=DOUBLE},
+      per_salary = #{perSalary,jdbcType=DOUBLE},
       scheduleStatus = #{schedulestatus,jdbcType=TINYINT},
       type = #{type,jdbcType=VARCHAR},
       work_type = #{workType,jdbcType=TINYINT},

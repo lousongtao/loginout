@@ -51,6 +51,16 @@ public interface UpmsApiMapper {
 	 */
 	int deleteScheduleDataByPrimaryKey(@Param("id") Integer id, @Param("mcId") Integer mcId);
 
+    /**
+     * 根据日期删除该时间段内的排班数据
+     * @param startDate
+     * @param endDate
+     * @param userId
+     * @param branchId
+     * @return
+     */
+	int deleteScheduleDataByDate(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("userId") int userId, @Param("branchId") int branchId);
+
 	/**
 	 * 批量删除单元格数据
 	 * @param idArray
@@ -131,4 +141,7 @@ public interface UpmsApiMapper {
 	int deleteSignRecord(@Param("signId") long signId, @Param("parentId") int parentId);
 
     int updateSignRecord(@Param("parentId") int parentId, @Param("record") McUserSign mcUserSign);
+
+    int insertScheduleTemplate(McScheduleplanTemplate temp);
+
 }

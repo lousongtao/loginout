@@ -6,11 +6,11 @@
     <result column="u_id" jdbcType="INTEGER" property="uId" />
     <result column="u_name" jdbcType="VARCHAR" property="uName" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
-    <result column="per_salary" jdbcType="BIGINT" property="perSalary" />
+    <result column="per_salary" jdbcType="DOUBLE" property="perSalary" />
     <result column="scheduling_date" jdbcType="DATE" property="schedulingDate" />
     <result column="period_time" jdbcType="VARCHAR" property="periodTime" />
-    <result column="total_time" jdbcType="DECIMAL" property="totalTime" />
-    <result column="estimate_pay" jdbcType="BIGINT" property="estimatePay" />
+    <result column="total_time" jdbcType="DOUBLE" property="totalTime" />
+    <result column="estimate_pay" jdbcType="DOUBLE" property="estimatePay" />
     <result column="result" jdbcType="INTEGER" property="result" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -118,8 +118,8 @@
       create_time, update_time, branch_id
       )
     values (#{uId,jdbcType=INTEGER}, #{uName,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
-      #{perSalary,jdbcType=BIGINT}, #{schedulingDate,jdbcType=DATE}, #{periodTime,jdbcType=VARCHAR}, 
-      #{totalTime,jdbcType=DECIMAL}, #{estimatePay,jdbcType=BIGINT}, #{result,jdbcType=INTEGER}, 
+      #{perSalary,jdbcType=DOUBLE}, #{schedulingDate,jdbcType=DATE}, #{periodTime,jdbcType=VARCHAR}, 
+      #{totalTime,jdbcType=DOUBLE}, #{estimatePay,jdbcType=DOUBLE}, #{result,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{branchId,jdbcType=INTEGER}
       )
   </insert>
@@ -177,7 +177,7 @@
         #{groupId,jdbcType=INTEGER},
       </if>
       <if test="perSalary != null">
-        #{perSalary,jdbcType=BIGINT},
+        #{perSalary,jdbcType=DOUBLE},
       </if>
       <if test="schedulingDate != null">
         #{schedulingDate,jdbcType=DATE},
@@ -186,10 +186,10 @@
         #{periodTime,jdbcType=VARCHAR},
       </if>
       <if test="totalTime != null">
-        #{totalTime,jdbcType=DECIMAL},
+        #{totalTime,jdbcType=DOUBLE},
       </if>
       <if test="estimatePay != null">
-        #{estimatePay,jdbcType=BIGINT},
+        #{estimatePay,jdbcType=DOUBLE},
       </if>
       <if test="result != null">
         #{result,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
         group_id = #{record.groupId,jdbcType=INTEGER},
       </if>
       <if test="record.perSalary != null">
-        per_salary = #{record.perSalary,jdbcType=BIGINT},
+        per_salary = #{record.perSalary,jdbcType=DOUBLE},
       </if>
       <if test="record.schedulingDate != null">
         scheduling_date = #{record.schedulingDate,jdbcType=DATE},
@@ -236,10 +236,10 @@
         period_time = #{record.periodTime,jdbcType=VARCHAR},
       </if>
       <if test="record.totalTime != null">
-        total_time = #{record.totalTime,jdbcType=DECIMAL},
+        total_time = #{record.totalTime,jdbcType=DOUBLE},
       </if>
       <if test="record.estimatePay != null">
-        estimate_pay = #{record.estimatePay,jdbcType=BIGINT},
+        estimate_pay = #{record.estimatePay,jdbcType=DOUBLE},
       </if>
       <if test="record.result != null">
         result = #{record.result,jdbcType=INTEGER},
@@ -264,11 +264,11 @@
       u_id = #{record.uId,jdbcType=INTEGER},
       u_name = #{record.uName,jdbcType=VARCHAR},
       group_id = #{record.groupId,jdbcType=INTEGER},
-      per_salary = #{record.perSalary,jdbcType=BIGINT},
+      per_salary = #{record.perSalary,jdbcType=DOUBLE},
       scheduling_date = #{record.schedulingDate,jdbcType=DATE},
       period_time = #{record.periodTime,jdbcType=VARCHAR},
-      total_time = #{record.totalTime,jdbcType=DECIMAL},
-      estimate_pay = #{record.estimatePay,jdbcType=BIGINT},
+      total_time = #{record.totalTime,jdbcType=DOUBLE},
+      estimate_pay = #{record.estimatePay,jdbcType=DOUBLE},
       result = #{record.result,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -290,7 +290,7 @@
         group_id = #{groupId,jdbcType=INTEGER},
       </if>
       <if test="perSalary != null">
-        per_salary = #{perSalary,jdbcType=BIGINT},
+        per_salary = #{perSalary,jdbcType=DOUBLE},
       </if>
       <if test="schedulingDate != null">
         scheduling_date = #{schedulingDate,jdbcType=DATE},
@@ -299,10 +299,10 @@
         period_time = #{periodTime,jdbcType=VARCHAR},
       </if>
       <if test="totalTime != null">
-        total_time = #{totalTime,jdbcType=DECIMAL},
+        total_time = #{totalTime,jdbcType=DOUBLE},
       </if>
       <if test="estimatePay != null">
-        estimate_pay = #{estimatePay,jdbcType=BIGINT},
+        estimate_pay = #{estimatePay,jdbcType=DOUBLE},
       </if>
       <if test="result != null">
         result = #{result,jdbcType=INTEGER},
@@ -324,11 +324,11 @@
     set u_id = #{uId,jdbcType=INTEGER},
       u_name = #{uName,jdbcType=VARCHAR},
       group_id = #{groupId,jdbcType=INTEGER},
-      per_salary = #{perSalary,jdbcType=BIGINT},
+      per_salary = #{perSalary,jdbcType=DOUBLE},
       scheduling_date = #{schedulingDate,jdbcType=DATE},
       period_time = #{periodTime,jdbcType=VARCHAR},
-      total_time = #{totalTime,jdbcType=DECIMAL},
-      estimate_pay = #{estimatePay,jdbcType=BIGINT},
+      total_time = #{totalTime,jdbcType=DOUBLE},
+      estimate_pay = #{estimatePay,jdbcType=DOUBLE},
       result = #{result,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

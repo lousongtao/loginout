@@ -1,7 +1,6 @@
 package com.zheng.upms.server.dto;
 
 import com.zheng.upms.dao.model.UpmsUser;
-import com.zheng.upms.server.ConstantValue;
 
 import java.io.Serializable;
 import java.text.DateFormat;

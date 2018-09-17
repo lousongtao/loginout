@@ -907,52 +907,52 @@ public class UpmsUserExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryEqualTo(Long value) {
+        public Criteria andBaseSalaryEqualTo(Double value) {
             addCriterion("base_salary =", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryNotEqualTo(Long value) {
+        public Criteria andBaseSalaryNotEqualTo(Double value) {
             addCriterion("base_salary <>", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryGreaterThan(Long value) {
+        public Criteria andBaseSalaryGreaterThan(Double value) {
             addCriterion("base_salary >", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryGreaterThanOrEqualTo(Long value) {
+        public Criteria andBaseSalaryGreaterThanOrEqualTo(Double value) {
             addCriterion("base_salary >=", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryLessThan(Long value) {
+        public Criteria andBaseSalaryLessThan(Double value) {
             addCriterion("base_salary <", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryLessThanOrEqualTo(Long value) {
+        public Criteria andBaseSalaryLessThanOrEqualTo(Double value) {
             addCriterion("base_salary <=", value, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryIn(List<Long> values) {
+        public Criteria andBaseSalaryIn(List<Double> values) {
             addCriterion("base_salary in", values, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryNotIn(List<Long> values) {
+        public Criteria andBaseSalaryNotIn(List<Double> values) {
             addCriterion("base_salary not in", values, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryBetween(Long value1, Long value2) {
+        public Criteria andBaseSalaryBetween(Double value1, Double value2) {
             addCriterion("base_salary between", value1, value2, "baseSalary");
             return (Criteria) this;
         }
 
-        public Criteria andBaseSalaryNotBetween(Long value1, Long value2) {
+        public Criteria andBaseSalaryNotBetween(Double value1, Double value2) {
             addCriterion("base_salary not between", value1, value2, "baseSalary");
             return (Criteria) this;
         }
@@ -967,52 +967,52 @@ public class UpmsUserExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryEqualTo(Long value) {
+        public Criteria andPerSalaryEqualTo(Double value) {
             addCriterion("per_salary =", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotEqualTo(Long value) {
+        public Criteria andPerSalaryNotEqualTo(Double value) {
             addCriterion("per_salary <>", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryGreaterThan(Long value) {
+        public Criteria andPerSalaryGreaterThan(Double value) {
             addCriterion("per_salary >", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryGreaterThanOrEqualTo(Long value) {
+        public Criteria andPerSalaryGreaterThanOrEqualTo(Double value) {
             addCriterion("per_salary >=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryLessThan(Long value) {
+        public Criteria andPerSalaryLessThan(Double value) {
             addCriterion("per_salary <", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryLessThanOrEqualTo(Long value) {
+        public Criteria andPerSalaryLessThanOrEqualTo(Double value) {
             addCriterion("per_salary <=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryIn(List<Long> values) {
+        public Criteria andPerSalaryIn(List<Double> values) {
             addCriterion("per_salary in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotIn(List<Long> values) {
+        public Criteria andPerSalaryNotIn(List<Double> values) {
             addCriterion("per_salary not in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryBetween(Long value1, Long value2) {
+        public Criteria andPerSalaryBetween(Double value1, Double value2) {
             addCriterion("per_salary between", value1, value2, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotBetween(Long value1, Long value2) {
+        public Criteria andPerSalaryNotBetween(Double value1, Double value2) {
             addCriterion("per_salary not between", value1, value2, "perSalary");
             return (Criteria) this;
         }

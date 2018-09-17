@@ -1,7 +1,6 @@
 package com.zheng.upms.dao.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -396,52 +395,52 @@ public class McSchedulePlanExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryEqualTo(Long value) {
+        public Criteria andPerSalaryEqualTo(Double value) {
             addCriterion("per_salary =", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotEqualTo(Long value) {
+        public Criteria andPerSalaryNotEqualTo(Double value) {
             addCriterion("per_salary <>", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryGreaterThan(Long value) {
+        public Criteria andPerSalaryGreaterThan(Double value) {
             addCriterion("per_salary >", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryGreaterThanOrEqualTo(Long value) {
+        public Criteria andPerSalaryGreaterThanOrEqualTo(Double value) {
             addCriterion("per_salary >=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryLessThan(Long value) {
+        public Criteria andPerSalaryLessThan(Double value) {
             addCriterion("per_salary <", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryLessThanOrEqualTo(Long value) {
+        public Criteria andPerSalaryLessThanOrEqualTo(Double value) {
             addCriterion("per_salary <=", value, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryIn(List<Long> values) {
+        public Criteria andPerSalaryIn(List<Double> values) {
             addCriterion("per_salary in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotIn(List<Long> values) {
+        public Criteria andPerSalaryNotIn(List<Double> values) {
             addCriterion("per_salary not in", values, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryBetween(Long value1, Long value2) {
+        public Criteria andPerSalaryBetween(Double value1, Double value2) {
             addCriterion("per_salary between", value1, value2, "perSalary");
             return (Criteria) this;
         }
 
-        public Criteria andPerSalaryNotBetween(Long value1, Long value2) {
+        public Criteria andPerSalaryNotBetween(Double value1, Double value2) {
             addCriterion("per_salary not between", value1, value2, "perSalary");
             return (Criteria) this;
         }
@@ -586,52 +585,52 @@ public class McSchedulePlanExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeEqualTo(BigDecimal value) {
+        public Criteria andTotalTimeEqualTo(Double value) {
             addCriterion("total_time =", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeNotEqualTo(BigDecimal value) {
+        public Criteria andTotalTimeNotEqualTo(Double value) {
             addCriterion("total_time <>", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeGreaterThan(BigDecimal value) {
+        public Criteria andTotalTimeGreaterThan(Double value) {
             addCriterion("total_time >", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andTotalTimeGreaterThanOrEqualTo(Double value) {
             addCriterion("total_time >=", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeLessThan(BigDecimal value) {
+        public Criteria andTotalTimeLessThan(Double value) {
             addCriterion("total_time <", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andTotalTimeLessThanOrEqualTo(Double value) {
             addCriterion("total_time <=", value, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeIn(List<BigDecimal> values) {
+        public Criteria andTotalTimeIn(List<Double> values) {
             addCriterion("total_time in", values, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeNotIn(List<BigDecimal> values) {
+        public Criteria andTotalTimeNotIn(List<Double> values) {
             addCriterion("total_time not in", values, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTotalTimeBetween(Double value1, Double value2) {
             addCriterion("total_time between", value1, value2, "totalTime");
             return (Criteria) this;
         }
 
-        public Criteria andTotalTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTotalTimeNotBetween(Double value1, Double value2) {
             addCriterion("total_time not between", value1, value2, "totalTime");
             return (Criteria) this;
         }
@@ -646,52 +645,52 @@ public class McSchedulePlanExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayEqualTo(Long value) {
+        public Criteria andEstimatePayEqualTo(Double value) {
             addCriterion("estimate_pay =", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayNotEqualTo(Long value) {
+        public Criteria andEstimatePayNotEqualTo(Double value) {
             addCriterion("estimate_pay <>", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayGreaterThan(Long value) {
+        public Criteria andEstimatePayGreaterThan(Double value) {
             addCriterion("estimate_pay >", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayGreaterThanOrEqualTo(Long value) {
+        public Criteria andEstimatePayGreaterThanOrEqualTo(Double value) {
             addCriterion("estimate_pay >=", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayLessThan(Long value) {
+        public Criteria andEstimatePayLessThan(Double value) {
             addCriterion("estimate_pay <", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayLessThanOrEqualTo(Long value) {
+        public Criteria andEstimatePayLessThanOrEqualTo(Double value) {
             addCriterion("estimate_pay <=", value, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayIn(List<Long> values) {
+        public Criteria andEstimatePayIn(List<Double> values) {
             addCriterion("estimate_pay in", values, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayNotIn(List<Long> values) {
+        public Criteria andEstimatePayNotIn(List<Double> values) {
             addCriterion("estimate_pay not in", values, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayBetween(Long value1, Long value2) {
+        public Criteria andEstimatePayBetween(Double value1, Double value2) {
             addCriterion("estimate_pay between", value1, value2, "estimatePay");
             return (Criteria) this;
         }
 
-        public Criteria andEstimatePayNotBetween(Long value1, Long value2) {
+        public Criteria andEstimatePayNotBetween(Double value1, Double value2) {
             addCriterion("estimate_pay not between", value1, value2, "estimatePay");
             return (Criteria) this;
         }

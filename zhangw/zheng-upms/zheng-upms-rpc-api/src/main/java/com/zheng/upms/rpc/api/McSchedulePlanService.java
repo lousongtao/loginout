@@ -38,6 +38,27 @@ public interface McSchedulePlanService {
     int deleteCell(Integer cellId,Integer currentUserId);
 
     /**
+     * 删除startDate 到 endDate之间的排班数据
+     * @param startDate
+     * @param endDate
+     * @param userId
+     * @param branchId
+     * @return
+     */
+    int deleteScheduleDataByDate(Date startDate, Date endDate, Integer userId, int branchId);
+
+    /**
+     * 从模板中加载数据, 生成新的排班表
+     * @param startDate
+     * @param endDate
+     * @param mcId
+     * @param branchId
+     * @param templateId
+     * @return
+     */
+    int loadScheduleFromTemplate(Date startDate, Date endDate, Integer mcId, int branchId, int templateId);
+
+    /**
      * 根据起止时间查询
      * @param startDate
      * @param endDate

@@ -31,6 +31,16 @@ public class McSchedulePlanServiceMock extends BaseServiceMock<McSchedulePlanMap
     }
 
     @Override
+    public int deleteScheduleDataByDate(Date startDate, Date endDate, Integer userId, int branchId) {
+        return 0;
+    }
+
+    @Override
+    public int loadScheduleFromTemplate(Date startDate, Date endDate, Integer userId, int branchId, int templateId) {
+        return 0;
+    }
+
+    @Override
     public List<McSchedulingCell> selectDataByDate(Date startDate, Date endDate, Integer mcId, int branchId) {
         return null;
     }

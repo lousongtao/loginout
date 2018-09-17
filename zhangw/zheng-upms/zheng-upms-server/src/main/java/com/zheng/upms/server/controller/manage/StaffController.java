@@ -12,21 +12,12 @@ import com.zheng.common.validator.MoneyValidator;
 import com.zheng.common.validator.NotNullValidator;
 import com.zheng.upms.common.constant.UpmsResult;
 import com.zheng.upms.common.constant.UpmsResultConstant;
-import com.zheng.upms.dao.model.McGroup;
-import com.zheng.upms.dao.model.McGroupExample;
-import com.zheng.upms.dao.model.McUserGroup;
-import com.zheng.upms.dao.model.McUserGroupExample;
+import com.zheng.upms.dao.model.*;
 import com.zheng.upms.dao.vo.McSchedulingCell;
 import com.zheng.upms.dao.vo.StaffInfo;
-import com.zheng.upms.rpc.api.McGroupService;
-import com.zheng.upms.rpc.api.McSchedulePlanService;
-import com.zheng.upms.rpc.api.McUserGroupService;
+import com.zheng.upms.rpc.api.*;
 import com.zheng.upms.client.util.UserUtils;
 import com.zheng.upms.common.constant.UpmsUserTypeConstant;
-import com.zheng.upms.dao.model.UpmsUser;
-import com.zheng.upms.dao.model.UpmsUserExample;
-import com.zheng.upms.rpc.api.UpmsApiService;
-import com.zheng.upms.rpc.api.UpmsUserService;
 import com.zheng.upms.server.form.SchedulingForm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,6 +61,9 @@ public class StaffController extends BaseController {
 
     @Autowired
     private McSchedulePlanService mcSchedulePlanService;
+
+    @Autowired
+    private McBranchService mcBranchService;
 
     @ApiOperation(value = "用户员工首页")
     @RequiresPermissions("ucenter:staff:read")
@@ -151,11 +145,12 @@ public class StaffController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsUser upmsUser, HttpServletRequest request) {
-        String baseSalary = request.getParameter("baseSalaryMoney");
+//        String baseSalary = request.getParameter("baseSalaryMoney");
         String perSalary = request.getParameter("perSalaryMoney");
         ComplexResult result = FluentValidator.checkAll()
             .on(upmsUser.getLoginname(), new LengthValidator(1, 20, "帐号"))
-            .on(baseSalary, new MoneyValidator("底薪")).on(perSalary, new MoneyValidator("时薪"))
+//            .on(baseSalary, new MoneyValidator("底薪"))
+            .on(perSalary, new MoneyValidator("时薪"))
             .on(upmsUser.getPassword(), new LengthValidator(5, 32, "密码"))
             .on(upmsUser.getRealname(), new NotNullValidator("姓名")).doValidate()
             .result(ResultCollectors.toComplex());
@@ -163,8 +158,8 @@ public class StaffController extends BaseController {
             return new UpmsResult(UpmsResultConstant.FAILED, result.getErrors());
         }
         //钱的转换
-        upmsUser.setBaseSalary(new Money(baseSalary).getCent());
-        upmsUser.setPerSalary(new Money(perSalary).getCent());
+//        upmsUser.setBaseSalary(new Money(baseSalary).getCent());
+        upmsUser.setPerSalary(Double.parseDouble(perSalary));
 
         long time = System.currentTimeMillis();
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
@@ -229,19 +224,20 @@ public class StaffController extends BaseController {
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsUser upmsUser,
                          HttpServletRequest request) {
-        String baseSalary = request.getParameter("baseSalaryMoney");
+//        String baseSalary = request.getParameter("baseSalaryMoney");
         String perSalary = request.getParameter("perSalaryMoney");
         ComplexResult result = FluentValidator.checkAll()
             .on(upmsUser.getLoginname(), new LengthValidator(1, 20, "帐号"))
-            .on(baseSalary, new MoneyValidator("底薪")).on(perSalary, new MoneyValidator("时薪"))
+//            .on(baseSalary, new MoneyValidator("底薪"))
+            .on(perSalary, new MoneyValidator("时薪"))
             .on(upmsUser.getRealname(), new NotNullValidator("姓名")).doValidate()
             .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new UpmsResult(UpmsResultConstant.FAILED, result.getErrors());
         }
         //钱的转换成分
-        upmsUser.setBaseSalary(new Money(baseSalary).getCent());
-        upmsUser.setPerSalary(new Money(perSalary).getCent());
+//        upmsUser.setBaseSalary(new Money(baseSalary).getCent());
+        upmsUser.setPerSalary(Double.parseDouble(perSalary));
         // 不允许直接改密码
         upmsUser.setPassword(null);
         // 不允许修改父id

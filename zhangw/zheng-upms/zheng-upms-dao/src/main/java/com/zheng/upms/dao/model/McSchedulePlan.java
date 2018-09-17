@@ -1,7 +1,6 @@
 package com.zheng.upms.dao.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class McSchedulePlan implements Serializable {
@@ -33,7 +32,7 @@ public class McSchedulePlan implements Serializable {
      *
      * @mbg.generated
      */
-    private Long perSalary;
+    private Double perSalary;
 
     private Date schedulingDate;
 
@@ -49,14 +48,14 @@ public class McSchedulePlan implements Serializable {
      *
      * @mbg.generated
      */
-    private BigDecimal totalTime;
+    private Double totalTime;
 
     /**
      * 预计支付 单位:分
      *
      * @mbg.generated
      */
-    private Long estimatePay;
+    private Double estimatePay;
 
     /**
      * 结果记录(0未知,1已完成,2未完成)
@@ -80,8 +79,6 @@ public class McSchedulePlan implements Serializable {
     private Date updateTime;
 
     private Integer branchId;
-
-    private String branchName;
 
     private static final long serialVersionUID = 1L;
 
@@ -117,11 +114,11 @@ public class McSchedulePlan implements Serializable {
         this.groupId = groupId;
     }
 
-    public Long getPerSalary() {
+    public Double getPerSalary() {
         return perSalary;
     }
 
-    public void setPerSalary(Long perSalary) {
+    public void setPerSalary(Double perSalary) {
         this.perSalary = perSalary;
     }
 
@@ -141,19 +138,19 @@ public class McSchedulePlan implements Serializable {
         this.periodTime = periodTime;
     }
 
-    public BigDecimal getTotalTime() {
+    public Double getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(BigDecimal totalTime) {
+    public void setTotalTime(Double totalTime) {
         this.totalTime = totalTime;
     }
 
-    public Long getEstimatePay() {
+    public Double getEstimatePay() {
         return estimatePay;
     }
 
-    public void setEstimatePay(Long estimatePay) {
+    public void setEstimatePay(Double estimatePay) {
         this.estimatePay = estimatePay;
     }
 
@@ -187,14 +184,6 @@ public class McSchedulePlan implements Serializable {
 
     public void setBranchId(Integer branchId) {
         this.branchId = branchId;
-    }
-
-    public String getBranchName() {
-        return branchName;
-    }
-
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
     }
 
     @Override

@@ -185,7 +185,10 @@
         } else {
             ddate = ddate + suffix[2];
         }
-        return week[date.getDay() - 1] + " " + ddate + " " + month + " " + year;
+        var sweek = "Sun";
+        if (date.getDay() > 0)
+            sweek = week[date.getDay() - 1];
+        return sweek + " " + ddate + " " + month + " " + year;
     }
 </script>
 </body>

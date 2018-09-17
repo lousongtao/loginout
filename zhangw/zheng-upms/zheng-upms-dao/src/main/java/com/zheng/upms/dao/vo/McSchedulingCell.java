@@ -14,6 +14,16 @@ public class McSchedulingCell extends McSchedulePlan implements Serializable {
     //标识颜色
     private String color;
 
+    private String branchName;
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
     public String getName() {
         return name;
     }

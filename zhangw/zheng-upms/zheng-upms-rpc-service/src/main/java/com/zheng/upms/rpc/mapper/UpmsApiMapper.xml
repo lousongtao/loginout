@@ -124,6 +124,7 @@
     <resultMap id="schedulingCell" type="com.zheng.upms.dao.vo.McSchedulingCell" extends="scheduleResultMap">
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="branchName" jdbcType="VARCHAR" property="branchName" />
     </resultMap>
     <!-- 员工签到 -->
     <resultMap id="signResultMap" type="com.zheng.upms.dao.model.McUserSign">
@@ -200,6 +201,13 @@
     <delete id="deleteScheduleDataByPrimaryKey">
         delete from mc_schedule_plan_${mcId}_copy
         where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--按日期删除-->
+    <delete id="deleteScheduleDataByDate">
+        delete from mc_schedule_plan_${userId}_copy
+        where branch_id = #{branchId, jdbcType=INTEGER} and scheduling_date &gt;= #{startDate,jdbcType=DATE}
+                and scheduling_date &lt;= #{endDate,jdbcType=DATE}
     </delete>
     <!-- 批量删除 -->
     <delete id="batchDeleteScheduleData">
@@ -370,4 +378,9 @@
         set sign_type = #{record.signType,jdbcType=INTEGER}, sign_time = #{record.signTime,jdbcType=TIMESTAMP}
         where sign_id = #{record.signId,jdbcType=BIGINT}
     </update>
+
+    <insert id="insertScheduleTemplate" parameterType="com.zheng.upms.dao.model.McScheduleplanTemplate" useGeneratedKeys="true" keyProperty="id">
+      insert into mc_scheduleplan_template (name, user_id)
+      values (#{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER})
+  </insert>
 </mapper>
