@@ -1,5 +1,9 @@
 package com.zheng.upms.dao.model;
 
+import com.alibaba.fastjson.serializer.ToStringSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zheng.upms.common.constant.StringSerializer;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,6 +14,7 @@ public class McUserSign implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonSerialize(using = StringSerializer.class)
     private Long signId;
 
     /**
